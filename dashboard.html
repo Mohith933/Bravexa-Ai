@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Bravexa AI</title>
+  <!-- Google Fonts: Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- Navbar -->
+ <header class="header">
+  <div class="logo">
+    <img src="chat.png">
+    <span> Bravexa AI</span>
+  </div>
+
+    <div class="user-menu">
+      <img src="avatar.png" alt="User Avatar" class="avatar" id="avatarIcon">
+      <div class="dropdown" id="dropdownMenu">
+        <ul>
+          <li><a href="profile.html">Profile</a></li>
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="settings.html">Settings</a></li>
+          <li><a href="index.html">Logout</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  </header>
+
+  <!-- Hero Section -->
+  <!-- Hero Section -->
+<div class="hero">
+  <h1>Good morning, <span id="username">User</span>!</h1>
+  <p>What can I help you with today?</p>
+</div>
+
+  
+  <!-- Chat Area -->
+  <div class="chat-window" style="display:none;"></div>
+
+  <!-- Input Box -->
+<!-- Input Box -->
+<div class="input-box">
+  <div class="upload-wrapper">
+    <button class="plus-btn" id="plusBtn">+</button>
+    <div class="upload-dropdown" id="uploadDropdown">
+      <ul>
+        <li><label for="imageUpload">📷 Image</label><input type="file" id="imageUpload" accept="image/*" hidden></li>
+        <li><label for="videoUpload">🎥 Video</label><input type="file" id="videoUpload" accept="video/*" hidden></li>
+        <li><label for="fileUpload">📄 File</label><input type="file" id="fileUpload" hidden></li>
+        <li><button id="screenshotBtn">🖼️ Screenshot</button></li>
+      </ul>
+    </div>
+  </div>
+  
+  <textarea placeholder="Message Bravexa AI" class="chatbox"></textarea>
+  <button class="send-btn">↑</button>
+</div>
+
+
+  <!-- Footer -->
+  <div class="footer">
+    Bravexa AI can make mistakes — verify critical information.
+  </div>
+
+  <script src="script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Nexora Voice Assistant</title>
+  <style>
+    :root {
+      --bg: #4b3c7d;
+      --accent: #6a5acd;
+    }
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: Inter, system-ui, Arial;
+      background: linear-gradient(180deg, var(--bg), #2f265c);
+      color: #fff;
+    }
+    .overlay {
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .assistant {
+      width: 100%;
+      max-width: 2400px;
+      height: 100%;
+      max-height: 900px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 40px 20px;
+      box-sizing: border-box;
+    }
+    .topbar {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      right: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .top-left, .top-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .icon-btn {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 50%;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+      cursor: pointer;
+      transition: transform .15s;
+    }
+    .icon-btn:active { transform: scale(.9); }
+    .icon-btn svg { width: 20px; height: 20px; fill: #fff; }
+
+    .circle-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 60px;
+    }
+    .circle {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 1200ms infinite;
+      box-shadow: 0 12px 40px rgba(106, 90, 205, 0.3), 0 2px 8px rgba(0, 0, 0, 0.4);
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      25% { transform: scale(1.12); }
+      40% { transform: scale(1); }
+      65% { transform: scale(1.08); }
+      100% { transform: scale(1); }
+    }
+
+    .controls {
+      position: absolute;
+      bottom: 40px;
+      width: 100%;
+      left: 0;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 40px;
+      box-sizing: border-box;
+    }
+    .ctrl-btn {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+      transition: transform .12s;
+    }
+    .ctrl-btn:active { transform: scale(.96); }
+    .ctrl-btn svg { width: 30px; height: 30px; fill: #fff; }
+
+    .center-record {
+      width: 84px;
+      height: 84px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 12px 30px rgba(106, 90, 205, 0.3), inset 0 -6px 10px rgba(0, 0, 0, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: translateY(-8px);
+    }
+
+    .status {
+      position: absolute;
+      bottom: 150px;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.9);
+      text-align: center;
+      width: 100%;
+    }
+
+    @media(max-width:768px) {
+      .assistant { max-width: 540px; }
+      .status { font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay">
+    <div class="assistant">
+      <div class="topbar">
+        <div class="top-left">
+          <a href="dashboard.html" class="icon-btn" title="Back">
+            <svg viewBox="0 0 24 24"><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+          </a>
+        </div>
+        <div class="top-right">
+          <button class="icon-btn" title="Captions">
+            <svg viewBox="0 0 24 24"><path d="M21 4H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-11 9H6v-2h4v2zm9 0h-4v-2h4v2z"/></svg>
+          </button>
+          <button class="icon-btn" title="Speaker">
+            <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M14.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.74 2.5-2.26 2.5-4.02z"/></svg>
+          </button>
+          <button class="icon-btn" title="Choose Voice">
+            <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="circle-wrap">
+        <div id="circle" class="circle"></div>
+      </div>
+
+      <div class="status" id="status">Tap the circle or mic to speak to Nexora</div>
+
+      <div class="controls">
+        <button class="ctrl-btn" title="Settings">
+          <svg viewBox="0 0 24 24"><path d="M6 6h12v12H6z"/></svg>
+        </button>
+
+        <button class="center-record" title="Talk">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 14a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v5a3 3 0 0 0 3 3z"/>
+            <path d="M19 11v1a7 7 0 0 1-14 0v-1"/>
+            <path d="M12 19v3"/>
+          </svg>
+        </button>
+
+        <button class="ctrl-btn" title="Stop">
+          <svg viewBox="0 0 24 24"><path d="M6 6h12v12H6z"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const statusEl = document.getElementById("status");
+      const circle = document.getElementById("circle");
+      const micBtn = document.querySelector(".center-record");
+
+      const ccBtn = document.querySelector('[title="Captions"]');
+      const speakerBtn = document.querySelector('[title="Speaker"]');
+      const voiceBtn = document.querySelector('[title="Choose Voice"]');
+      const settingsBtn = document.querySelector('[title="Settings"]');
+      const stopBtn = document.querySelector('[title="Stop"]');
+
+      let isListening = false;
+      let captionsEnabled = false;
+      let speakerEnabled = true;
+      let currentVoice = "Nexora";
+      let recognition;
+
+      // 🎙️ Check for SpeechRecognition API
+      if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        recognition = new SpeechRecognition();
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        recognition.lang = "en-US";
+
+        recognition.onstart = () => {
+          isListening = true;
+          statusEl.textContent = "🎧 Listening... Speak now";
+          circle.style.animation = "pulse 700ms infinite";
+        };
+
+        recognition.onresult = (event) => {
+          const transcript = event.results[0][0].transcript;
+          statusEl.textContent = `🗣️ You said: "${transcript}"`;
+          circle.style.animation = "pulse 1200ms infinite";
+
+          if (speakerEnabled) speakResponse(`You said ${transcript}. I'm processing your request.`);
+        };
+
+        recognition.onerror = (e) => {
+          statusEl.textContent = "⚠️ Could not hear you clearly. Please try again.";
+          console.error(e);
+        };
+
+        recognition.onend = () => {
+          isListening = false;
+          circle.style.animation = "pulse 1200ms infinite";
+          statusEl.textContent = "Tap the circle to speak again.";
+        };
+      } else {
+        statusEl.textContent = "❌ Speech Recognition not supported in this browser.";
+      }
+
+      // 🔊 Text-to-Speech response
+      function speakResponse(text) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.voice = speechSynthesis.getVoices().find(v => v.name.includes(currentVoice)) || null;
+        utterance.rate = 1.0;
+        utterance.pitch = 1.1;
+        speechSynthesis.speak(utterance);
+      }
+
+      // 🎛️ Main mic button
+      micBtn.addEventListener("click", () => {
+        if (!recognition) return;
+        if (isListening) {
+          recognition.stop();
+          statusEl.textContent = "🛑 Stopped listening.";
+          isListening = false;
+        } else {
+          recognition.start();
+        }
+      });
+
+      // 🗣️ Toggle captions
+      ccBtn.addEventListener("click", () => {
+        captionsEnabled = !captionsEnabled;
+        ccBtn.style.background = captionsEnabled ? "rgba(106, 90, 205, 0.7)" : "rgba(0,0,0,0.25)";
+        statusEl.textContent = captionsEnabled ? "📝 Captions enabled" : "📝 Captions disabled";
+      });
+
+      // 🔈 Toggle speaker output
+      speakerBtn.addEventListener("click", () => {
+        speakerEnabled = !speakerEnabled;
+        speakerBtn.style.background = speakerEnabled ? "rgba(106, 90, 205, 0.7)" : "rgba(0,0,0,0.25)";
+        statusEl.textContent = speakerEnabled ? "🔊 Speaker On" : "🔇 Speaker Muted";
+      });
+
+      // 🎤 Change voice
+      voiceBtn.addEventListener("click", () => {
+        const voices = speechSynthesis.getVoices();
+        if (!voices.length) {
+          speechSynthesis.onvoiceschanged = () => voiceBtn.click();
+          return;
+        }
+        const randomVoice = voices[Math.floor(Math.random() * voices.length)];
+        currentVoice = randomVoice.name;
+        statusEl.textContent = `🎶 Voice changed to: ${currentVoice}`;
+      });
+
+      // ⚙️ Settings button
+      settingsBtn.addEventListener("click", () => {
+        statusEl.textContent = "⚙️ Opening settings (coming soon)";
+      });
+
+      // ⛔ Stop everything
+      stopBtn.addEventListener("click", () => {
+        if (recognition && isListening) recognition.stop();
+        speechSynthesis.cancel();
+        isListening = false;
+        statusEl.textContent = "🛑 Voice stopped.";
+      });
+
+      // 🌈 Animate circle when speaking
+      const observer = new MutationObserver(() => {
+        if (statusEl.textContent.includes("Listening")) {
+          circle.style.background = "#7a68ff";
+        } else {
+          circle.style.background = "var(--accent)";
+        }
+      });
+      observer.observe(statusEl, { childList: true });
+    });
+  </script>
+</body>
+</html>
