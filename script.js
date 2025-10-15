@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function () {
     inputArea.style.transform = "translateX(-50%)";
     footer.style.marginTop = "0px";
     chatWindow.style.display = "flex";
-    footer.style.fontSize = "12px";
+    footer.style.fontSize = "10px";
     uploadDropdown.style.bottom = "30px";
     footer.innerHTML = "⚡ Bravexa AI Verify important details.";
   }
@@ -269,4 +269,5 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
 
