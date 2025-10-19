@@ -451,7 +451,7 @@ Best regards,
     // === EDIT CODE ===
     if (event.target.id === "editCodeBtn") {
       codeOutput.contentEditable = "true";
-      codeOutput.style.background = "#f5f7ff";
+      codeOutput.style.background = "#1e1e1e";
       codeOutput.style.border = "1px solid #007bff";
       editBtn.disabled = true;
       saveBtn.disabled = false;
@@ -522,3 +522,4 @@ Best regards,
   adjustLayoutForViewport();
   updateHistorySidebar(); // Load history at startup
 });
+
