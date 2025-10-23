@@ -109,104 +109,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     typeChar();
   }
-
-  // === SIMPLE AI RESPONSES ===
-  // === SIMPLE RULE-BASED AI RESPONSE SYSTEM ===
-async function generateAIResponse(userMessage) {
-  const msg = userMessage.toLowerCase();
-  let response = "";
-
-  // --- GREETINGS ---
-  if (msg.includes("hello") || msg.includes("hi") || msg.includes("hey")) {
-    response = `
-      <h2>👋 Hello!</h2>
-      <p>I’m <strong>Bravexa AI</strong> — ready to help you write, code, or learn something new!</p>
-      <p>You can try things like:<br>• "Generate leave letter"<br>• "Write HTML login form"<br>• "Motivate me"</p>`;
-  }
-
-  // --- LETTER / EMAIL / DOCUMENTATION ---
- else if (msg.includes("leave letter") || msg.includes("application")) {
-  response = `
-    <h2>📄 Leave Letter</h2>
-    <div class="editable-container">
-      <div id="editableContent" class="editable-content" contenteditable="false">
-To  
-The Principal,  
-[Your College Name],  
-[City].  
-
-Subject: Request for Leave  
-
-Respected Sir/Madam,  
-I am [Your Name], studying in [Your Department]. I kindly request leave from [Start Date] to [End Date] due to [Reason].  
-Kindly grant me permission.  
-
-Thanking you,  
-Yours faithfully,  
-[Your Name]
-      </div>
-      <div class="edit-buttons">
-        <button id="editBtn">✏️ Edit</button>
-        <button id="saveBtn" disabled>💾 Save</button>
-        <button id="sendBtn">✉️ Send Email</button>
-      </div>
-    </div>`;
-}
-
-else if (msg.includes("email") || msg.includes("official")) {
-  response = `
-    <h2>📧 Official Email</h2>
-    <div class="editable-container">
-      <div id="editableContent" class="editable-content" contenteditable="false">
-Subject: Regarding Project Discussion  
-
-Dear [Recipient Name],  
-I hope you are doing well.  
-I would like to schedule a short discussion about our project progress and upcoming deadlines.  
-Please let me know your availability.  
-
-Best regards,  
-[Your Name]  
-[Your Contact Info]
-      </div>
-      <div class="edit-buttons">
-        <button id="editBtn">✏️ Edit</button>
-        <button id="saveBtn" disabled>💾 Save</button>
-        <button id="sendBtn">✉️ Send Email</button>
-      </div>
-    </div>`;
-}
-
-  // --- CODE GENERATION (QUICK MODE / GUIDE MODE) ---
-    else if (msg.includes("code") || msg.includes("program")) {
-      let language = "javascript"; // default language
-      let langLabel = "JavaScript";
-
-      if (msg.includes("python")) { language = "python"; langLabel = "Python"; }
-      else if (msg.includes("c++") || msg.includes("cpp")) { language = "cpp"; langLabel = "C++"; }
-      else if (msg.includes("java")) { language = "java"; langLabel = "Java"; }
-      else if (msg.includes("html")) { language = "html"; langLabel = "HTML"; }
-      else if (msg.includes("css")) { language = "css"; langLabel = "CSS"; }
-
-      // Simple example output (you can make dynamic later)
-      const codeExamples = {
-        javascript: `function greet(name) {\n  console.log("Hello, " + name + "!");\n}\n\ngreet("Bravexa User");`,
-        python: `def greet(name):\n    print("Hello, " + name + "!")\n\ngreet("Bravexa User")`,
-        cpp: `#include <iostream>\nusing namespace std;\nint main() {\n    cout << "Hello, Bravexa User!";\n    return 0;\n}`,
-        java: `class Main {\n  public static void main(String[] args) {\n    System.out.println("Hello, Bravexa User!");\n  }\n}`,
-        html: `<!DOCTYPE html>\n<html>\n<body>\n  <h1>Hello, Bravexa User!</h1>\n</body>\n</html>`,
-        css: `body {\n  background-color: #f5f5f5;\n  color: #333;\n  font-family: Arial;\n}`
-      };
-
-      const codeSnippet = codeExamples[language];
-
-      response = `
-    <h2>💻 Generated ${langLabel} Code</h2>
-    <div class="code-block-container">
-      <div class="code-toolbar">
-  <span class="lang-label">${langLabel}</span>
-  <div class="btn-group">
-    <button id="copyCodeBtn">📋 Copy</button>
+// === SIMPLE AI RESPONSES ===
 async function generateAIResponse(userMessage) {
   const msg = userMessage.toLowerCase();
   let response = "";
@@ -399,7 +302,6 @@ Yours faithfully,
 
   return response;
 }
-
 // === Enable Edit/Save for Generated Letters & Emails ===
 document.addEventListener("click", (event) => {
   const editable = document.getElementById("editableContent");
@@ -496,4 +398,5 @@ document.addEventListener("click", (event) => {
   window.addEventListener("resize", adjustLayoutForViewport);
   adjustLayoutForViewport();
 });
+
 
