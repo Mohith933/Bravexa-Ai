@@ -441,6 +441,7 @@ Best regards,
 
 const mailtoLink = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 window.location.href = mailtoLink;
+    }
 });
 
   // === AVATAR DROPDOWN ===
@@ -552,6 +553,7 @@ window.location.href = mailtoLink;
   adjustLayoutForViewport();
   updateHistorySidebar(); // Load history at startup
 });
+
 
 
 
