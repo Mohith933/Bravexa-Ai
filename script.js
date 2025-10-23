@@ -415,16 +415,21 @@ Best regards,
 
   // SEND BUTTON
 if (event.target.id === "sendBtn") {
-  const blockType = container.querySelector("h2")?.innerText || "Document";
-  const body = encodeURIComponent(editable.innerText.trim());
-  const subject = encodeURIComponent(blockType + " from Bravexa AI");
+  const editable = event.target.closest(".editable-container")?.querySelector("#editableContent");
+  if (!editable) return;
 
-  // Replace with your dad’s email or keep it empty to fill manually
-  const recipient = "dad@gmail.com";
+  const blockType = event.target.closest(".editable-container")?.querySelector("h2")?.innerText || "Bravexa AI Message";
+  const emailBody = encodeURIComponent(editable.innerText.trim());
+  const emailSubject = encodeURIComponent(`${blockType} from Bravexa AI`);
+  
+  // 📨 Your dad’s email (you can change this)
+  const recipient = "bmstpt1@gmail.com";
 
-  const gmailURL = `https://mail.google.com/mail/?view=cm&fs=1&to=${recipient}&su=${subject}&body=${body}`;
-  window.open(gmailURL, "_blank");
-}
+  // ✅ New Gmail compose link (latest format)
+  const gmailComposeURL = `https://mail.google.com/mail/u/0/?view=cm&fs=1&to=${recipient}&su=${emailSubject}&body=${emailBody}`;
+
+  // Opens Gmail compose in a new tab
+  window.open(gmailComposeURL, "_blank");
 });
 
   // === AVATAR DROPDOWN ===
@@ -536,6 +541,7 @@ if (event.target.id === "sendBtn") {
   adjustLayoutForViewport();
   updateHistorySidebar(); // Load history at startup
 });
+
 
 
 
