@@ -381,37 +381,44 @@ Best regards,
 
   // === Enable Edit/Save for Generated Letters & Emails ===
   document.addEventListener("click", (event) => {
-    const editable = document.getElementById("editableContent");
-    const editBtn = document.getElementById("editBtn");
-    const saveBtn = document.getElementById("saveBtn");
-    const sendBtn = document.getElementById("sendBtn");
+  // Check if the clicked element is inside a container
+  const container = event.target.closest(".editable-container");
+  if (!container) return; // Not clicked inside an editable block
 
-    if (!editable) return;
+  const editable = container.querySelector(".editable-content");
+  const editBtn = container.querySelector("#editBtn");
+  const saveBtn = container.querySelector("#saveBtn");
+  const sendBtn = container.querySelector("#sendBtn");
 
-    if (event.target.id === "editBtn") {
-      editable.contentEditable = "true";
-      editable.style.border = "1px solid #007bff";
-      editable.style.background = "#0d1b2a";
-      editBtn.disabled = true;
-      saveBtn.disabled = false;
-    }
+  // EDIT BUTTON
+  if (event.target.id === "editBtn") {
+    editable.contentEditable = "true";
+    editable.style.border = "1px solid #007bff";
+    editable.style.background = "#0d1b2a";
+    editBtn.disabled = true;
+    saveBtn.disabled = false;
+  }
 
-    if (event.target.id === "saveBtn") {
-      editable.contentEditable = "false";
-      editable.style.border = "none";
-      editable.style.background = "transparent";
-      saveBtn.disabled = true;
-      editBtn.disabled = false;
+  // SAVE BUTTON
+  if (event.target.id === "saveBtn") {
+    editable.contentEditable = "false";
+    editable.style.border = "none";
+    editable.style.background = "transparent";
+    saveBtn.disabled = true;
+    editBtn.disabled = false;
 
-      // Optional: Save updated content to localStorage
-      localStorage.setItem("lastEditedDoc", editable.innerText);
-      alert("✅ Changes saved locally!");
-    }
+    // Save to localStorage (unique key per block type)
+    const blockType = container.querySelector("h2")?.innerText || "Document";
+    localStorage.setItem(`${blockType}_LastEdited`, editable.innerText);
+    alert(`✅ ${blockType} saved locally!`);
+  }
 
-    if (event.target.id === "sendBtn") {
-      alert("📧 Email sending feature coming soon — integration ready!");
-    }
-  });
+  // SEND BUTTON
+  if (event.target.id === "sendBtn") {
+    const blockType = container.querySelector("h2")?.innerText || "Document";
+    alert(`📧 Send feature for "${blockType}" coming soon!`);
+  }
+});
 
   // === AVATAR DROPDOWN ===
   avatarIcon.addEventListener("click", () => {
@@ -522,4 +529,5 @@ Best regards,
   adjustLayoutForViewport();
   updateHistorySidebar(); // Load history at startup
 });
+
 
