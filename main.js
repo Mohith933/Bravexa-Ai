@@ -234,29 +234,75 @@ Yours faithfully,
   }
 
   // --- CODE GENERATION (HTML, JS, PYTHON, etc.) ---
-  else if (msg.includes("code") || msg.includes("program")) {
-    let language = "javascript";
-    let langLabel = "JavaScript";
+  // --- CODE GENERATION (FULL TOOLBAR + EDIT + COPY + SAVE) ---
+else if (msg.includes("code") || msg.includes("program")) {
+  let language = "javascript";
+  let langLabel = "JavaScript";
 
-    if (msg.includes("python")) { language = "python"; langLabel = "Python"; }
-    else if (msg.includes("java")) { language = "java"; langLabel = "Java"; }
-    else if (msg.includes("c++") || msg.includes("cpp")) { language = "cpp"; langLabel = "C++"; }
-    else if (msg.includes("html")) { language = "html"; langLabel = "HTML"; }
-    else if (msg.includes("css")) { language = "css"; langLabel = "CSS"; }
+  if (msg.includes("python")) { language = "python"; langLabel = "Python"; }
+  else if (msg.includes("java")) { language = "java"; langLabel = "Java"; }
+  else if (msg.includes("c++") || msg.includes("cpp")) { language = "cpp"; langLabel = "C++"; }
+  else if (msg.includes("html")) { language = "html"; langLabel = "HTML"; }
+  else if (msg.includes("css")) { language = "css"; langLabel = "CSS"; }
 
-    const codeExamples = {
-      javascript: `function greet(name) {\n  console.log("Hello, " + name + "!");\n}\n\ngreet("Bravexa User");`,
-      python: `def greet(name):\n    print("Hello, " + name + "!")\n\ngreet("Bravexa User")`,
-      java: `class Main {\n  public static void main(String[] args) {\n    System.out.println("Hello, Bravexa User!");\n  }\n}`,
-      html: `<!DOCTYPE html>\n<html>\n<body>\n  <h1>Hello, Bravexa User!</h1>\n</body>\n</html>`,
-      css: `body {\n  background-color: #fff0f5;\n  color: #222;\n  font-family: 'Quicksand', sans-serif;\n  text-align: center;\n}`
-    };
+  // Example snippets
+  const codeExamples = {
+    javascript: `function greet(name) {\n  console.log("Hello, " + name + "!");\n}\n\ngreet("Bravexa User");`,
+    python: `def greet(name):\n    print("Hello, " + name + "!")\n\ngreet("Bravexa User")`,
+    cpp: `#include <iostream>\nusing namespace std;\nint main() {\n    cout << "Hello, Bravexa User!";\n    return 0;\n}`,
+    java: `class Main {\n  public static void main(String[] args) {\n    System.out.println("Hello, Bravexa User!");\n  }\n}`,
+    html: `<!DOCTYPE html>\n<html>\n<body>\n  <h1>Hello, Bravexa User!</h1>\n</body>\n</html>`,
+    css: `body {\n  background-color: #fff0f5;\n  color: #222;\n  font-family: 'Quicksand', sans-serif;\n  text-align: center;\n}`
+  };
 
-    response = `
-      <h2>💻 ${langLabel} Example</h2>
-      <pre class="code-block"><code>${codeExamples[language]}</code></pre>
-      <p>💡 Tip: You can copy or modify this directly to your project.</p>`;
-  }
+  const codeSnippet = codeExamples[language];
+
+  response = `
+  <h2>💻 ${langLabel} Code Generator</h2>
+  <div class="code-block-container">
+    <div class="code-toolbar">
+      <span class="lang-label">${langLabel}</span>
+      <div class="btn-group">
+        <button id="editCodeBtn">✏️ Edit</button>
+        <button id="saveCodeBtn" disabled>💾 Save</button>
+        <button id="copyCodeBtn">📋 Copy</button>
+      </div>
+    </div>
+
+    <pre id="codeOutput" class="code-content" contenteditable="false"><code class="${language}">${codeSnippet}</code></pre>
+  </div>
+
+  <div class="ai-note">
+    <p>💡 Tip: You can edit, save, or copy this code directly — saved code is stored in your local storage.</p>
+  </div>`;
+
+  // --- Add event handling dynamically ---
+  setTimeout(() => {
+    const codeOutput = document.getElementById("codeOutput");
+    const editBtn = document.getElementById("editCodeBtn");
+    const saveBtn = document.getElementById("saveCodeBtn");
+    const copyBtn = document.getElementById("copyCodeBtn");
+
+    if (editBtn && saveBtn && codeOutput) {
+      editBtn.addEventListener("click", () => {
+        codeOutput.contentEditable = "true";
+        codeOutput.focus();
+        saveBtn.disabled = false;
+      });
+
+      saveBtn.addEventListener("click", () => {
+        localStorage.setItem("savedCode", codeOutput.innerText);
+        saveBtn.disabled = true;
+        alert("💾 Code saved successfully!");
+      });
+
+      copyBtn.addEventListener("click", async () => {
+        await navigator.clipboard.writeText(codeOutput.innerText);
+        alert("📋 Code copied to clipboard!");
+      });
+    }
+  }, 100);
+}
 
   // --- PRODUCTIVITY TOOLS ---
   else if (msg.includes("todo") || msg.includes("task")) {
@@ -398,5 +444,6 @@ document.addEventListener("click", (event) => {
   window.addEventListener("resize", adjustLayoutForViewport);
   adjustLayoutForViewport();
 });
+
 
 
