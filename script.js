@@ -412,6 +412,7 @@ Best regards,
     localStorage.setItem(`${blockType}_LastEdited`, editable.innerText);
     alert(`✅ ${blockType} saved locally!`);
   }
+
     if (event.target.id === "sendBtn") {
   const container = event.target.closest(".editable-container");
   if (!container) return;
@@ -419,33 +420,35 @@ Best regards,
   const editable = container.querySelector("#editableContent");
   const blockTitle = container.querySelector("h2")?.innerText || "Bravexa AI Message";
 
-  // ✅ Dynamic content from your edited area
+  // 💬 Grab dynamic edited content
   const fullText = editable.innerText.trim();
 
-  // 🧠 Try to extract subject & body intelligently
+  // 🧠 Try to extract subject automatically
   let firstLine = fullText.split("\n")[0];
   let subject = "";
   let body = fullText;
 
-  // If user wrote "Subject: ..." line, use it automatically
   if (firstLine.toLowerCase().startsWith("subject:")) {
     subject = firstLine.replace(/subject:/i, "").trim();
     body = fullText.split("\n").slice(1).join("\n").trim();
   } else {
-    subject = blockTitle; // fallback if not found
+    subject = blockTitle;
   }
 
-  // Ask user for recipient email dynamically
+  // 📩 Ask recipient dynamically
   const recipient = prompt("📧 Enter recipient email address:", "example@gmail.com");
   if (!recipient) return alert("❌ Email not sent — no recipient specified.");
 
-  const gmailComposeURL = `https://mail.google.com/mail/u/0/?view=cm&fs=1&to=${encodeURIComponent(
-    recipient
-  )}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  // ✅ New Gmail compose link (latest format)
+  const gmailComposeURL =
+    `https://mail.google.com/mail/u/0/?view=cm&fs=1` +
+    `&to=${encodeURIComponent(recipient)}` +
+    `&su=${encodeURIComponent(subject)}` +
+    `&body=${encodeURIComponent(body)}`;
 
-  // ✅ Opens Gmail compose window with subject & body dynamically filled
+  // 🚀 Open Gmail compose in new tab
   window.open(gmailComposeURL, "_blank");
-    }  
+    }
 });
 
   // === AVATAR DROPDOWN ===
@@ -557,6 +560,7 @@ Best regards,
   adjustLayoutForViewport();
   updateHistorySidebar(); // Load history at startup
 });
+
 
 
 
