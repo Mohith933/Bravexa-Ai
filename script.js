@@ -414,22 +414,24 @@ Best regards,
   }
 
   // SEND BUTTON
-if (event.target.id === "sendBtn") {
-  const editable = event.target.closest(".editable-container")?.querySelector("#editableContent");
-  if (!editable) return;
+  if (event.target.id === "sendBtn") {
+    const editable = event.target.closest(".editable-container")?.querySelector("#editableContent");
+    if (!editable) return;
 
-  const blockType = event.target.closest(".editable-container")?.querySelector("h2")?.innerText || "Bravexa AI Message";
-  const emailBody = encodeURIComponent(editable.innerText.trim());
-  const emailSubject = encodeURIComponent(`${blockType} from Bravexa AI`);
-  
-  // 📨 Your dad’s email (you can change this)
-  const recipient = "bmstpt1@gmail.com";
+    const blockType =
+      event.target.closest(".editable-container")?.querySelector("h2")?.innerText || "Bravexa AI Message";
+    const emailBody = encodeURIComponent(editable.innerText.trim());
+    const emailSubject = encodeURIComponent(`${blockType} from Bravexa AI`);
 
-  // ✅ New Gmail compose link (latest format)
-  const gmailComposeURL = `https://mail.google.com/mail/u/0/?view=cm&fs=1&to=${recipient}&su=${emailSubject}&body=${emailBody}`;
+    // 📨 Your dad’s email (change if needed)
+    const recipient = "bmstpt1@gmail.com";
 
-  // Opens Gmail compose in a new tab
-  window.open(gmailComposeURL, "_blank");
+    // ✅ Latest Gmail compose link
+    const gmailComposeURL = `https://mail.google.com/mail/u/0/?view=cm&fs=1&to=${recipient}&su=${emailSubject}&body=${emailBody}`;
+
+    // Opens Gmail compose in a new tab
+    window.open(gmailComposeURL, "_blank");
+  }
 });
 
   // === AVATAR DROPDOWN ===
@@ -541,6 +543,7 @@ if (event.target.id === "sendBtn") {
   adjustLayoutForViewport();
   updateHistorySidebar(); // Load history at startup
 });
+
 
 
 
