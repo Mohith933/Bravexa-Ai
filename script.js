@@ -439,16 +439,8 @@ Best regards,
   const recipient = prompt("📧 Enter recipient email address:", "example@gmail.com");
   if (!recipient) return alert("❌ Email not sent — no recipient specified.");
 
-  // ✅ New Gmail compose link (latest format)
-  const gmailComposeURL =
-    `https://mail.google.com/mail/u/0/?view=cm&fs=1` +
-    `&to=${encodeURIComponent(recipient)}` +
-    `&su=${encodeURIComponent(subject)}` +
-    `&body=${encodeURIComponent(body)}`;
-
-  // 🚀 Open Gmail compose in new tab
-  window.open(gmailComposeURL, "_blank");
-    }
+const mailtoLink = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+window.location.href = mailtoLink;
 });
 
   // === AVATAR DROPDOWN ===
@@ -560,6 +552,7 @@ Best regards,
   adjustLayoutForViewport();
   updateHistorySidebar(); // Load history at startup
 });
+
 
 
 
