@@ -146,7 +146,7 @@ To build a multimodal AI assistant that supports text, image, and audio interact
 <h3>Conclusion:</h3>
 Bravexa B1 is designed to bridge emotional clarity and technical intelligence, offering comfort and creativity together.
         </div>
-        <div class="editableContent">
+        <div class="edit-buttons">
           <button id="editBtn">✏️ Edit</button>
           <button id="saveBtn" disabled>💾 Save</button>
           <button id="downloadBtn">⬇️ Download</button>
@@ -164,7 +164,7 @@ We respect your privacy. Bravexa B1 does not collect, store, or share personal d
 All files processed in guest mode remain local to your device. Logged-in users have full control of their data.
 Your emotional and creative safety is our foundation.
         </div>
-        <div class="editableContent">
+        <div class="edit-buttons">
           <button id="editBtn">✏️ Edit</button>
           <button id="saveBtn" disabled>💾 Save</button>
         </div>
@@ -189,7 +189,7 @@ Warm regards,
 [Your Position]  
 [Your Contact Info]
         </div>
-        <div class="editableContent">
+        <div class="edit-buttons">
           <button id="editBtn">✏️ Edit</button>
           <button id="saveBtn" disabled>💾 Save</button>
           <button id="sendBtn">✉️ Send</button>
@@ -226,7 +226,7 @@ Thanking you,
 Yours faithfully,  
 [Your Name]
         </div>
-        <div class="editableContent">
+        <div class="edit-buttons">
           <button id="editBtn">✏️ Edit</button>
           <button id="saveBtn" disabled>💾 Save</button>
         </div>
@@ -444,6 +444,7 @@ document.addEventListener("click", (event) => {
   window.addEventListener("resize", adjustLayoutForViewport);
   adjustLayoutForViewport();
 });
+
 
 
 
