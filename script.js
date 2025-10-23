@@ -412,26 +412,40 @@ Best regards,
     localStorage.setItem(`${blockType}_LastEdited`, editable.innerText);
     alert(`✅ ${blockType} saved locally!`);
   }
+    if (event.target.id === "sendBtn") {
+  const container = event.target.closest(".editable-container");
+  if (!container) return;
 
-  // SEND BUTTON
-  if (event.target.id === "sendBtn") {
-    const editable = event.target.closest(".editable-container")?.querySelector("#editableContent");
-    if (!editable) return;
+  const editable = container.querySelector("#editableContent");
+  const blockTitle = container.querySelector("h2")?.innerText || "Bravexa AI Message";
 
-    const blockType =
-      event.target.closest(".editable-container")?.querySelector("h2")?.innerText || "Bravexa AI Message";
-    const emailBody = encodeURIComponent(editable.innerText.trim());
-    const emailSubject = encodeURIComponent(`${blockType} from Bravexa AI`);
+  // ✅ Dynamic content from your edited area
+  const fullText = editable.innerText.trim();
 
-    // 📨 Your dad’s email (change if needed)
-    const recipient = "bmstpt1@gmail.com";
+  // 🧠 Try to extract subject & body intelligently
+  let firstLine = fullText.split("\n")[0];
+  let subject = "";
+  let body = fullText;
 
-    // ✅ Latest Gmail compose link
-    const gmailComposeURL = `https://mail.google.com/mail/u/0/?view=cm&fs=1&to=${recipient}&su=${emailSubject}&body=${emailBody}`;
-
-    // Opens Gmail compose in a new tab
-    window.open(gmailComposeURL, "_blank");
+  // If user wrote "Subject: ..." line, use it automatically
+  if (firstLine.toLowerCase().startsWith("subject:")) {
+    subject = firstLine.replace(/subject:/i, "").trim();
+    body = fullText.split("\n").slice(1).join("\n").trim();
+  } else {
+    subject = blockTitle; // fallback if not found
   }
+
+  // Ask user for recipient email dynamically
+  const recipient = prompt("📧 Enter recipient email address:", "example@gmail.com");
+  if (!recipient) return alert("❌ Email not sent — no recipient specified.");
+
+  const gmailComposeURL = `https://mail.google.com/mail/u/0/?view=cm&fs=1&to=${encodeURIComponent(
+    recipient
+  )}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+  // ✅ Opens Gmail compose window with subject & body dynamically filled
+  window.open(gmailComposeURL, "_blank");
+    }  
 });
 
   // === AVATAR DROPDOWN ===
@@ -543,6 +557,7 @@ Best regards,
   adjustLayoutForViewport();
   updateHistorySidebar(); // Load history at startup
 });
+
 
 
 
