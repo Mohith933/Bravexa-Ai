@@ -250,101 +250,133 @@ function typeText(element, htmlContent, speed = 8) {
       <p>You can try things like:<br>• "Generate leave letter"<br>• "Write HTML login form"<br>• "Motivate me"</p>`;
     }
 
-    // --- LETTER / EMAIL / DOCUMENTATION ---
-    else if (msg.includes("leave letter") || msg.includes("application")) {
-      response = `
-    <h2>📄 Leave Letter</h2>
-    <div class="editable-container">
-      <div id="editableContent" class="editable-content" contenteditable="false">
-To  
-The Principal,  
-[Your College Name],  
-[City].  
-
-Subject: Request for Leave  
-
-Respected Sir/Madam,  
-I am [Your Name], studying in [Your Department]. I kindly request leave from [Start Date] to [End Date] due to [Reason].  
-Kindly grant me permission.  
-
-Thanking you,  
-Yours faithfully,  
-[Your Name]
-      </div>
-      <div class="edit-buttons">
-        <button id="editBtn">✏️ Edit</button>
-        <button id="saveBtn" disabled>💾 Save</button>
-        <button id="sendBtn">✉️ Send Email</button>
-      </div>
-    </div>`;
-    }
-
     else if (msg.includes("email") || msg.includes("official")) {
-      response = `
-    <h2>📧 Official Email</h2>
-    <div class="editable-container">
-      <div id="editableContent" class="editable-content" contenteditable="false">
-Subject: Regarding Project Discussion  
-
-Dear [Recipient Name],  
-I hope you are doing well.  
-I would like to schedule a short discussion about our project progress and upcoming deadlines.  
-Please let me know your availability.  
-
-Best regards,  
-[Your Name]  
-[Your Contact Info]
-      </div>
-      <div class="edit-buttons">
-        <button id="editBtn">✏️ Edit</button>
-        <button id="saveBtn" disabled>💾 Save</button>
-        <button id="sendBtn">✉️ Send Email</button>
-      </div>
-    </div>`;
-    }
-
-    // --- CODE GENERATION (QUICK MODE / GUIDE MODE) ---
-    else if (msg.includes("code") || msg.includes("program")) {
-      let language = "javascript"; // default language
-      let langLabel = "JavaScript";
-
-      if (msg.includes("python")) { language = "python"; langLabel = "Python"; }
-      else if (msg.includes("c++") || msg.includes("cpp")) { language = "cpp"; langLabel = "C++"; }
-      else if (msg.includes("java")) { language = "java"; langLabel = "Java"; }
-      else if (msg.includes("html")) { language = "html"; langLabel = "HTML"; }
-      else if (msg.includes("css")) { language = "css"; langLabel = "CSS"; }
-
-      // Simple example output (you can make dynamic later)
-      const codeExamples = {
-        javascript: `function greet(name) {\n  console.log("Hello, " + name + "!");\n}\n\ngreet("Bravexa User");`,
-        python: `def greet(name):\n    print("Hello, " + name + "!")\n\ngreet("Bravexa User")`,
-        cpp: `#include <iostream>\nusing namespace std;\nint main() {\n    cout << "Hello, Bravexa User!";\n    return 0;\n}`,
-        java: `class Main {\n  public static void main(String[] args) {\n    System.out.println("Hello, Bravexa User!");\n  }\n}`,
-        html: `<!DOCTYPE html>\n<html>\n<body>\n  <h1>Hello, Bravexa User!</h1>\n</body>\n</html>`,
-        css: `body {\n  background-color: #f5f5f5;\n  color: #333;\n  font-family: Arial;\n}`
-      };
-
-      const codeSnippet = codeExamples[language];
-
-      response = `
-    <h2>💻 Generated ${langLabel} Code</h2>
-    <div class="code-block-container">
-      <div class="code-toolbar">
-  <span class="lang-label">${langLabel}</span>
-  <div class="btn-group">
-    <button id="copyCodeBtn">📋 Copy</button>
-    <button id="editCodeBtn">✏️ Edit</button>
-    <button id="saveCodeBtn" disabled>💾 Save</button>
-  </div>
-</div>
-
-      <pre id="codeOutput" class="code-content" contenteditable="false"><code class="${language}">${codeSnippet}</code></pre>
+  response = `
+  <h2>📧 Official Email</h2>
+  <div class="editable-container">
+    <div id="editableContent-email" class="editable-content" contenteditable="false">
+      <p><strong>Subject:</strong> Regarding Project Discussion</p>
+      <p>Dear [Recipient Name],</p>
+      <p>I hope you are doing well.</p>
+      <p>I would like to schedule a short discussion about our project progress and upcoming deadlines.</p>
+      <p>Please let me know your availability.</p>
+      <p>Best regards,<br>[Your Name]<br>[Your Contact Info]</p>
     </div>
+    <div class="edit-buttons">
+      <button id="editBtn-email">✏️ Edit</button>
+      <button id="saveBtn-email" disabled>💾 Save</button>
+      <button id="sendBtn-email">📤 Send</button>
+    </div>
+  </div>`;
+}
 
-    <div class="ai-note">
-      <p>💡 Tip: You can edit, copy, or save this code directly. Saved code is stored in local storage.</p>
-    </div>`;
-    }
+else if (msg.includes("leave letter") || msg.includes("application")) {
+  response = `
+  <h2>📄 Leave Letter</h2>
+  <div class="editable-container">
+    <div id="editableContent-letter" class="editable-content" contenteditable="false">
+      <p><strong>To</strong><br>The Principal,<br>[Your College Name],<br>[City]</p>
+      <p><strong>Subject:</strong> Request for Leave</p>
+      <p>Respected Sir/Madam,<br>
+      I am [Your Name], studying in [Your Department]. I kindly request leave from [Start Date] to [End Date] due to [Reason].<br>
+      Kindly grant me permission.</p>
+      <p>Thanking you,<br>Yours faithfully,<br>[Your Name]</p>
+    </div>
+    <div class="edit-buttons">
+      <button id="editBtn-letter">✏️ Edit</button>
+      <button id="saveBtn-letter" disabled>💾 Save</button>
+      <button id="sendBtn-letter">📤 Send</button>
+    </div>
+  </div>`;
+}
+
+else if (msg.includes("code") || msg.includes("program")) {
+  let language = "javascript";
+  let langLabel = "JavaScript";
+
+  if (msg.includes("python")) { language = "python"; langLabel = "Python"; }
+  else if (msg.includes("c++") || msg.includes("cpp")) { language = "cpp"; langLabel = "C++"; }
+  else if (msg.includes("c language") || msg.includes("c program")) { language = "c"; langLabel = "C"; }
+  else if (msg.includes("java")) { language = "java"; langLabel = "Java"; }
+  else if (msg.includes("html")) { language = "html"; langLabel = "HTML"; }
+  else if (msg.includes("css")) { language = "css"; langLabel = "CSS"; }
+  else if (msg.includes("js") || msg.includes("javascript")) { language = "javascript"; langLabel = "JavaScript"; }
+
+  const codeExamples = {
+    javascript: `function greet(name) {\n  console.log("Hello, " + name + "!");\n}\n\ngreet("Bravexa User");`,
+    python: `def greet(name):\n    print("Hello, " + name + "!")\n\ngreet("Bravexa User")`,
+    cpp: `#include <iostream>\nusing namespace std;\nint main() {\n    cout << "Hello, Bravexa User!";\n    return 0;\n}`,
+    c: `#include <stdio.h>\nint main() {\n    printf("Hello, Bravexa User!\\n");\n    return 0;\n}`,
+    java: `class Main {\n  public static void main(String[] args) {\n    System.out.println("Hello, Bravexa User!");\n  }\n}`,
+    html: `<!DOCTYPE html>\n<html>\n<body>\n  <h1>Hello, Bravexa User!</h1>\n</body>\n</html>`,
+    css: `body {\n  background-color: #f5f5f5;\n  color: #333;\n  font-family: Arial;\n}`
+  };
+
+  const codeSnippet = codeExamples[language];
+
+  response = `
+  <h2>💻 Generated ${langLabel} Code</h2>
+  <div class="editable-container">
+    <div id="editableContent-code" class="editable-content" contenteditable="false">
+<pre><code class="${language}">
+${codeSnippet}
+</code></pre>
+    </div>
+    <div class="edit-buttons">
+      <button id="editBtn-code">✏️ Edit</button>
+      <button id="saveBtn-code" disabled>💾 Save</button>
+      <button id="sendBtn-code">📤 Send</button>
+    </div>
+  </div>`;
+}
+
+else if (msg.includes("project") || msg.includes("document")) {
+  response = `
+  <h2>📂 Project Document</h2>
+  <div class="editable-container">
+    <div id="editableContent-project" class="editable-content" contenteditable="false">
+      <p><strong>Project Title:</strong> Bravexa AI – Emotional Prompt Engine</p>
+      <p><strong>Objective:</strong> To build a system that listens to unstructured, emotional prompts and translates them into structured AI tasks.</p>
+      <p><strong>Modules:</strong><br>
+      - Prompt Normalization Layer<br>
+      - Code Generator<br>
+      - Email & Letter Composer<br>
+      - Resume Builder<br>
+      - Search Agent</p>
+      <p><strong>Status:</strong> Beta architecture in progress. UI and prompt rituals under development.</p>
+    </div>
+    <div class="edit-buttons">
+      <button id="editBtn-project">✏️ Edit</button>
+      <button id="saveBtn-project" disabled>💾 Save</button>
+      <button id="sendBtn-project">📤 Send</button>
+    </div>
+  </div>`;
+}
+
+else if (msg.includes("resume") || msg.includes("cv")) {
+  response = `
+  <h2>📄 Resume</h2>
+  <div class="editable-container">
+    <div id="editableContent-resume" class="editable-content" contenteditable="false">
+      <p><strong>Name:</strong> [Your Name]</p>
+      <p><strong>Objective:</strong> To contribute to emotionally intelligent AI systems that serve real users with clarity.</p>
+      <p><strong>Skills:</strong><br>
+      - Prompt Normalization<br>
+      - UI/UX with Emotional Clarity<br>
+      - JavaScript, Python, Django<br>
+      - Founder-style Product Thinking</p>
+      <p><strong>Projects:</strong><br>
+      - Bravexa AI<br>
+      - Valantine AI</p>
+      <p><strong>Contact:</strong> [Your Email] | [Phone]</p>
+    </div>
+    <div class="edit-buttons">
+      <button id="editBtn-resume">✏️ Edit</button>
+      <button id="saveBtn-resume" disabled>💾 Save</button>
+      <button id="sendBtn-resume">📤 Send</button>
+    </div>
+  </div>`;
+}
 
 
     // --- MOTIVATION / QUOTES / FACTS ---
