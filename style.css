@@ -584,38 +584,37 @@ body.light-mode .dropdown li a:hover {
 .ai-message td {
   color: #caf0f8;
 }
-.editable-container {
-  background: #0d1b2a;
-  color:white;
-  padding: 12px;
-  border-radius: 12px;
-  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+.bravexa-box {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 20px;
+  margin-top: 12px;
+  color: #eee;
+  font-family: 'Poppins', sans-serif;
+}
+
+.bravexa-toolbar {
   margin-top: 10px;
-}
-.editable-content {
-  font-family: "Inter", sans-serif;
-  line-height: 1.6;
-  padding: 10px;
-  border-radius: 6px;
-  white-space: pre-line;
-}
-.edit-buttons {
   display: flex;
   gap: 8px;
-  margin-top: 10px;
 }
-.edit-buttons button {
-  background: #007bff;
-  color: white;
+
+.bravexa-toolbar button {
+  background: rgba(255, 255, 255, 0.12);
   border: none;
-  border-radius: 6px;
-  padding: 6px 10px;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 10px;
   cursor: pointer;
+  transition: 0.2s;
 }
-.edit-buttons button:disabled {
-  background: #ccc;
-  cursor: not-allowed;
+
+.bravexa-toolbar button:hover {
+  background: rgba(255,255,255,0.25);
 }
+
 .code-block-container {
   background: #1e1e1e;
   color: #dcdcdc;
