@@ -121,104 +121,21 @@ async function generateAIResponse(userMessage) {
   // --- GREETINGS ---
   if (msg.includes("hello") || msg.includes("hi") || msg.includes("hey")) {
     response = `
-      <h2>👋 Welcome to Bravexa B1</h2>
-      <p>Hey Founder, I’m <strong>Bravexa AI</strong> — your creative and coding partner.</p>
-      <p>Try prompts like:<br>
-      • “Generate privacy policy”<br>
-      • “Create responsive navbar in HTML”<br>
-      • “Write official email to client”</p>`;
+      <h2>👋 Hello!</h2>
+      <p>I’m <strong>Bravexa AI</strong> — ready to help you write, code, or learn something new!</p>
+      <p>Try saying:<br>• "Generate leave letter"<br>• "Official email"<br>• "Project documentation"<br>• "Python code for calculator"</p>`;
   }
 
-  // --- DOCUMENTATION / PROJECT WRITING ---
-  else if (msg.includes("project report") || msg.includes("documentation") || msg.includes("project intro")) {
-    response = `
-      <h2>📘 Project Documentation Template</h2>
-      <div class="editable-container">
-        <div id="editableContent" class="editable-content" contenteditable="false">
-<h3>Project Title:</h3> Bravexa AI – Intelligent Assistant System
-
-<h3>Objective:</h3>
-To build a multimodal AI assistant that supports text, image, and audio interactions for educational and productivity use.
-
-<h3>Modules:</h3>
-1️⃣ User Interface (Frontend)<br>
-2️⃣ LLM Processing Core<br>
-3️⃣ Data Handling Layer<br>
-4️⃣ Emotion + Memory Engine<br>
-5️⃣ Cloud Deployment (AWS)
-
-<h3>Conclusion:</h3>
-Bravexa B1 is designed to bridge emotional clarity and technical intelligence, offering comfort and creativity together.
-        </div>
-        <div class="edit-buttons">
-          <button id="editBtn">✏️ Edit</button>
-          <button id="saveBtn" disabled>💾 Save</button>
-          <button id="downloadBtn">⬇️ Download</button>
-        </div>
-      </div>`;
-  }
-
-  else if (msg.includes("privacy policy")) {
-    response = `
-      <h2>🔒 Privacy Policy</h2>
-      <div class="editable-container">
-        <div id="editableContent" class="editable-content" contenteditable="false">
-<h3>Privacy Policy for Bravexa AI</h3>
-We respect your privacy. Bravexa B1 does not collect, store, or share personal data without your consent.
-All files processed in guest mode remain local to your device. Logged-in users have full control of their data.
-Your emotional and creative safety is our foundation.
-        </div>
-        <div class="edit-buttons">
-          <button id="editBtn">✏️ Edit</button>
-          <button id="saveBtn" disabled>💾 Save</button>
-        </div>
-      </div>`;
-  }
-
-  // --- EMAIL / LETTERS / COMMUNICATION ---
-  else if (msg.includes("email") || msg.includes("official") || msg.includes("mail")) {
-    response = `
-      <h2>📧 Official Email Template</h2>
-      <div class="editable-container">
-        <div id="editableContent" class="editable-content" contenteditable="false">
-Subject: Regarding Upcoming Project Meeting  
-
-Dear [Recipient Name],  
-I hope you are doing well.  
-I would like to confirm the details for our upcoming project discussion scheduled for [Date].  
-Please let me know if the timing works for you.  
-
-Warm regards,  
-[Your Name]  
-[Your Position]  
-[Your Contact Info]
-        </div>
-        <div class="edit-buttons">
-          <button id="editBtn">✏️ Edit</button>
-          <button id="saveBtn" disabled>💾 Save</button>
-          <button id="sendBtn">✉️ Send</button>
-        </div>
-      </div>`;
-  }
-
-  else if (msg.includes("thank you") || msg.includes("appreciation")) {
-    response = `
-      <h2>💌 Appreciation Email</h2>
-      <p>Subject: Heartfelt Thanks!</p>
-      <p>Dear [Name],</p>
-      <p>I sincerely appreciate your support and collaboration.  
-      Your efforts made a real difference in the project’s success. 🌟</p>
-      <p>Warm regards,<br>[Your Name]</p>`;
-  }
-
+  // --- LEAVE LETTER ---
   else if (msg.includes("leave letter") || msg.includes("application")) {
     response = `
       <h2>📄 Leave Letter</h2>
       <div class="editable-container">
-        <div id="editableContent" class="editable-content" contenteditable="false">
+        <div class="editable-content">
 To  
 The Principal,  
 [Your College Name],  
+[City].  
 
 Subject: Request for Leave  
 
@@ -230,200 +147,159 @@ Thanking you,
 Yours faithfully,  
 [Your Name]
         </div>
-        <div class="edit-buttons">
-          <button id="editBtn">✏️ Edit</button>
-          <button id="saveBtn" disabled>💾 Save</button>
+        <div class="btn-group">
+          <button id="copyBtn">📋 Copy</button>
+          <button id="sendBtn">✉️ Send</button>
         </div>
       </div>`;
   }
 
-  // --- CODE GENERATION (HTML, JS, PYTHON, etc.) ---
-  // --- CODE GENERATION (FULL TOOLBAR + EDIT + COPY + SAVE) ---
-else if (msg.includes("code") || msg.includes("program")) {
-  let language = "javascript";
-  let langLabel = "JavaScript";
-
-  if (msg.includes("python")) { language = "python"; langLabel = "Python"; }
-  else if (msg.includes("java")) { language = "java"; langLabel = "Java"; }
-  else if (msg.includes("c++") || msg.includes("cpp")) { language = "cpp"; langLabel = "C++"; }
-  else if (msg.includes("html")) { language = "html"; langLabel = "HTML"; }
-  else if (msg.includes("css")) { language = "css"; langLabel = "CSS"; }
-
-  // Example snippets
-  const codeExamples = {
-    javascript: `function greet(name) {\n  console.log("Hello, " + name + "!");\n}\n\ngreet("Bravexa User");`,
-    python: `def greet(name):\n    print("Hello, " + name + "!")\n\ngreet("Bravexa User")`,
-    cpp: `#include <iostream>\nusing namespace std;\nint main() {\n    cout << "Hello, Bravexa User!";\n    return 0;\n}`,
-    java: `class Main {\n  public static void main(String[] args) {\n    System.out.println("Hello, Bravexa User!");\n  }\n}`,
-    html: `<!DOCTYPE html>\n<html>\n<body>\n  <h1>Hello, Bravexa User!</h1>\n</body>\n</html>`,
-    css: `body {\n  background-color: #fff0f5;\n  color: #222;\n  font-family: 'Quicksand', sans-serif;\n  text-align: center;\n}`
-  };
-
-  const codeSnippet = codeExamples[language];
-
-  response = `
-  <h2>💻 ${langLabel} Code Generator</h2>
-  <div class="code-block-container">
-    <div class="code-toolbar">
-      <span class="lang-label">${langLabel}</span>
-      <div class="btn-group">
-        <button id="editCodeBtn">✏️ Edit</button>
-        <button id="saveCodeBtn" disabled>💾 Save</button>
-        <button id="copyCodeBtn">📋 Copy</button>
-      </div>
-    </div>
-
-    <pre id="codeOutput" class="code-content" contenteditable="false"><code class="${language}">${codeSnippet}</code></pre>
-  </div>
-
-  <div class="ai-note">
-    <p>💡 Tip: You can edit, save, or copy this code directly — saved code is stored in your local storage.</p>
-  </div>`;
-
-  // --- Add event handling dynamically ---
-  setTimeout(() => {
-    const codeOutput = document.getElementById("codeOutput");
-    const editBtn = document.getElementById("editCodeBtn");
-    const saveBtn = document.getElementById("saveCodeBtn");
-    const copyBtn = document.getElementById("copyCodeBtn");
-
-    if (editBtn && saveBtn && codeOutput) {
-      editBtn.addEventListener("click", () => {
-        codeOutput.contentEditable = "true";
-        codeOutput.focus();
-        saveBtn.disabled = false;
-      });
-
-      saveBtn.addEventListener("click", () => {
-        localStorage.setItem("savedCode", codeOutput.innerText);
-        saveBtn.disabled = true;
-        alert("💾 Code saved successfully!");
-      });
-
-      copyBtn.addEventListener("click", async () => {
-        await navigator.clipboard.writeText(codeOutput.innerText);
-        alert("📋 Code copied to clipboard!");
-      });
-    }
-  }, 100);
-}
-
-  // --- PRODUCTIVITY TOOLS ---
-  else if (msg.includes("todo") || msg.includes("task")) {
+  // --- OFFICIAL EMAIL ---
+  else if (msg.includes("email") || msg.includes("official")) {
     response = `
-      <h2>🗓️ To-Do List Template</h2>
-      <ul>
-        <li>🧠 Plan your day’s priorities</li>
-        <li>💻 Code 2 hours for Bravexa B1</li>
-        <li>🌿 Take 15 mins calm walk</li>
-        <li>📖 Read or learn something creative</li>
-      </ul>`;
+      <h2>📧 Official Email</h2>
+      <div class="editable-container">
+        <div class="editable-content">
+Subject: Regarding Project Discussion  
+
+Dear [Recipient Name],  
+I hope you are doing well.  
+
+I would like to schedule a short discussion about our project progress and upcoming deadlines.  
+Please let me know your availability.  
+
+Best regards,  
+[Your Name]  
+[Your Contact Info]
+        </div>
+        <div class="btn-group">
+          <button id="copyBtn">📋 Copy</button>
+          <button id="sendBtn">✉️ Send</button>
+        </div>
+      </div>`;
   }
 
-  // --- MOTIVATION / QUOTES ---
+  // --- RESUME / PROJECT DOC ---
+  else if (msg.includes("resume") || msg.includes("project") || msg.includes("documentation")) {
+    response = `
+      <h2>📘 Project Documentation</h2>
+      <div class="editable-container">
+        <div class="editable-content">
+<b>Project Title:</b> Smart Waste Management System  
+
+<b>Objective:</b> To automate waste collection and monitoring using IoT sensors.  
+
+<b>Technologies Used:</b>  
+- Arduino, Ultrasonic Sensors  
+- Node.js Backend  
+- Firebase Database  
+
+<b>Outcome:</b> Efficient and eco-friendly waste management with live status monitoring.
+        </div>
+        <div class="btn-group">
+          <button id="copyBtn">📋 Copy</button>
+          <button id="saveBtn">💾 Save</button>
+        </div>
+      </div>`;
+  }
+
+  // --- CODE GENERATION ---
+  else if (msg.includes("code") || msg.includes("program")) {
+    let language = "javascript";
+    let langLabel = "JavaScript";
+
+    if (msg.includes("python")) { language = "python"; langLabel = "Python"; }
+    else if (msg.includes("c++") || msg.includes("cpp")) { language = "cpp"; langLabel = "C++"; }
+    else if (msg.includes("java")) { language = "java"; langLabel = "Java"; }
+    else if (msg.includes("html")) { language = "html"; langLabel = "HTML"; }
+    else if (msg.includes("css")) { language = "css"; langLabel = "CSS"; }
+
+    const codeExamples = {
+      javascript: `function greet(name) {\n  console.log("Hello, " + name + "!");\n}\ngreet("Bravexa User");`,
+      python: `def calculator(a, b, op):\n    if op == '+': return a + b\n    elif op == '-': return a - b\n    elif op == '*': return a * b\n    elif op == '/': return a / b\n\nprint(calculator(5, 3, '+'))`,
+      cpp: `#include <iostream>\nusing namespace std;\nint main() {\n    cout << "Hello, Bravexa User!";\n    return 0;\n}`,
+      java: `class Main {\n  public static void main(String[] args) {\n    System.out.println("Hello, Bravexa User!");\n  }\n}`,
+      html: `<!DOCTYPE html>\n<html>\n<body>\n  <h1>Welcome to Bravexa</h1>\n  <p>This is a sample web page.</p>\n</body>\n</html>`,
+      css: `body {\n  background-color: #222;\n  color: #fff;\n  font-family: Arial;\n  text-align: center;\n}`
+    };
+
+    const codeSnippet = codeExamples[language];
+    response = `
+      <h2>💻 ${langLabel} Code Example</h2>
+      <div class="code-block-container">
+        <div class="code-toolbar">
+          <span class="lang-label">${langLabel}</span>
+          <button id="copyCodeBtn">📋 Copy</button>
+        </div>
+        <pre class="code-content"><code>${codeSnippet}</code></pre>
+      </div>`;
+  }
+
+  // --- MOTIVATION ---
   else if (msg.includes("motivate") || msg.includes("inspire")) {
     response = `
-      <h2>🔥 Daily Drive</h2>
-      <p>“You don’t need permission to rise. You only need direction and courage.” 🚀</p>
-      <p>Stay consistent — even small effort builds a future Founder energy. 💪</p>`;
+      <h2>💪 Bravexa Motivation</h2>
+      <p>Every great builder starts small — but never stops.  
+      Be proud of progress, not perfection. Keep going, Founder 🚀</p>`;
   }
 
+  // --- QUOTES & FACTS ---
   else if (msg.includes("quote")) {
     response = `
-      <h2>📜 Founder Quote</h2>
-      <p>“Build something that outlives you.” — Anonymous Visionary 🪜</p>`;
+      <h2>📜 Quote</h2>
+      <p>“Don’t wait for the perfect moment — take the moment and make it perfect.” ✨</p>`;
   }
 
-  else if (msg.includes("fact")) {
+  else if (msg.includes("fact") || msg.includes("knowledge")) {
     response = `
       <h2>🧠 Tech Fact</h2>
-      <p>The word “robot” was first used in a 1920 Czech play — derived from “robota”, meaning “forced labor.” 🤖</p>`;
+      <p>Did you know? The first computer mouse was made of wood in 1964 by Douglas Engelbart!</p>`;
   }
 
-  // --- DEFAULT ---
+  // --- JOKES ---
+  else if (msg.includes("joke")) {
+    response = `
+      <h2>😂 Tech Joke</h2>
+      <p>Why did the computer go to therapy?<br>Because it had too many tabs open! 😆</p>`;
+  }
+
+  // --- DEFAULT RESPONSE ---
   else {
     response = `
-      <p>💡 I can help you write project docs, generate letters, or code fast.<br>
-      Try prompts like:<br>
-      • “Generate privacy policy”<br>
-      • “Write official mail”<br>
-      • “Quick HTML login form code”</p>`;
+      <p>💡 I’m ready to help you write letters, generate code, or document projects.<br>
+      Try saying:<br>• “Official email”<br>• “Resume format”<br>• “HTML login page code”</p>`;
   }
 
   return response;
 }
-// === Enable Edit/Save for Generated Letters & Emails ===
-document.addEventListener("click", (event) => {
-  const editable = document.getElementById("editableContent");
-  const editBtn = document.getElementById("editBtn");
-  const saveBtn = document.getElementById("saveBtn");
-  const sendBtn = document.getElementById("sendBtn");
 
-  if (!editable) return;
-
-  if (event.target.id === "editBtn") {
-    editable.contentEditable = "true";
-    editable.style.border = "1px solid #007bff";
-    editable.style.background = "#0d1b2a";
-    editBtn.disabled = true;
-    saveBtn.disabled = false;
+// === GLOBAL EVENT DELEGATION FOR BUTTONS ===
+document.addEventListener("click", function (e) {
+  // COPY BUTTON
+  if (e.target.id === "copyCodeBtn" || e.target.id === "copyBtn") {
+    const parent = e.target.closest(".editable-container, .code-block-container");
+    const text = parent.querySelector(".editable-content, .code-content")?.innerText || "";
+    navigator.clipboard.writeText(text);
+    e.target.textContent = "✅ Copied!";
+    setTimeout(() => (e.target.textContent = "📋 Copy"), 1500);
   }
 
-  if (event.target.id === "saveBtn") {
-    editable.contentEditable = "false";
-    editable.style.border = "none";
-    editable.style.background = "transparent";
-    saveBtn.disabled = true;
-    editBtn.disabled = false;
-
-    // Optional: Save updated content to localStorage
-    localStorage.setItem("lastEditedDoc", editable.innerText);
-    alert("✅ Changes saved locally!");
+  // SEND BUTTON (EMAIL)
+  if (e.target.id === "sendBtn") {
+    const content = e.target.closest(".editable-container").querySelector(".editable-content").innerText;
+    const subject = encodeURIComponent("From Bravexa AI - Message");
+    const body = encodeURIComponent(content);
+    window.location.href = `mailto:?subject=${subject}&body=${body}`;
   }
 
-  if (event.target.id === "sendBtn") {
-    alert("📧 Email sending feature coming soon — integration ready!");
-  }
-});
-
-// === Enable Copy, Edit, and Save for Generated Code ===
-document.addEventListener("click", (event) => {
-  const codeOutput = document.getElementById("codeOutput");
-  const copyBtn = document.getElementById("copyCodeBtn");
-  const editBtn = document.getElementById("editCodeBtn");
-  const saveBtn = document.getElementById("saveCodeBtn");
-
-  if (!codeOutput) return;
-
-  // === COPY CODE ===
-  if (event.target.id === "copyCodeBtn") {
-    navigator.clipboard.writeText(codeOutput.innerText)
-      .then(() => {
-        copyBtn.textContent = "✅ Copied";
-        setTimeout(() => copyBtn.textContent = "📋 Copy", 2000);
-      });
-  }
-
-  // === EDIT CODE ===
-  if (event.target.id === "editCodeBtn") {
-    codeOutput.contentEditable = "true";
-    codeOutput.style.background = "#f5f7ff";
-    codeOutput.style.border = "1px solid #007bff";
-    editBtn.disabled = true;
-    saveBtn.disabled = false;
-  }
-
-  // === SAVE CODE ===
-  if (event.target.id === "saveCodeBtn") {
-    codeOutput.contentEditable = "false";
-    codeOutput.style.background = "#1e1e1e";
-    codeOutput.style.border = "none";
-    saveBtn.disabled = true;
-    editBtn.disabled = false;
-
-    // Optional: Save edited code to local storage
-    localStorage.setItem("lastEditedCode", codeOutput.innerText);
-    alert("💾 Code saved locally!");
+  // SAVE BUTTON (for resume or projects)
+  if (e.target.id === "saveBtn") {
+    const parent = e.target.closest(".editable-container");
+    const content = parent.querySelector(".editable-content").innerText;
+    const key = "bravexa_saved_" + Date.now();
+    localStorage.setItem(key, content);
+    e.target.textContent = "💾 Saved!";
+    setTimeout(() => (e.target.textContent = "Save"), 1500);
   }
 });
 
