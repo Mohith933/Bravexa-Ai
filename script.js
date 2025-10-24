@@ -415,64 +415,65 @@ else if (msg.includes("resume") || msg.includes("cv")) {
     return response;
   }
 
-  document.addEventListener("DOMContentLoaded", () => {
-  const container = document.querySelector(".editable-container");
-  const editable = container.querySelector("#editableContent");
-  const editBtn = container.querySelector("#editBtn");
-  const saveBtn = container.querySelector("#saveBtn");
-  const sendBtn = container.querySelector("#sendBtn");
+  document.addEventListener("click", (e) => {
+  const target = e.target;
 
-  // Save original structure on load
-  const originalContent = editable.innerHTML;
-  localStorage.setItem("EmailTemplate_Original", originalContent);
+  // Identify which section the button belongs to
+  const container = target.closest(".editable-container");
+  if (!container) return;
+
+  const editable = container.querySelector(".editable-content");
+  const editBtn = container.querySelector("button[id^='editBtn']");
+  const saveBtn = container.querySelector("button[id^='saveBtn']");
+  const sendBtn = container.querySelector("button[id^='sendBtn']");
 
   // === EDIT BUTTON ===
-  editBtn.addEventListener("click", () => {
+  if (target.id.startsWith("editBtn")) {
     editable.contentEditable = "true";
     editable.style.border = "1px dashed #007bff";
     editable.style.background = "#f0f8ff";
     editBtn.disabled = true;
     saveBtn.disabled = false;
-  });
+  }
 
   // === SAVE BUTTON ===
-  saveBtn.addEventListener("click", () => {
+  if (target.id.startsWith("saveBtn")) {
     editable.contentEditable = "false";
     editable.style.border = "none";
     editable.style.background = "transparent";
     saveBtn.disabled = true;
     editBtn.disabled = false;
 
-    const content = editable.innerText;
-    const mustHave = ["Subject:", "Dear", "Best regards"];
-    const missing = mustHave.filter(phrase => !content.includes(phrase));
+    // Validation for email type
+    if (editable.id.includes("email")) {
+      const content = editable.innerText;
+      const mustHave = ["Subject:", "Dear", "Best regards"];
+      const missing = mustHave.filter(phrase => !content.includes(phrase));
 
-    if (missing.length > 0) {
-      alert("⚠️ Structure missing. Restoring original format.");
-      editable.innerHTML = localStorage.getItem("EmailTemplate_Original");
-    } else {
-      localStorage.setItem("EmailTemplate_LastEdited", editable.innerHTML);
-      alert("✅ Email saved locally!");
+      if (missing.length > 0) {
+        alert("⚠️ Structure missing. Restoring original format.");
+        const original = localStorage.getItem("EmailTemplate_Original");
+        if (original) editable.innerHTML = original;
+      } else {
+        localStorage.setItem(`${editable.id}_LastEdited`, editable.innerHTML);
+        alert("✅ Content saved locally!");
+      }
     }
-  });
+  }
 
   // === SEND BUTTON ===
-  sendBtn.addEventListener("click", () => {
+  if (target.id.startsWith("sendBtn")) {
     const recipient = prompt("📧 Enter recipient email address:", "example@gmail.com");
     if (!recipient) return alert("❌ Email not sent — no recipient specified.");
 
     const rawText = editable.innerText;
-
-    // Extract subject and body
     const subjectMatch = rawText.match(/Subject:\s*(.+)/i);
     const subject = subjectMatch ? subjectMatch[1].trim() : "Bravexa Email";
-
     const bodyStart = rawText.indexOf("Dear");
     const body = bodyStart !== -1 ? rawText.slice(bodyStart).trim() : rawText.trim();
-
     const mailtoLink = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     window.location.href = mailtoLink;
-  });
+  }
 });
 
   // === AVATAR DROPDOWN ===
