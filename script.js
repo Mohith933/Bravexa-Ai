@@ -254,52 +254,6 @@ async function generateAIResponse(userMessage) {
       • “Write official email to client”</p>`;
   }
 
-  // --- DOCUMENTATION / PROJECT WRITING ---
-  else if (msg.includes("project report") || msg.includes("documentation") || msg.includes("project intro")) {
-    response = `
-      <h2>📘 Project Documentation Template</h2>
-      <div class="editable-container">
-        <div id="editableContent" class="editable-content" contenteditable="false">
-<h3>Project Title:</h3> Bravexa AI – Intelligent Assistant System
-
-<h3>Objective:</h3>
-To build a multimodal AI assistant that supports text, image, and audio interactions for educational and productivity use.
-
-<h3>Modules:</h3>
-1️⃣ User Interface (Frontend)<br>
-2️⃣ LLM Processing Core<br>
-3️⃣ Data Handling Layer<br>
-4️⃣ Emotion + Memory Engine<br>
-5️⃣ Cloud Deployment (AWS)
-
-<h3>Conclusion:</h3>
-Bravexa B1 is designed to bridge emotional clarity and technical intelligence, offering comfort and creativity together.
-        </div>
-        <div class="edit-buttons">
-          <button id="editBtn">✏️ Edit</button>
-          <button id="saveBtn" disabled>💾 Save</button>
-          <button id="downloadBtn">⬇️ Download</button>
-        </div>
-      </div>`;
-  }
-
-  else if (msg.includes("privacy policy")) {
-    response = `
-      <h2>🔒 Privacy Policy</h2>
-      <div class="editable-container">
-        <div id="editableContent" class="editable-content" contenteditable="false">
-<h3>Privacy Policy for Bravexa AI</h3>
-We respect your privacy. Bravexa B1 does not collect, store, or share personal data without your consent.
-All files processed in guest mode remain local to your device. Logged-in users have full control of their data.
-Your emotional and creative safety is our foundation.
-        </div>
-        <div class="edit-buttons">
-          <button id="editBtn">✏️ Edit</button>
-          <button id="saveBtn" disabled>💾 Save</button>
-        </div>
-      </div>`;
-  }
-
   // === BRAVEXA DOCUMENT GENERATOR ===
 else if (
   msg.includes("leave letter") ||
