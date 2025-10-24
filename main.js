@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
     hero.style.display = "none";
     inputArea.style.position = "fixed";
     chatWindow.style.marginTop = "80px";
-    inputArea.style.bottom = "30px";
+    inputArea.style.bottom = "31px";
     inputArea.style.left = "50%";
     inputArea.style.transform = "translateX(-50%)";
     footer.style.marginTop = "0px";
