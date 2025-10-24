@@ -297,78 +297,111 @@ async function generateAIResponse(userMessage) {
       </ul>`;
   }
 
-  // === ⚙️ 4. GENERATION (Docs + Code) ===
-  else if (
-    msg.includes("generate") ||
-    msg.includes("leave letter") ||
-    msg.includes("email") ||
-    msg.includes("resume") ||
-    msg.includes("project report") ||
-    msg.includes("privacy policy") ||
-    msg.includes("code") ||
-    msg.includes("program")
-  ) {
-    // === LEAVE LETTER / EMAIL ===
-    if (msg.includes("leave letter") || msg.includes("email")) {
-      response = `
-        <h2>✉️ Document Ready</h2>
+  // === ⚙️ 5. GENERATION (Docs + Code) ===  
+else if (
+  msg.includes("generate") ||
+  msg.includes("leave letter") ||
+  msg.includes("email") ||
+  msg.includes("resume") ||
+  msg.includes("project report") ||
+  msg.includes("privacy policy") ||
+  msg.includes("code") ||
+  msg.includes("program")
+) {
+  // === START GENERATION DIV ===
+  response = `<div class="bravexa-generation">`;
+
+  // === LEAVE LETTER / EMAIL ===
+  if (msg.includes("leave letter") || msg.includes("email")) {
+    response += `
+      <h2>✉️ Document Ready</h2>
+      <div class="bravexa-box">
         <p>Here’s your ${msg.includes("leave letter") ? "Leave Letter" : "Email"}:</p>
         <textarea id="docOutput" class="w-full p-3 rounded-lg border">${generateBravexaContent(msg)}</textarea>
-        <button onclick="sendEmail()" class="mt-2 bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700">Send</button>
-        <script>
-          function sendEmail() {
-            alert("✅ Document sent successfully via Bravexa Mail Engine!");
-          }
-        </script>`;
-    }
-
-    // === RESUME / PROJECT REPORT ===
-    else if (msg.includes("resume") || msg.includes("project report")) {
-      response = `
-        <h2>📄 ${msg.includes("resume") ? "Resume" : "Project Report"} Generated</h2>
-        <textarea id="copyText" class="w-full p-3 rounded-lg border">${generateBravexaContent(msg)}</textarea>
-        <button onclick="copyText()" class="mt-2 bg-green-600 text-white px-4 py-2 rounded-lg shadow hover:bg-green-700">Copy</button>
-        <script>
-          function copyText() {
-            const text = document.getElementById('copyText');
-            text.select();
-            document.execCommand('copy');
-            alert('✅ Copied successfully!');
-          }
-        </script>`;
-    }
-
-    // === CODE / PROGRAM ===
-    else if (msg.includes("code") || msg.includes("program")) {
-      response = `
-        <h2>💻 Code Generated</h2>
-        <pre id="codeOutput" class="bg-gray-900 text-white p-3 rounded-lg overflow-auto">${generateBravexaContent(msg)}</pre>
-        <button onclick="copyCode()" class="mt-2 bg-green-600 text-white px-4 py-2 rounded-lg shadow hover:bg-green-700">Copy Code</button>
-        <script>
-          function copyCode() {
-            const code = document.getElementById('codeOutput');
-            navigator.clipboard.writeText(code.innerText);
-            alert('✅ Code copied!');
-          }
-        </script>`;
-    }
-
-    // === PRIVACY POLICY / GENERIC ===
-    else {
-      response = `
-        <h2>📘 Document Generated</h2>
-        <textarea id="genericCopy" class="w-full p-3 rounded-lg border">${generateBravexaContent(msg)}</textarea>
-        <button onclick="copyGeneric()" class="mt-2 bg-green-600 text-white px-4 py-2 rounded-lg shadow hover:bg-green-700">Copy</button>
-        <script>
-          function copyGeneric() {
-            const text = document.getElementById('genericCopy');
-            text.select();
-            document.execCommand('copy');
-            alert('✅ Copied successfully!');
-          }
-        </script>`;
-    }
+        <div class="bravexa-toolbar">
+          <button onclick="sendEmail()" class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700">📧 Send</button>
+          <button onclick="copyText()" class="bg-green-600 text-white px-4 py-2 rounded-lg shadow hover:bg-green-700">📋 Copy</button>
+        </div>
+      </div>
+      <script>
+        function sendEmail() {
+          alert("✅ Document sent successfully via Bravexa Mail Engine!");
+        }
+        function copyText() {
+          const text = document.getElementById('docOutput');
+          text.select();
+          document.execCommand('copy');
+          alert('✅ Copied successfully!');
+        }
+      </script>
+    `;
   }
+
+  // === RESUME / PROJECT REPORT ===
+  else if (msg.includes("resume") || msg.includes("project report")) {
+    response += `
+      <h2>📄 ${msg.includes("resume") ? "Resume" : "Project Report"} Generated</h2>
+      <div class="bravexa-box">
+        <textarea id="copyText" class="w-full p-3 rounded-lg border">${generateBravexaContent(msg)}</textarea>
+        <div class="bravexa-toolbar">
+          <button onclick="copyText()" class="bg-green-600 text-white px-4 py-2 rounded-lg shadow hover:bg-green-700">📋 Copy</button>
+        </div>
+      </div>
+      <script>
+        function copyText() {
+          const text = document.getElementById('copyText');
+          text.select();
+          document.execCommand('copy');
+          alert('✅ Copied successfully!');
+        }
+      </script>
+    `;
+  }
+
+  // === CODE / PROGRAM ===
+  else if (msg.includes("code") || msg.includes("program")) {
+    response += `
+      <h2>💻 Code Generated</h2>
+      <div class="bravexa-box">
+        <pre id="codeOutput" class="bg-gray-900 text-white p-3 rounded-lg overflow-auto">${generateBravexaContent(msg)}</pre>
+        <div class="bravexa-toolbar">
+          <button onclick="copyCode()" class="bg-green-600 text-white px-4 py-2 rounded-lg shadow hover:bg-green-700">📋 Copy Code</button>
+        </div>
+      </div>
+      <script>
+        function copyCode() {
+          const code = document.getElementById('codeOutput');
+          navigator.clipboard.writeText(code.innerText);
+          alert('✅ Code copied!');
+        }
+      </script>
+    `;
+  }
+
+  // === PRIVACY POLICY OR OTHER FALLBACK ===
+  else {
+    response += `
+      <h2>📘 Document Generated</h2>
+      <div class="bravexa-box">
+        <textarea id="genericCopy" class="w-full p-3 rounded-lg border">${generateBravexaContent(msg)}</textarea>
+        <div class="bravexa-toolbar">
+          <button onclick="copyGeneric()" class="bg-green-600 text-white px-4 py-2 rounded-lg shadow hover:bg-green-700">📋 Copy</button>
+        </div>
+      </div>
+      <script>
+        function copyGeneric() {
+          const text = document.getElementById('genericCopy');
+          text.select();
+          document.execCommand('copy');
+          alert('✅ Copied successfully!');
+        }
+      </script>
+    `;
+  }
+
+  // === END GENERATION DIV ===
+  response += `</div>`;
+}
 
   // === 🔍 5. DEEP RESEARCH ===
   else if (msg.includes("research") || msg.includes("study") || msg.includes("report on")) {
