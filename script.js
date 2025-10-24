@@ -415,69 +415,64 @@ else if (msg.includes("resume") || msg.includes("cv")) {
     return response;
   }
 
-  // === Enable Edit/Save for Generated Letters & Emails ===
-  document.addEventListener("click", (event) => {
-  // Check if the clicked element is inside a container
-  const container = event.target.closest(".editable-container");
-  if (!container) return; // Not clicked inside an editable block
-
-  const editable = container.querySelector(".editable-content");
+  document.addEventListener("DOMContentLoaded", () => {
+  const container = document.querySelector(".editable-container");
+  const editable = container.querySelector("#editableContent");
   const editBtn = container.querySelector("#editBtn");
   const saveBtn = container.querySelector("#saveBtn");
   const sendBtn = container.querySelector("#sendBtn");
 
-  // EDIT BUTTON
-  if (event.target.id === "editBtn") {
+  // Save original structure on load
+  const originalContent = editable.innerHTML;
+  localStorage.setItem("EmailTemplate_Original", originalContent);
+
+  // === EDIT BUTTON ===
+  editBtn.addEventListener("click", () => {
     editable.contentEditable = "true";
-    editable.style.border = "1px solid #007bff";
-    editable.style.background = "#0d1b2a";
+    editable.style.border = "1px dashed #007bff";
+    editable.style.background = "#f0f8ff";
     editBtn.disabled = true;
     saveBtn.disabled = false;
-  }
+  });
 
-  // SAVE BUTTON
-  if (event.target.id === "saveBtn") {
+  // === SAVE BUTTON ===
+  saveBtn.addEventListener("click", () => {
     editable.contentEditable = "false";
     editable.style.border = "none";
     editable.style.background = "transparent";
     saveBtn.disabled = true;
     editBtn.disabled = false;
 
-    // Save to localStorage (unique key per block type)
-    const blockType = container.querySelector("h2")?.innerText || "Document";
-    localStorage.setItem(`${blockType}_LastEdited`, editable.innerText);
-    alert(`✅ ${blockType} saved locally!`);
-  }
+    const content = editable.innerText;
+    const mustHave = ["Subject:", "Dear", "Best regards"];
+    const missing = mustHave.filter(phrase => !content.includes(phrase));
 
-    if (event.target.id === "sendBtn") {
-  const container = event.target.closest(".editable-container");
-  if (!container) return;
-
-  const editable = container.querySelector("#editableContent");
-  const blockTitle = container.querySelector("h2")?.innerText || "Bravexa AI Message";
-
-  // 💬 Grab dynamic edited content
-  const fullText = editable.innerText.trim();
-
-  // 🧠 Try to extract subject automatically
-  let firstLine = fullText.split("\n")[0];
-  let subject = "";
-  let body = fullText;
-
-  if (firstLine.toLowerCase().startsWith("subject:")) {
-    subject = firstLine.replace(/subject:/i, "").trim();
-    body = fullText.split("\n").slice(1).join("\n").trim();
-  } else {
-    subject = blockTitle;
-  }
-
-  // 📩 Ask recipient dynamically
-  const recipient = prompt("📧 Enter recipient email address:", "example@gmail.com");
-  if (!recipient) return alert("❌ Email not sent — no recipient specified.");
-
-const mailtoLink = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-window.location.href = mailtoLink;
+    if (missing.length > 0) {
+      alert("⚠️ Structure missing. Restoring original format.");
+      editable.innerHTML = localStorage.getItem("EmailTemplate_Original");
+    } else {
+      localStorage.setItem("EmailTemplate_LastEdited", editable.innerHTML);
+      alert("✅ Email saved locally!");
     }
+  });
+
+  // === SEND BUTTON ===
+  sendBtn.addEventListener("click", () => {
+    const recipient = prompt("📧 Enter recipient email address:", "example@gmail.com");
+    if (!recipient) return alert("❌ Email not sent — no recipient specified.");
+
+    const rawText = editable.innerText;
+
+    // Extract subject and body
+    const subjectMatch = rawText.match(/Subject:\s*(.+)/i);
+    const subject = subjectMatch ? subjectMatch[1].trim() : "Bravexa Email";
+
+    const bodyStart = rawText.indexOf("Dear");
+    const body = bodyStart !== -1 ? rawText.slice(bodyStart).trim() : rawText.trim();
+
+    const mailtoLink = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailtoLink;
+  });
 });
 
   // === AVATAR DROPDOWN ===
