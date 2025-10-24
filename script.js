@@ -300,67 +300,96 @@ Your emotional and creative safety is our foundation.
       </div>`;
   }
 
-  // --- EMAIL / LETTERS / COMMUNICATION ---
-  else if (msg.includes("email") || msg.includes("official") || msg.includes("mail")) {
-    response = `
-      <h2>📧 Official Email Template</h2>
-      <div class="editable-container">
-        <div id="editableContent" class="editable-content" contenteditable="false">
-Subject: Regarding Upcoming Project Meeting  
+  // === BRAVEXA DOCUMENT GENERATOR ===
+else if (
+  msg.includes("leave letter") ||
+  msg.includes("resume") ||
+  msg.includes("project report") ||
+  msg.includes("privacy policy")
+) {
 
-Dear [Recipient Name],  
-I hope you are doing well.  
-I would like to confirm the details for our upcoming project discussion scheduled for [Date].  
-Please let me know if the timing works for you.  
+  let type = "";
 
-Warm regards,  
-[Your Name]  
-[Your Position]  
-[Your Contact Info]
-        </div>
-        <div class="edit-buttons">
-          <button id="editBtn">✏️ Edit</button>
-          <button id="saveBtn" disabled>💾 Save</button>
-          <button id="sendBtn">✉️ Send</button>
-        </div>
-      </div>`;
-  }
+  if (msg.includes("leave letter")) type = "leave";
+  else if (msg.includes("resume")) type = "resume";
+  else if (msg.includes("project report")) type = "project";
+  else if (msg.includes("privacy policy")) type = "policy";
 
-  else if (msg.includes("thank you") || msg.includes("appreciation")) {
-    response = `
-      <h2>💌 Appreciation Email</h2>
-      <p>Subject: Heartfelt Thanks!</p>
-      <p>Dear [Name],</p>
-      <p>I sincerely appreciate your support and collaboration.  
-      Your efforts made a real difference in the project’s success. 🌟</p>
-      <p>Warm regards,<br>[Your Name]</p>`;
-  }
+  let content = "";
 
-  else if (msg.includes("leave letter") || msg.includes("application")) {
-    response = `
+  switch (type) {
+
+    case "leave":
+      content = `
       <h2>📄 Leave Letter</h2>
-      <div class="editable-container">
-        <div id="editableContent" class="editable-content" contenteditable="false">
-To  
-The Principal,  
-[Your College Name],  
-
-Subject: Request for Leave  
-
-Respected Sir/Madam,  
-I am [Your Name], studying in [Your Department].  
-I kindly request leave from [Start Date] to [End Date] due to [Reason].  
-
-Thanking you,  
-Yours faithfully,  
-[Your Name]
-        </div>
-        <div class="edit-buttons">
-          <button id="editBtn">✏️ Edit</button>
-          <button id="saveBtn" disabled>💾 Save</button>
+      <div class="bravexa-box">
+        <p>To,<br>The Principal,<br>[Your College Name]</p>
+        <p><strong>Subject:</strong> Request for Leave</p>
+        <p>Respected Sir/Madam,<br>
+        I am [Your Name], studying in [Your Department].<br>
+        I kindly request leave from [Start Date] to [End Date] due to [Reason].</p>
+        <p>Thanking you,<br>Yours faithfully,<br>[Your Name]</p>
+        <div class="bravexa-toolbar">
+          <button class="copyBtn">📋 Copy</button>
+          <button class="saveBtn">💾 Save</button>
         </div>
       </div>`;
+      break;
+
+    case "resume":
+      content = `
+      <h2>🧑‍💼 Resume — Bravexa User</h2>
+      <div class="bravexa-box">
+        <p><strong>Name:</strong> [Your Name]</p>
+        <p><strong>Objective:</strong> To contribute to emotionally intelligent AI systems that serve users with clarity and warmth.</p>
+        <p><strong>Skills:</strong><br>UI/UX Clarity • Prompt Engineering • LLM Integration • JavaScript • Python</p>
+        <p><strong>Projects:</strong><br>Bravexa AI • Valantine AI</p>
+        <p><strong>Contact:</strong> [Your Email] | [Phone]</p>
+        <div class="bravexa-toolbar">
+          <button class="copyBtn">📋 Copy</button>
+          <button class="saveBtn">💾 Save</button>
+        </div>
+      </div>`;
+      break;
+
+    case "project":
+      content = `
+      <h2>📘 Project Report — Bravexa AI</h2>
+      <div class="bravexa-box">
+        <p><strong>Title:</strong> Bravexa AI — Emotional Intelligence System</p>
+        <p><strong>Objective:</strong> To build an emotionally aware AI that connects creative and logical reasoning.</p>
+        <p><strong>Modules:</strong></p>
+        <ul>
+          <li>Frontend Interface (Emotion UI)</li>
+          <li>LLM Core</li>
+          <li>Memory Engine</li>
+          <li>Document Generator</li>
+        </ul>
+        <p><strong>Status:</strong> Beta 1.0, Frontend Stable.</p>
+        <div class="bravexa-toolbar">
+          <button class="copyBtn">📋 Copy</button>
+          <button class="saveBtn">💾 Save</button>
+        </div>
+      </div>`;
+      break;
+
+    case "policy":
+      content = `
+      <h2>🔒 Privacy Policy — Bravexa AI</h2>
+      <div class="bravexa-box">
+        <p>We respect your privacy. Bravexa AI never stores personal data without your consent.</p>
+        <p>All local interactions remain on your device unless explicitly shared.</p>
+        <p>Your emotional and creative safety is our foundation. 💫</p>
+        <div class="bravexa-toolbar">
+          <button class="copyBtn">📋 Copy</button>
+          <button class="saveBtn">💾 Save</button>
+        </div>
+      </div>`;
+      break;
   }
+
+  response = content;
+}
 
   // --- CODE GENERATION (HTML, JS, PYTHON, etc.) ---
   // --- CODE GENERATION (FULL TOOLBAR + EDIT + COPY + SAVE) ---
@@ -368,32 +397,100 @@ else if (msg.includes("code") || msg.includes("program")) {
   let language = "javascript";
   let langLabel = "JavaScript";
 
+  // --- Detect Languages ---
   if (msg.includes("python")) { language = "python"; langLabel = "Python"; }
   else if (msg.includes("java")) { language = "java"; langLabel = "Java"; }
   else if (msg.includes("c++") || msg.includes("cpp")) { language = "cpp"; langLabel = "C++"; }
   else if (msg.includes("html")) { language = "html"; langLabel = "HTML"; }
   else if (msg.includes("css")) { language = "css"; langLabel = "CSS"; }
+  else if (msg.includes("js") || msg.includes("javascript") || msg.includes("node")) { language = "javascript"; langLabel = "JavaScript"; }
 
-  // Example snippets
+  // --- Example Snippets ---
   const codeExamples = {
-    javascript: `function greet(name) {\n  console.log("Hello, " + name + "!");\n}\n\ngreet("Bravexa User");`,
-    python: `def greet(name):\n    print("Hello, " + name + "!")\n\ngreet("Bravexa User")`,
-    cpp: `#include <iostream>\nusing namespace std;\nint main() {\n    cout << "Hello, Bravexa User!";\n    return 0;\n}`,
-    java: `class Main {\n  public static void main(String[] args) {\n    System.out.println("Hello, Bravexa User!");\n  }\n}`,
-    html: `<!DOCTYPE html>\n<html>\n<body>\n  <h1>Hello, Bravexa User!</h1>\n</body>\n</html>`,
-    css: `body {\n  background-color: #fff0f5;\n  color: #222;\n  font-family: 'Quicksand', sans-serif;\n  text-align: center;\n}`
+    javascript: 
+`// Simple Calculator Example
+function calculate(a, b, op) {
+  switch (op) {
+    case '+': return a + b;
+    case '-': return a - b;
+    case '*': return a * b;
+    case '/': return b !== 0 ? a / b : 'Error: divide by 0';
+    default: return 'Invalid operator';
+  }
+}
+console.log("Result:", calculate(5, 3, '+'));`,
+    
+    python:
+`# Simple Calculator Example
+def calculate(a, b, op):
+    if op == '+': return a + b
+    elif op == '-': return a - b
+    elif op == '*': return a * b
+    elif op == '/': return a / b if b != 0 else 'Error: divide by 0'
+    else: return 'Invalid operator'
+
+print("Result:", calculate(5, 3, '+'))`,
+
+    cpp:
+`#include <iostream>
+using namespace std;
+
+int main() {
+    int a = 5, b = 3;
+    char op = '+';
+    int result;
+    switch(op) {
+        case '+': result = a + b; break;
+        case '-': result = a - b; break;
+        default: result = 0;
+    }
+    cout << "Result: " << result << endl;
+    return 0;
+}`,
+
+    java:
+`class Main {
+  public static void main(String[] args) {
+    int a = 5, b = 3;
+    char op = '+';
+    int result = 0;
+    switch(op) {
+      case '+': result = a + b; break;
+      case '-': result = a - b; break;
+    }
+    System.out.println("Result: " + result);
+  }
+}`,
+
+    html:
+`<!DOCTYPE html>
+<html>
+  <body>
+    <h2>Simple Calculator</h2>
+    <input id="a" type="number" placeholder="Number 1">
+    <input id="b" type="number" placeholder="Number 2">
+    <button onclick="alert(parseInt(a.value) + parseInt(b.value))">Add</button>
+  </body>
+</html>`,
+
+    css:
+`body {
+  background: #fdf6f6;
+  color: #222;
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+}`
   };
 
-  const codeSnippet = codeExamples[language];
+  const codeSnippet = codeExamples[language] || "// Code example not available.";
 
+  // --- Final Output ---
   response = `
-  <h2>💻 ${langLabel} Code Generator</h2>
+  <h2>💻 ${langLabel} Code Example</h2>
   <div class="code-block-container">
     <div class="code-toolbar">
       <span class="lang-label">${langLabel}</span>
       <div class="btn-group">
-        <button id="editCodeBtn">✏️ Edit</button>
-        <button id="saveCodeBtn" disabled>💾 Save</button>
         <button id="copyCodeBtn">📋 Copy</button>
       </div>
     </div>
@@ -402,29 +499,15 @@ else if (msg.includes("code") || msg.includes("program")) {
   </div>
 
   <div class="ai-note">
-    <p>💡 Tip: You can edit, save, or copy this code directly — saved code is stored in your local storage.</p>
+    <p>💡 Tip: Copy this code and run it in your ${langLabel} environment.</p>
   </div>`;
 
-  // --- Add event handling dynamically ---
+  // --- JS Event Handling ---
   setTimeout(() => {
-    const codeOutput = document.getElementById("codeOutput");
-    const editBtn = document.getElementById("editCodeBtn");
-    const saveBtn = document.getElementById("saveCodeBtn");
     const copyBtn = document.getElementById("copyCodeBtn");
+    const codeOutput = document.getElementById("codeOutput");
 
-    if (editBtn && saveBtn && codeOutput) {
-      editBtn.addEventListener("click", () => {
-        codeOutput.contentEditable = "true";
-        codeOutput.focus();
-        saveBtn.disabled = false;
-      });
-
-      saveBtn.addEventListener("click", () => {
-        localStorage.setItem("savedCode", codeOutput.innerText);
-        saveBtn.disabled = true;
-        alert("💾 Code saved successfully!");
-      });
-
+    if (copyBtn && codeOutput) {
       copyBtn.addEventListener("click", async () => {
         await navigator.clipboard.writeText(codeOutput.innerText);
         alert("📋 Code copied to clipboard!");
@@ -432,7 +515,6 @@ else if (msg.includes("code") || msg.includes("program")) {
     }
   }, 100);
 }
-
   // --- PRODUCTIVITY TOOLS ---
   else if (msg.includes("todo") || msg.includes("task")) {
     response = `
@@ -477,64 +559,21 @@ else if (msg.includes("code") || msg.includes("program")) {
 
   return response;
 }
-  document.addEventListener("click", (e) => {
-  const target = e.target;
-
-  // Identify which section the button belongs to
-  const container = target.closest(".editable-container");
-  if (!container) return;
-
-  const editable = container.querySelector(".editable-content");
-  const editBtn = container.querySelector("button[id^='editBtn']");
-  const saveBtn = container.querySelector("button[id^='saveBtn']");
-  const sendBtn = container.querySelector("button[id^='sendBtn']");
-
-  // === EDIT BUTTON ===
-  if (target.id.startsWith("editBtn")) {
-    editable.contentEditable = "true";
-    editable.style.border = "1px dashed #007bff";
-    editable.style.background = "#0d1b2a";
-    editBtn.disabled = true;
-    saveBtn.disabled = false;
+  document.addEventListener("click", async (e) => {
+  if (e.target.classList.contains("copyBtn")) {
+    const box = e.target.closest(".bravexa-box");
+    const text = box.innerText.trim();
+    await navigator.clipboard.writeText(text);
+    e.target.textContent = "✅ Copied";
+    setTimeout(() => (e.target.textContent = "📋 Copy"), 2000);
   }
 
-  // === SAVE BUTTON ===
-  if (target.id.startsWith("saveBtn")) {
-    editable.contentEditable = "false";
-    editable.style.border = "none";
-    editable.style.background = "transparent";
-    saveBtn.disabled = true;
-    editBtn.disabled = false;
-
-    // Validation for email type
-    if (editable.id.includes("email")) {
-      const content = editable.innerText;
-      const mustHave = ["Subject:", "Dear", "Best regards"];
-      const missing = mustHave.filter(phrase => !content.includes(phrase));
-
-      if (missing.length > 0) {
-        alert("⚠️ Structure missing. Restoring original format.");
-        const original = localStorage.getItem("EmailTemplate_Original");
-        if (original) editable.innerHTML = original;
-      } else {
-        localStorage.setItem(`${editable.id}_LastEdited`, editable.innerHTML);
-        alert("✅ Content saved locally!");
-      }
-    }
-  }
-
-  // === SEND BUTTON ===
-  if (target.id.startsWith("sendBtn")) {
-    const recipient = prompt("📧 Enter recipient email address:", "example@gmail.com");
-    if (!recipient) return alert("❌ Email not sent — no recipient specified.");
-
-    const rawText = editable.innerText;
-    const subjectMatch = rawText.match(/Subject:\s*(.+)/i);
-    const subject = subjectMatch ? subjectMatch[1].trim() : "Bravexa Email";
-    const bodyStart = rawText.indexOf("Dear");
-    const body = bodyStart !== -1 ? rawText.slice(bodyStart).trim() : rawText.trim();
-    const mailtoLink = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    window.location.href = mailtoLink;
+  if (e.target.classList.contains("saveBtn")) {
+    const box = e.target.closest(".bravexa-box");
+    const text = box.innerText.trim();
+    localStorage.setItem("Bravexa_LastSaved", text);
+    e.target.textContent = "💾 Saved";
+    setTimeout(() => (e.target.textContent = "💾 Save"), 2000);
   }
 });
 
