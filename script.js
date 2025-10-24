@@ -238,182 +238,245 @@ function typeText(element, htmlContent, speed = 8) {
 }
   // === SIMPLE AI RESPONSES ===
   // === SIMPLE RULE-BASED AI RESPONSE SYSTEM ===
-  async function generateAIResponse(userMessage) {
-    const msg = userMessage.toLowerCase();
-    let response = "";
+  // === SIMPLE AI RESPONSES ===
+async function generateAIResponse(userMessage) {
+  const msg = userMessage.toLowerCase();
+  let response = "";
 
-    // --- GREETINGS ---
-    if (msg.includes("hello") || msg.includes("hi") || msg.includes("hey")) {
-      response = `
-      <h2>👋 Hello!</h2>
-      <p>I’m <strong>Bravexa AI</strong> — ready to help you write, code, or learn something new!</p>
-      <p>You can try things like:<br>• "Generate leave letter"<br>• "Write HTML login form"<br>• "Motivate me"</p>`;
-    }
+  // --- GREETINGS ---
+  if (msg.includes("hello") || msg.includes("hi") || msg.includes("hey")) {
+    response = `
+      <h2>👋 Welcome to Bravexa B1</h2>
+      <p>Hey Founder, I’m <strong>Bravexa AI</strong> — your creative and coding partner.</p>
+      <p>Try prompts like:<br>
+      • “Generate privacy policy”<br>
+      • “Create responsive navbar in HTML”<br>
+      • “Write official email to client”</p>`;
+  }
 
-    else if (msg.includes("email") || msg.includes("official")) {
-  response = `
-  <h2>📧 Official Email</h2>
-  <div class="editable-container">
-    <div id="editableContent-email" class="editable-content" contenteditable="false">
-      <p><strong>Subject:</strong> Regarding Project Discussion</p>
-      <p>Dear [Recipient Name],</p>
-      <p>I hope you are doing well.</p>
-      <p>I would like to schedule a short discussion about our project progress and upcoming deadlines.</p>
-      <p>Please let me know your availability.</p>
-      <p>Best regards,<br>[Your Name]<br>[Your Contact Info]</p>
-    </div>
-    <div class="edit-buttons">
-      <button id="editBtn-email">✏️ Edit</button>
-      <button id="saveBtn-email" disabled>💾 Save</button>
-      <button id="sendBtn-email">📤 Send</button>
-    </div>
-  </div>`;
-}
+  // --- DOCUMENTATION / PROJECT WRITING ---
+  else if (msg.includes("project report") || msg.includes("documentation") || msg.includes("project intro")) {
+    response = `
+      <h2>📘 Project Documentation Template</h2>
+      <div class="editable-container">
+        <div id="editableContent" class="editable-content" contenteditable="false">
+<h3>Project Title:</h3> Bravexa AI – Intelligent Assistant System
 
-else if (msg.includes("leave letter") || msg.includes("application")) {
-  response = `
-  <h2>📄 Leave Letter</h2>
-  <div class="editable-container">
-    <div id="editableContent-letter" class="editable-content" contenteditable="false">
-      <p><strong>To</strong><br>The Principal,<br>[Your College Name],<br>[City]</p>
-      <p><strong>Subject:</strong> Request for Leave</p>
-      <p>Respected Sir/Madam,<br>
-      I am [Your Name], studying in [Your Department]. I kindly request leave from [Start Date] to [End Date] due to [Reason].<br>
-      Kindly grant me permission.</p>
-      <p>Thanking you,<br>Yours faithfully,<br>[Your Name]</p>
-    </div>
-    <div class="edit-buttons">
-      <button id="editBtn-letter">✏️ Edit</button>
-      <button id="saveBtn-letter" disabled>💾 Save</button>
-      <button id="sendBtn-letter">📤 Send</button>
-    </div>
-  </div>`;
-}
+<h3>Objective:</h3>
+To build a multimodal AI assistant that supports text, image, and audio interactions for educational and productivity use.
 
+<h3>Modules:</h3>
+1️⃣ User Interface (Frontend)<br>
+2️⃣ LLM Processing Core<br>
+3️⃣ Data Handling Layer<br>
+4️⃣ Emotion + Memory Engine<br>
+5️⃣ Cloud Deployment (AWS)
+
+<h3>Conclusion:</h3>
+Bravexa B1 is designed to bridge emotional clarity and technical intelligence, offering comfort and creativity together.
+        </div>
+        <div class="edit-buttons">
+          <button id="editBtn">✏️ Edit</button>
+          <button id="saveBtn" disabled>💾 Save</button>
+          <button id="downloadBtn">⬇️ Download</button>
+        </div>
+      </div>`;
+  }
+
+  else if (msg.includes("privacy policy")) {
+    response = `
+      <h2>🔒 Privacy Policy</h2>
+      <div class="editable-container">
+        <div id="editableContent" class="editable-content" contenteditable="false">
+<h3>Privacy Policy for Bravexa AI</h3>
+We respect your privacy. Bravexa B1 does not collect, store, or share personal data without your consent.
+All files processed in guest mode remain local to your device. Logged-in users have full control of their data.
+Your emotional and creative safety is our foundation.
+        </div>
+        <div class="edit-buttons">
+          <button id="editBtn">✏️ Edit</button>
+          <button id="saveBtn" disabled>💾 Save</button>
+        </div>
+      </div>`;
+  }
+
+  // --- EMAIL / LETTERS / COMMUNICATION ---
+  else if (msg.includes("email") || msg.includes("official") || msg.includes("mail")) {
+    response = `
+      <h2>📧 Official Email Template</h2>
+      <div class="editable-container">
+        <div id="editableContent" class="editable-content" contenteditable="false">
+Subject: Regarding Upcoming Project Meeting  
+
+Dear [Recipient Name],  
+I hope you are doing well.  
+I would like to confirm the details for our upcoming project discussion scheduled for [Date].  
+Please let me know if the timing works for you.  
+
+Warm regards,  
+[Your Name]  
+[Your Position]  
+[Your Contact Info]
+        </div>
+        <div class="edit-buttons">
+          <button id="editBtn">✏️ Edit</button>
+          <button id="saveBtn" disabled>💾 Save</button>
+          <button id="sendBtn">✉️ Send</button>
+        </div>
+      </div>`;
+  }
+
+  else if (msg.includes("thank you") || msg.includes("appreciation")) {
+    response = `
+      <h2>💌 Appreciation Email</h2>
+      <p>Subject: Heartfelt Thanks!</p>
+      <p>Dear [Name],</p>
+      <p>I sincerely appreciate your support and collaboration.  
+      Your efforts made a real difference in the project’s success. 🌟</p>
+      <p>Warm regards,<br>[Your Name]</p>`;
+  }
+
+  else if (msg.includes("leave letter") || msg.includes("application")) {
+    response = `
+      <h2>📄 Leave Letter</h2>
+      <div class="editable-container">
+        <div id="editableContent" class="editable-content" contenteditable="false">
+To  
+The Principal,  
+[Your College Name],  
+
+Subject: Request for Leave  
+
+Respected Sir/Madam,  
+I am [Your Name], studying in [Your Department].  
+I kindly request leave from [Start Date] to [End Date] due to [Reason].  
+
+Thanking you,  
+Yours faithfully,  
+[Your Name]
+        </div>
+        <div class="edit-buttons">
+          <button id="editBtn">✏️ Edit</button>
+          <button id="saveBtn" disabled>💾 Save</button>
+        </div>
+      </div>`;
+  }
+
+  // --- CODE GENERATION (HTML, JS, PYTHON, etc.) ---
+  // --- CODE GENERATION (FULL TOOLBAR + EDIT + COPY + SAVE) ---
 else if (msg.includes("code") || msg.includes("program")) {
   let language = "javascript";
   let langLabel = "JavaScript";
 
   if (msg.includes("python")) { language = "python"; langLabel = "Python"; }
-  else if (msg.includes("c++") || msg.includes("cpp")) { language = "cpp"; langLabel = "C++"; }
-  else if (msg.includes("c language") || msg.includes("c program")) { language = "c"; langLabel = "C"; }
   else if (msg.includes("java")) { language = "java"; langLabel = "Java"; }
+  else if (msg.includes("c++") || msg.includes("cpp")) { language = "cpp"; langLabel = "C++"; }
   else if (msg.includes("html")) { language = "html"; langLabel = "HTML"; }
   else if (msg.includes("css")) { language = "css"; langLabel = "CSS"; }
-  else if (msg.includes("js") || msg.includes("javascript")) { language = "javascript"; langLabel = "JavaScript"; }
 
+  // Example snippets
   const codeExamples = {
     javascript: `function greet(name) {\n  console.log("Hello, " + name + "!");\n}\n\ngreet("Bravexa User");`,
     python: `def greet(name):\n    print("Hello, " + name + "!")\n\ngreet("Bravexa User")`,
     cpp: `#include <iostream>\nusing namespace std;\nint main() {\n    cout << "Hello, Bravexa User!";\n    return 0;\n}`,
-    c: `#include <stdio.h>\nint main() {\n    printf("Hello, Bravexa User!\\n");\n    return 0;\n}`,
     java: `class Main {\n  public static void main(String[] args) {\n    System.out.println("Hello, Bravexa User!");\n  }\n}`,
     html: `<!DOCTYPE html>\n<html>\n<body>\n  <h1>Hello, Bravexa User!</h1>\n</body>\n</html>`,
-    css: `body {\n  background-color: #f5f5f5;\n  color: #333;\n  font-family: Arial;\n}`
+    css: `body {\n  background-color: #fff0f5;\n  color: #222;\n  font-family: 'Quicksand', sans-serif;\n  text-align: center;\n}`
   };
 
   const codeSnippet = codeExamples[language];
 
-  // Bravexa UI for Code Section
   response = `
+  <h2>💻 ${langLabel} Code Generator</h2>
   <div class="code-block-container">
-    <h2>💻 ${langLabel} Snippet Generated</h2>
-    <div class="code-box">
-      <pre><code class="${language}" id="codeOutput-${language}">${codeSnippet}</code></pre>
+    <div class="code-toolbar">
+      <span class="lang-label">${langLabel}</span>
+      <div class="btn-group">
+        <button id="editCodeBtn">✏️ Edit</button>
+        <button id="saveCodeBtn" disabled>💾 Save</button>
+        <button id="copyCodeBtn">📋 Copy</button>
+      </div>
     </div>
-    <div class="code-buttons">
-      <button id="copyCodeBtn-${language}" class="bravexa-btn">📋 Copy</button>
-      <button id="editCodeBtn-${language}" class="bravexa-btn">✏️ Edit</button>
-      <button id="saveCodeBtn-${language}" class="bravexa-btn" disabled>💾 Save</button>
-    </div>
+
+    <pre id="codeOutput" class="code-content" contenteditable="false"><code class="${language}">${codeSnippet}</code></pre>
+  </div>
+
+  <div class="ai-note">
+    <p>💡 Tip: You can edit, save, or copy this code directly — saved code is stored in your local storage.</p>
   </div>`;
+
+  // --- Add event handling dynamically ---
+  setTimeout(() => {
+    const codeOutput = document.getElementById("codeOutput");
+    const editBtn = document.getElementById("editCodeBtn");
+    const saveBtn = document.getElementById("saveCodeBtn");
+    const copyBtn = document.getElementById("copyCodeBtn");
+
+    if (editBtn && saveBtn && codeOutput) {
+      editBtn.addEventListener("click", () => {
+        codeOutput.contentEditable = "true";
+        codeOutput.focus();
+        saveBtn.disabled = false;
+      });
+
+      saveBtn.addEventListener("click", () => {
+        localStorage.setItem("savedCode", codeOutput.innerText);
+        saveBtn.disabled = true;
+        alert("💾 Code saved successfully!");
+      });
+
+      copyBtn.addEventListener("click", async () => {
+        await navigator.clipboard.writeText(codeOutput.innerText);
+        alert("📋 Code copied to clipboard!");
+      });
+    }
+  }, 100);
 }
 
-else if (msg.includes("project") || msg.includes("document")) {
-  response = `
-  <h2>📂 Project Document</h2>
-  <div class="editable-container">
-    <div id="editableContent-project" class="editable-content" contenteditable="false">
-      <p><strong>Project Title:</strong> Bravexa AI – Emotional Prompt Engine</p>
-      <p><strong>Objective:</strong> To build a system that listens to unstructured, emotional prompts and translates them into structured AI tasks.</p>
-      <p><strong>Modules:</strong><br>
-      - Prompt Normalization Layer<br>
-      - Code Generator<br>
-      - Email & Letter Composer<br>
-      - Resume Builder<br>
-      - Search Agent</p>
-      <p><strong>Status:</strong> Beta architecture in progress. UI and prompt rituals under development.</p>
-    </div>
-    <div class="edit-buttons">
-      <button id="editBtn-project">✏️ Edit</button>
-      <button id="saveBtn-project" disabled>💾 Save</button>
-      <button id="sendBtn-project">📤 Send</button>
-    </div>
-  </div>`;
-}
-
-else if (msg.includes("resume") || msg.includes("cv")) {
-  response = `
-  <h2>📄 Resume</h2>
-  <div class="editable-container">
-    <div id="editableContent-resume" class="editable-content" contenteditable="false">
-      <p><strong>Name:</strong> [Your Name]</p>
-      <p><strong>Objective:</strong> To contribute to emotionally intelligent AI systems that serve real users with clarity.</p>
-      <p><strong>Skills:</strong><br>
-      - Prompt Normalization<br>
-      - UI/UX with Emotional Clarity<br>
-      - JavaScript, Python, Django<br>
-      - Founder-style Product Thinking</p>
-      <p><strong>Projects:</strong><br>
-      - Bravexa AI<br>
-      - Valantine AI</p>
-      <p><strong>Contact:</strong> [Your Email] | [Phone]</p>
-    </div>
-    <div class="edit-buttons">
-      <button id="editBtn-resume">✏️ Edit</button>
-      <button id="saveBtn-resume" disabled>💾 Save</button>
-      <button id="sendBtn-resume">📤 Send</button>
-    </div>
-  </div>`;
-}
-
-
-    // --- MOTIVATION / QUOTES / FACTS ---
-    else if (msg.includes("motivate") || msg.includes("inspire")) {
-      response = `
-      <h2>💪 Motivation Boost</h2>
-      <p>Success isn’t about doing everything perfectly — it’s about being consistent. Keep moving forward, even on small steps. 🚀</p>`;
-    }
-
-    else if (msg.includes("quote")) {
-      response = `
-      <h2>📜 Quote of the Day</h2>
-      <p>“Believe in yourself and you’ll be unstoppable.” ✨</p>`;
-    }
-
-    else if (msg.includes("fact") || msg.includes("knowledge")) {
-      response = `
-      <h2>🧠 Tech Fact</h2>
-      <p>Did you know? The word "algorithm" comes from the name of a Persian mathematician — Al-Khwarizmi!</p>`;
-    }
-
-    // --- JOKES ---
-    else if (msg.includes("joke")) {
-      response = `
-      <h2>😂 Quick Tech Joke</h2>
-      <p>Why do Java developers wear glasses?<br>Because they can’t C#! 😆</p>`;
-    }
-
-    // --- DEFAULT ---
-    else {
-      response = `
-      <p>💡 I’m ready to help you write letters, generate code, or share ideas instantly.<br>
-      Try saying: <br>• “Generate leave letter”<br>• “Quick HTML form code”<br>• “Motivate me”</p>`;
-    }
-
-    return response;
+  // --- PRODUCTIVITY TOOLS ---
+  else if (msg.includes("todo") || msg.includes("task")) {
+    response = `
+      <h2>🗓️ To-Do List Template</h2>
+      <ul>
+        <li>🧠 Plan your day’s priorities</li>
+        <li>💻 Code 2 hours for Bravexa B1</li>
+        <li>🌿 Take 15 mins calm walk</li>
+        <li>📖 Read or learn something creative</li>
+      </ul>`;
   }
 
+  // --- MOTIVATION / QUOTES ---
+  else if (msg.includes("motivate") || msg.includes("inspire")) {
+    response = `
+      <h2>🔥 Daily Drive</h2>
+      <p>“You don’t need permission to rise. You only need direction and courage.” 🚀</p>
+      <p>Stay consistent — even small effort builds a future Founder energy. 💪</p>`;
+  }
+
+  else if (msg.includes("quote")) {
+    response = `
+      <h2>📜 Founder Quote</h2>
+      <p>“Build something that outlives you.” — Anonymous Visionary 🪜</p>`;
+  }
+
+  else if (msg.includes("fact")) {
+    response = `
+      <h2>🧠 Tech Fact</h2>
+      <p>The word “robot” was first used in a 1920 Czech play — derived from “robota”, meaning “forced labor.” 🤖</p>`;
+  }
+
+  // --- DEFAULT ---
+  else {
+    response = `
+      <p>💡 I can help you write project docs, generate letters, or code fast.<br>
+      Try prompts like:<br>
+      • “Generate privacy policy”<br>
+      • “Write official mail”<br>
+      • “Quick HTML login form code”</p>`;
+  }
+
+  return response;
+}
   document.addEventListener("click", (e) => {
   const target = e.target;
 
