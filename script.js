@@ -314,18 +314,17 @@ else if (msg.includes("code") || msg.includes("program")) {
 
   const codeSnippet = codeExamples[language];
 
+  // Bravexa UI for Code Section
   response = `
-  <h2>💻 Generated ${langLabel} Code</h2>
-  <div class="editable-container">
-    <div id="editableContent-code" class="editable-content" contenteditable="false">
-<pre><code class="${language}">
-${codeSnippet}
-</code></pre>
+  <div class="code-block-container">
+    <h2>💻 ${langLabel} Snippet Generated</h2>
+    <div class="code-box">
+      <pre><code class="${language}" id="codeOutput-${language}">${codeSnippet}</code></pre>
     </div>
-    <div class="edit-buttons">
-      <button id="editBtn-code">✏️ Edit</button>
-      <button id="saveBtn-code" disabled>💾 Save</button>
-      <button id="sendBtn-code">📤 Send</button>
+    <div class="code-buttons">
+      <button id="copyCodeBtn-${language}" class="bravexa-btn">📋 Copy</button>
+      <button id="editCodeBtn-${language}" class="bravexa-btn">✏️ Edit</button>
+      <button id="saveCodeBtn-${language}" class="bravexa-btn" disabled>💾 Save</button>
     </div>
   </div>`;
 }
@@ -493,46 +492,43 @@ else if (msg.includes("resume") || msg.includes("cv")) {
       uploadDropdown.style.display = "none";
     }
   });
-  // === Enable Copy, Edit, and Save for Generated Code ===
-  document.addEventListener("click", (event) => {
-    const codeOutput = document.getElementById("codeOutput");
-    const copyBtn = document.getElementById("copyCodeBtn");
-    const editBtn = document.getElementById("editCodeBtn");
-    const saveBtn = document.getElementById("saveCodeBtn");
+  // === Enable Copy, Edit, and Save for document.addEventListener("click", (event) => {
+  const target = event.target;
+  if (!target.id) return;
 
-    if (!codeOutput) return;
+  const match = target.id.match(/(copyCodeBtn|editCodeBtn|saveCodeBtn)-(\w+)/);
+  if (!match) return;
 
-    // === COPY CODE ===
-    if (event.target.id === "copyCodeBtn") {
-      navigator.clipboard.writeText(codeOutput.innerText)
-        .then(() => {
-          copyBtn.textContent = "✅ Copied";
-          setTimeout(() => copyBtn.textContent = "📋 Copy", 2000);
-        });
-    }
+  const action = match[1];
+  const language = match[2];
+  const codeOutput = document.getElementById(`codeOutput-${language}`);
+  const copyBtn = document.getElementById(`copyCodeBtn-${language}`);
+  const editBtn = document.getElementById(`editCodeBtn-${language}`);
+  const saveBtn = document.getElementById(`saveCodeBtn-${language}`);
 
-    // === EDIT CODE ===
-    if (event.target.id === "editCodeBtn") {
-      codeOutput.contentEditable = "true";
-      codeOutput.style.background = "#1e1e1e";
-      codeOutput.style.border = "1px solid #007bff";
-      editBtn.disabled = true;
-      saveBtn.disabled = false;
-    }
+  if (action === "copyCodeBtn") {
+    navigator.clipboard.writeText(codeOutput.innerText);
+    copyBtn.textContent = "✅ Copied!";
+    setTimeout(() => (copyBtn.textContent = "📋 Copy"), 1500);
+  }
 
-    // === SAVE CODE ===
-    if (event.target.id === "saveCodeBtn") {
-      codeOutput.contentEditable = "false";
-      codeOutput.style.background = "#1e1e1e";
-      codeOutput.style.border = "none";
-      saveBtn.disabled = true;
-      editBtn.disabled = false;
+  if (action === "editCodeBtn") {
+    codeOutput.contentEditable = "true";
+    codeOutput.style.background = "#2a2a2a";
+    codeOutput.style.outline = "1px dashed #00c3ff";
+    editBtn.disabled = true;
+    saveBtn.disabled = false;
+  }
 
-      // Optional: Save edited code to local storage
-      localStorage.setItem("lastEditedCode", codeOutput.innerText);
-      alert("💾 Code saved locally!");
-    }
-  });
+  if (action === "saveCodeBtn") {
+    codeOutput.contentEditable = "false";
+    codeOutput.style.outline = "none";
+    localStorage.setItem(`Bravexa_${language}_Code`, codeOutput.innerText);
+    alert(`💾 ${language.toUpperCase()} code saved locally!`);
+    saveBtn.disabled = true;
+    editBtn.disabled = false;
+  }
+});
 
   // === FILE UPLOAD HANDLER ===
   document.querySelectorAll("#imageUpload, #videoUpload, #fileUpload").forEach(input => {
