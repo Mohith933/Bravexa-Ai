@@ -298,110 +298,105 @@ async function generateAIResponse(userMessage) {
   }
 
   // === ⚙️ 5. GENERATION (Docs + Code) ===  
+Perfect 👍 you’re organizing it like a real system now.
+Here’s the else if block version you can directly drop inside your AI response generator (like generateAIResponse() or wherever you’re building dynamic messages).
+
+
+---
+
+✅ Bravexa Style “Else If” Code (for Leave Letter, Resume, Project Report, Privacy Policy)
+
+// === BRAVEXA DOCUMENT GENERATOR ===
 else if (
-  msg.includes("generate") ||
   msg.includes("leave letter") ||
-  msg.includes("email") ||
   msg.includes("resume") ||
   msg.includes("project report") ||
-  msg.includes("privacy policy") ||
-  msg.includes("code") ||
-  msg.includes("program")
+  msg.includes("privacy policy")
 ) {
-  // === START GENERATION DIV ===
-  response = `<div class="bravexa-generation">`;
 
-  // === LEAVE LETTER / EMAIL ===
-  if (msg.includes("leave letter") || msg.includes("email")) {
-    response += `
-      <h2>✉️ Document Ready</h2>
+  let type = "";
+
+  if (msg.includes("leave letter")) type = "leave";
+  else if (msg.includes("resume")) type = "resume";
+  else if (msg.includes("project report")) type = "project";
+  else if (msg.includes("privacy policy")) type = "policy";
+
+  let content = "";
+
+  switch (type) {
+
+    case "leave":
+      content = `
+      <h2>📄 Leave Letter</h2>
       <div class="bravexa-box">
-        <p>Here’s your ${msg.includes("leave letter") ? "Leave Letter" : "Email"}:</p>
-        <textarea id="docOutput" class="w-full p-3 rounded-lg border">${generateBravexaContent(msg)}</textarea>
+        <p>To,<br>The Principal,<br>[Your College Name]</p>
+        <p><strong>Subject:</strong> Request for Leave</p>
+        <p>Respected Sir/Madam,<br>
+        I am [Your Name], studying in [Your Department].<br>
+        I kindly request leave from [Start Date] to [End Date] due to [Reason].</p>
+        <p>Thanking you,<br>Yours faithfully,<br>[Your Name]</p>
         <div class="bravexa-toolbar">
-          <button onclick="sendEmail()" class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700">📧 Send</button>
-          <button onclick="copyText()" class="bg-green-600 text-white px-4 py-2 rounded-lg shadow hover:bg-green-700">📋 Copy</button>
+          <button class="copyBtn">📋 Copy</button>
+          <button class="saveBtn">💾 Save</button>
         </div>
-      </div>
-      <script>
-        function sendEmail() {
-          alert("✅ Document sent successfully via Bravexa Mail Engine!");
-        }
-        function copyText() {
-          const text = document.getElementById('docOutput');
-          text.select();
-          document.execCommand('copy');
-          alert('✅ Copied successfully!');
-        }
-      </script>
-    `;
+      </div>`;
+      break;
+
+    case "resume":
+      content = `
+      <h2>🧑‍💼 Resume — Bravexa User</h2>
+      <div class="bravexa-box">
+        <p><strong>Name:</strong> [Your Name]</p>
+        <p><strong>Objective:</strong> To contribute to emotionally intelligent AI systems that serve users with clarity and warmth.</p>
+        <p><strong>Skills:</strong><br>UI/UX Clarity • Prompt Engineering • LLM Integration • JavaScript • Python</p>
+        <p><strong>Projects:</strong><br>Bravexa AI • Valantine AI</p>
+        <p><strong>Contact:</strong> [Your Email] | [Phone]</p>
+        <div class="bravexa-toolbar">
+          <button class="copyBtn">📋 Copy</button>
+          <button class="saveBtn">💾 Save</button>
+        </div>
+      </div>`;
+      break;
+
+    case "project":
+      content = `
+      <h2>📘 Project Report — Bravexa AI</h2>
+      <div class="bravexa-box">
+        <p><strong>Title:</strong> Bravexa AI — Emotional Intelligence System</p>
+        <p><strong>Objective:</strong> To build an emotionally aware AI that connects creative and logical reasoning.</p>
+        <p><strong>Modules:</strong></p>
+        <ul>
+          <li>Frontend Interface (Emotion UI)</li>
+          <li>LLM Core</li>
+          <li>Memory Engine</li>
+          <li>Document Generator</li>
+        </ul>
+        <p><strong>Status:</strong> Beta 1.0, Frontend Stable.</p>
+        <div class="bravexa-toolbar">
+          <button class="copyBtn">📋 Copy</button>
+          <button class="saveBtn">💾 Save</button>
+        </div>
+      </div>`;
+      break;
+
+    case "policy":
+      content = `
+      <h2>🔒 Privacy Policy — Bravexa AI</h2>
+      <div class="bravexa-box">
+        <p>We respect your privacy. Bravexa AI never stores personal data without your consent.</p>
+        <p>All local interactions remain on your device unless explicitly shared.</p>
+        <p>Your emotional and creative safety is our foundation. 💫</p>
+        <div class="bravexa-toolbar">
+          <button class="copyBtn">📋 Copy</button>
+          <button class="saveBtn">💾 Save</button>
+        </div>
+      </div>`;
+      break;
   }
 
-  // === RESUME / PROJECT REPORT ===
-  else if (msg.includes("resume") || msg.includes("project report")) {
-    response += `
-      <h2>📄 ${msg.includes("resume") ? "Resume" : "Project Report"} Generated</h2>
-      <div class="bravexa-box">
-        <textarea id="copyText" class="w-full p-3 rounded-lg border">${generateBravexaContent(msg)}</textarea>
-        <div class="bravexa-toolbar">
-          <button onclick="copyText()" class="bg-green-600 text-white px-4 py-2 rounded-lg shadow hover:bg-green-700">📋 Copy</button>
-        </div>
-      </div>
-      <script>
-        function copyText() {
-          const text = document.getElementById('copyText');
-          text.select();
-          document.execCommand('copy');
-          alert('✅ Copied successfully!');
-        }
-      </script>
-    `;
-  }
-
-  // === CODE / PROGRAM ===
-  else if (msg.includes("code") || msg.includes("program")) {
-    response += `
-      <h2>💻 Code Generated</h2>
-      <div class="bravexa-box">
-        <pre id="codeOutput" class="bg-gray-900 text-white p-3 rounded-lg overflow-auto">${generateBravexaContent(msg)}</pre>
-        <div class="bravexa-toolbar">
-          <button onclick="copyCode()" class="bg-green-600 text-white px-4 py-2 rounded-lg shadow hover:bg-green-700">📋 Copy Code</button>
-        </div>
-      </div>
-      <script>
-        function copyCode() {
-          const code = document.getElementById('codeOutput');
-          navigator.clipboard.writeText(code.innerText);
-          alert('✅ Code copied!');
-        }
-      </script>
-    `;
-  }
-
-  // === PRIVACY POLICY OR OTHER FALLBACK ===
-  else {
-    response += `
-      <h2>📘 Document Generated</h2>
-      <div class="bravexa-box">
-        <textarea id="genericCopy" class="w-full p-3 rounded-lg border">${generateBravexaContent(msg)}</textarea>
-        <div class="bravexa-toolbar">
-          <button onclick="copyGeneric()" class="bg-green-600 text-white px-4 py-2 rounded-lg shadow hover:bg-green-700">📋 Copy</button>
-        </div>
-      </div>
-      <script>
-        function copyGeneric() {
-          const text = document.getElementById('genericCopy');
-          text.select();
-          document.execCommand('copy');
-          alert('✅ Copied successfully!');
-        }
-      </script>
-    `;
-  }
-
-  // === END GENERATION DIV ===
-  response += `</div>`;
+  response = content;
 }
+
 
   // === 🔍 5. DEEP RESEARCH ===
   else if (msg.includes("research") || msg.includes("study") || msg.includes("report on")) {
@@ -446,6 +441,23 @@ else if (
 
   return response;
 }
+document.addEventListener("click", async (e) => {
+  if (e.target.classList.contains("copyBtn")) {
+    const box = e.target.closest(".bravexa-box");
+    const text = box.innerText.trim();
+    await navigator.clipboard.writeText(text);
+    e.target.textContent = "✅ Copied";
+    setTimeout(() => (e.target.textContent = "📋 Copy"), 2000);
+  }
+
+  if (e.target.classList.contains("saveBtn")) {
+    const box = e.target.closest(".bravexa-box");
+    const text = box.innerText.trim();
+    localStorage.setItem("Bravexa_LastSaved", text);
+    e.target.textContent = "💾 Saved";
+    setTimeout(() => (e.target.textContent = "💾 Save"), 2000);
+  }
+});
 // === 💫 BRAVEXA B1 — Dynamic Content Generator ===
 function generateBravexaContent(msg) {
   msg = msg.toLowerCase();
