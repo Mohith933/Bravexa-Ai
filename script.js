@@ -253,9 +253,6 @@ async function generateAIResponse(userMessage) {
       • “Create responsive navbar in HTML”<br>
       • “Write official email to client”</p>`;
   }
-
-  
-
   
   // --- PRODUCTIVITY TOOLS ---
   else if (msg.includes("todo") || msg.includes("task")) {
@@ -480,44 +477,7 @@ document.addEventListener("click", function (e) {
       uploadDropdown.style.display = "none";
     }
   });
-  // === Enable Copy, Edit, and Save for document.addEventListener("click", (event) => {
-  const target = event.target;
-  if (!target.id) return;
-
-  const match = target.id.match(/(copyCodeBtn|editCodeBtn|saveCodeBtn)-(\w+)/);
-  if (!match) return;
-
-  const action = match[1];
-  const language = match[2];
-  const codeOutput = document.getElementById(`codeOutput-${language}`);
-  const copyBtn = document.getElementById(`copyCodeBtn-${language}`);
-  const editBtn = document.getElementById(`editCodeBtn-${language}`);
-  const saveBtn = document.getElementById(`saveCodeBtn-${language}`);
-
-  if (action === "copyCodeBtn") {
-    navigator.clipboard.writeText(codeOutput.innerText);
-    copyBtn.textContent = "✅ Copied!";
-    setTimeout(() => (copyBtn.textContent = "📋 Copy"), 1500);
-  }
-
-  if (action === "editCodeBtn") {
-    codeOutput.contentEditable = "true";
-    codeOutput.style.background = "#2a2a2a";
-    codeOutput.style.outline = "1px dashed #00c3ff";
-    editBtn.disabled = true;
-    saveBtn.disabled = false;
-  }
-
-  if (action === "saveCodeBtn") {
-    codeOutput.contentEditable = "false";
-    codeOutput.style.outline = "none";
-    localStorage.setItem(`Bravexa_${language}_Code`, codeOutput.innerText);
-    alert(`💾 ${language.toUpperCase()} code saved locally!`);
-    saveBtn.disabled = true;
-    editBtn.disabled = false;
-  }
-});
-
+  
   // === FILE UPLOAD HANDLER ===
   document.querySelectorAll("#imageUpload, #videoUpload, #fileUpload").forEach(input => {
     input.addEventListener("change", (event) => {
