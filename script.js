@@ -431,7 +431,7 @@ else if (msg.includes("resume") || msg.includes("cv")) {
   if (target.id.startsWith("editBtn")) {
     editable.contentEditable = "true";
     editable.style.border = "1px dashed #007bff";
-    editable.style.background = "#f0f8ff";
+    editable.style.background = '#0d1b2a';
     editBtn.disabled = true;
     saveBtn.disabled = false;
   }
