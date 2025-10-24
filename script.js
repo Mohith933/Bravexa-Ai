@@ -212,26 +212,30 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // === TYPE EFFECT ===
-  function typeText(element, htmlContent, speed = 18) {
-    let i = 0;
-    const tempDiv = document.createElement("div");
-    tempDiv.innerHTML = htmlContent;
-    const text = tempDiv.innerText;
-    element.innerHTML = "";
+  // === BRAVEXA TYPE EFFECT ===  
+function typeText(element, htmlContent, speed = 8) {
+  let i = 0;
+  const cleanText = htmlContent.replace(/<[^>]*>/g, ''); // removes HTML tags for smoother timing
+  element.innerHTML = "";
 
-    function typeChar() {
-      if (i < text.length) {
-        element.innerHTML = htmlContent.substring(0, i + 1);
-        i++;
-        window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
-        setTimeout(typeChar, speed);
-      } else {
-        element.innerHTML = htmlContent;
-      }
+  // show text quickly (faster than typing each char)
+  const interval = setInterval(() => {
+    element.innerHTML = htmlContent.substring(0, i);
+    i += 3; // jump 3 chars per tick (superfast)
+    if (i >= htmlContent.length) {
+      element.innerHTML = htmlContent; // ensure full content at end
+      clearInterval(interval);
     }
-    typeChar();
-  }
+  }, speed);
 
+  // smooth scroll effect
+  const scrollInterval = setInterval(() => {
+    window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+  }, 80);
+
+  // stop scroll when done
+  setTimeout(() => clearInterval(scrollInterval), (htmlContent.length / 3) * speed + 100);
+}
   // === SIMPLE AI RESPONSES ===
   // === SIMPLE RULE-BASED AI RESPONSE SYSTEM ===
   async function generateAIResponse(userMessage) {
