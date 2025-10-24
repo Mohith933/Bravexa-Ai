@@ -5,47 +5,69 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Bravexa Live Voice Assistant</title>
 <style>
-  :root{
-    --neon-blue:#00b7ff;
-    --bg:#000;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{
-    height:100vh;
-    background:var(--bg);
-    color:#fff;
-    font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;
+  :root {
+    --neon-blue: #00b7ff;
+    --bg: radial-gradient(circle at top, #00111a, #000);
   }
 
-  /* Top bar */
-  .top-bar{
-    position:absolute;left:20px;right:20px;top:20px;display:flex;justify-content:space-between;align-items:center;
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    height: 100vh;
+    background: var(--bg);
+    color: #fff;
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
   }
-  .logo{display:flex;align-items:center;gap:10px;cursor:pointer}
-  .logo img{width:28px;height:28px}
-  .logo span{color:var(--neon-blue);font-weight:600}
-  .top-controls{display:flex;gap:12px;align-items:center}
-  .control-btn{background:transparent;border:none;color:#ccc;font-size:18px;cursor:pointer}
-  .control-btn:hover{color:var(--neon-blue)}
 
-  /* status */
-  .status-text{position:absolute;top:30%;left:50%;transform:translateX(-50%);font-size:1.05rem;color:#a3dfff;text-shadow:0 0 8px rgba(0,183,255,0.3)}
-  .circle{width:160px;height:160px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:4px solid #111;background:radial-gradient(circle, rgba(0,183,255,0.06), transparent);box-shadow:0 0 9px rgba(0,183,255,0.08)}
-  .circle.active{border-color:var(--neon-blue);box-shadow:0 0 35px rgba(0,183,255,0.25);animation:pulse 1.3s infinite}
-  @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.06)}100%{transform:scale(1)}}
+  /* --- Top bar --- */
+  .top-bar {
+    position: absolute; left: 20px; right: 20px; top: 20px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .logo { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+  .logo img { width: 28px; height: 28px; animation: pulseLogo 4s infinite alternate; }
+  @keyframes pulseLogo { 0%{opacity:0.6}100%{opacity:1;filter:drop-shadow(0 0 5px var(--neon-blue));} }
+  .logo span { color: var(--neon-blue); font-weight: 600; text-shadow: 0 0 10px rgba(0,183,255,0.5); }
 
-  /* controls */
-  .controls{position:absolute;bottom:62px;display:flex;gap:60px;align-items:center}
-  .btn{width:70px;height:70px;border-radius:50%;border:none;font-size:26px;color:#fff;cursor:pointer;background:linear-gradient(135deg,#00b7ff,#0078ff);box-shadow:0 0 18px rgba(0,183,255,0.2)}
-  .btn:active{transform:scale(0.95)}
-  .cancel-btn{background:linear-gradient(135deg,#ff4e4e,#ff2020);box-shadow:0 0 20px rgba(255,80,80,0.25)}
+  /* --- Status --- */
+  .status-text {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.05rem;
+    color: #a3dfff;
+    text-shadow: 0 0 8px rgba(0,183,255,0.3);
+    transition: opacity 0.5s ease-in-out;
+  }
 
-  /* voice mode */
-  .voice-mode{position:absolute;top:74px;right:20px}
-  select{background:#060606;color:var(--neon-blue);border:1px solid var(--neon-blue);padding:6px 10px;border-radius:8px;outline:none}
+  /* --- Glowing Circle --- */
+  .circle {
+    width: 160px; height: 160px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    border: 4px solid #111;
+    background: radial-gradient(circle, rgba(0,183,255,0.06), transparent);
+    box-shadow: 0 0 9px rgba(0,183,255,0.08);
+    position: relative;
+    transition: all 0.3s ease;
+  }
+  .circle.active {
+    border-color: var(--neon-blue);
+    box-shadow: 0 0 35px rgba(0,183,255,0.45);
+    animation: pulse 1.3s infinite ease-in-out;
+  }
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); box-shadow: 0 0 50px rgba(0,183,255,0.35); }
+    100% { transform: scale(1); }
+  }
 
-  /* captions area */
+  /* --- Captions --- */
   .captions {
     position: absolute;
     bottom: 140px;
@@ -57,19 +79,51 @@
     background: rgba(0,0,0,0.35);
     border-radius: 12px;
     padding: 10px;
-    display: none; /* toggled by CC */
+    display: none;
     box-shadow: 0 10px 30px rgba(0,0,0,0.6);
     border: 1px solid rgba(0,183,255,0.06);
   }
 
-  .caption-line { margin: 6px 0; padding: 6px 10px; border-radius: 8px; display:flex; gap:8px; align-items:flex-start; }
+  .caption-line {
+    margin: 6px 0; padding: 6px 10px;
+    border-radius: 8px; display:flex; gap:8px;
+    align-items:flex-start;
+    opacity: 0;
+    animation: fadeIn 0.6s forwards;
+  }
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
+
   .caption-user { background: linear-gradient(90deg, rgba(0,183,255,0.08), rgba(0,183,255,0.04)); color:#cceeff; justify-content:flex-end; }
-  .caption-ai { background: rgba(255,255,255,0.95); color:#111; }
+  .caption-ai { background: rgba(255,255,255,0.95); color:#111; animation: typeText 1s steps(40, end); }
+
+  @keyframes typeText {
+    from { width: 0; opacity: 0.7; }
+    to { width: 100%; opacity: 1; }
+  }
+
   .caption-role { font-weight:600; font-size:0.85rem; opacity:0.9; }
   .caption-text { font-size:0.95rem; line-height:1.3; white-space:pre-wrap; word-break:break-word; }
 
-  /* responsive tweaks */
-  @media (max-width: 480px) {
+  /* --- Controls --- */
+  .controls { position:absolute; bottom:62px; display:flex; gap:60px; align-items:center; }
+  .btn {
+    width:70px; height:70px; border-radius:50%; border:none;
+    font-size:26px; color:#fff; cursor:pointer;
+    background:linear-gradient(135deg,#00b7ff,#0078ff);
+    box-shadow:0 0 18px rgba(0,183,255,0.2);
+    transition: transform 0.2s, box-shadow 0.3s;
+  }
+  .btn:hover { transform:scale(1.1); box-shadow:0 0 30px rgba(0,183,255,0.5); }
+  .cancel-btn { background:linear-gradient(135deg,#ff4e4e,#ff2020); box-shadow:0 0 20px rgba(255,80,80,0.25); }
+
+  /* --- Voice mode --- */
+  .voice-mode { position:absolute; top:74px; right:20px; }
+  select { background:#060606; color:var(--neon-blue); border:1px solid var(--neon-blue); padding:6px 10px; border-radius:8px; outline:none; }
+
+  /* --- Responsive tweaks --- */
+  @media (max-width:480px){
     .circle { width: 140px; height: 140px; }
     .btn { width: 60px; height: 60px; font-size: 22px; }
     .captions { bottom: 120px; max-height: 180px; padding:8px }
@@ -78,34 +132,25 @@
 </head>
 <body>
 
-<!-- top bar -->
+<!-- Top bar -->
 <div class="top-bar">
-  <div class="logo" title="Back to home" onclick="window.location.href='index.html'">
+  <div class="logo" onclick="window.location.href='index.html'">
     <img src="chat.png" alt="logo">
     <span>Bravexa AI</span>
   </div>
-  <div class="top-controls">
-    <button class="control-btn" id="ccToggle" title="Toggle captions">🅲🅲</button>
-    <button class="control-btn" id="settingsBtn" title="Settings">⚙️</button>
-  </div>
 </div>
 
-<!-- status -->
 <div class="status-text" id="statusText">Tap mic to start speaking</div>
-<div class="circle" id="voiceCircle" aria-hidden="true"></div>
+<div class="circle" id="voiceCircle"></div>
+<div class="captions" id="captionsBox"></div>
 
-<!-- captions box (hidden unless CC enabled) -->
-<div class="captions" id="captionsBox" aria-live="polite"></div>
-
-<!-- controls -->
-<div class="controls" role="group" aria-label="voice controls">
+<div class="controls">
   <button class="btn mic-btn" id="micBtn" title="Start recording">🎤</button>
   <button class="btn cancel-btn" id="cancelBtn" title="Stop / Cancel">✖</button>
 </div>
 
-<!-- voice mode -->
 <div class="voice-mode">
-  <select id="voiceSelect" title="Choose voice style">
+  <select id="voiceSelect">
     <option value="male">Male</option>
     <option value="female">Female</option>
     <option value="natural" selected>Natural</option>
@@ -113,192 +158,79 @@
 </div>
 
 <script>
-  const micBtn = document.getElementById("micBtn");
-  const cancelBtn = document.getElementById("cancelBtn");
-  const circle = document.getElementById("voiceCircle");
-  const statusText = document.getElementById("statusText");
-  const ccToggle = document.getElementById("ccToggle");
-  const captionsBox = document.getElementById("captionsBox");
-  const voiceSelect = document.getElementById("voiceSelect");
+const micBtn = document.getElementById("micBtn");
+const cancelBtn = document.getElementById("cancelBtn");
+const circle = document.getElementById("voiceCircle");
+const statusText = document.getElementById("statusText");
+const captionsBox = document.getElementById("captionsBox");
+const voiceSelect = document.getElementById("voiceSelect");
 
-  let recognition = null;
-  let ccEnabled = false;
-  let lastUserCaptionId = null;
+let recognition = null;
 
-  // helper: append caption row
-  function appendCaption(role, text) {
-    if (!ccEnabled) return;
-    captionsBox.style.display = "block";
-    const line = document.createElement("div");
-    line.className = "caption-line " + (role === "user" ? "caption-user" : "caption-ai");
-    const roleSpan = document.createElement("div");
-    roleSpan.className = "caption-role";
-    roleSpan.textContent = role === "user" ? "You" : "Bravexa";
-    const textSpan = document.createElement("div");
-    textSpan.className = "caption-text";
-    textSpan.textContent = text;
-    line.appendChild(roleSpan);
-    line.appendChild(textSpan);
-    captionsBox.appendChild(line);
-    captionsBox.scrollTop = captionsBox.scrollHeight;
-    // return the element for updates (for interim)
-    return textSpan;
-  }
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+if (SpeechRecognition) {
+  recognition = new SpeechRecognition();
+  recognition.lang = "en-US";
+  recognition.interimResults = true;
 
-  // toggle CC
-  ccToggle.addEventListener("click", () => {
-    ccEnabled = !ccEnabled;
-    ccToggle.style.color = ccEnabled ? "#00b7ff" : "#ccc";
-    captionsBox.style.display = ccEnabled ? "block" : "none";
-  });
+  recognition.onstart = () => {
+    circle.classList.add("active");
+    fadeStatus("🎧 Listening...");
+  };
 
-  // init speech recognition if available
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition || null;
-  if (SpeechRecognition) {
-    recognition = new SpeechRecognition();
-    recognition.lang = "en-US";
-    recognition.continuous = false;
-    recognition.interimResults = true; // show live captions if available
+  recognition.onresult = (e) => {
+    let finalText = "";
+    for (const result of e.results) if (result.isFinal) finalText += result[0].transcript;
+    if (finalText) handleUserTranscript(finalText);
+  };
 
-    recognition.onstart = () => {
-      circle.classList.add("active");
-      statusText.textContent = "Listening...";
-      // add a placeholder caption line for live updates
-      if (ccEnabled) {
-        lastUserCaptionId = appendCaption("user", "...");
-      }
-    };
-
-    recognition.onresult = (ev) => {
-      // combine results
-      let interim = "";
-      let finalText = "";
-      for (let i = ev.resultIndex; i < ev.results.length; i++) {
-        const r = ev.results[i];
-        if (r.isFinal) finalText += r[0].transcript;
-        else interim += r[0].transcript;
-      }
-
-      // update live caption (interim)
-      if (ccEnabled && lastUserCaptionId) {
-        lastUserCaptionId.textContent = (finalText || interim) || "...";
-      }
-
-      // if final, process it
-      if (finalText.trim()) {
-        // finalize caption (already updated)
-        lastUserCaptionId = null;
-        handleUserTranscript(finalText.trim());
-      }
-    };
-
-    recognition.onerror = (e) => {
-      console.warn("Recognition error", e);
-      circle.classList.remove("active");
-      statusText.textContent = "Error: " + (e.error || "unknown");
-      setTimeout(()=> statusText.textContent = "Tap mic to start speaking", 1400);
-    };
-
-    recognition.onend = () => {
-      circle.classList.remove("active");
-      // if there was an interim but no final, reset placeholder
-      if (!ccEnabled) statusText.textContent = "Tap mic to start speaking";
-    };
-  } else {
-    // not supported
-    statusText.textContent = "Speech recognition not supported in this browser.";
-    micBtn.disabled = true;
-  }
-
-  // Start recognition
-  micBtn.addEventListener("click", () => {
-    if (!recognition) return alert("Speech recognition not available");
-    try {
-      recognition.start();
-    } catch (err) {
-      // some browsers throw if start called twice quickly
-      console.warn(err);
-    }
-  });
-
-  // Cancel / stop
-  cancelBtn.addEventListener("click", () => {
-    if (recognition) recognition.abort();
-    speechSynthesis.cancel();
+  recognition.onend = () => {
     circle.classList.remove("active");
-    statusText.textContent = "Cancelled.";
-    setTimeout(()=> statusText.textContent = "Tap mic to start speaking", 1200);
-  });
+    fadeStatus("💡 Thinking...");
+    setTimeout(() => fadeStatus("Tap mic to start speaking"), 2000);
+  };
+}
 
-  // handle final transcript
-  function handleUserTranscript(transcript) {
-    // show final transcript in status/caption
-    if (ccEnabled) {
-      appendCaption("user", transcript);
-    } else {
-      statusText.textContent = transcript;
-    }
+micBtn.onclick = () => recognition?.start();
+cancelBtn.onclick = () => { recognition?.abort(); speechSynthesis.cancel(); fadeStatus("Cancelled."); };
 
-    // process (rule-based or mock)
-    // For demo: Bravexa echoes with a friendly reply
-    const reply = generateMockReply(transcript);
-    // show AI caption and speak it
-    if (ccEnabled) {
-      appendCaption("ai", reply);
-    }
+function fadeStatus(text){
+  statusText.style.opacity = 0;
+  setTimeout(()=>{statusText.textContent = text; statusText.style.opacity = 1;}, 300);
+}
+
+function handleUserTranscript(text){
+  addCaption("user", text);
+  const reply = "You said: " + text + ". I'm Bravexa — your AI voice friend 💫";
+  setTimeout(()=>{
+    addCaption("ai", reply);
+    fadeStatus("🔊 Speaking...");
     speakResponse(reply);
-  }
+  }, 600);
+}
 
-  // mock reply generator (replace with real AI later)
-  function generateMockReply(userText) {
-    // Very simple rule-based responses for demo
-    const t = userText.toLowerCase();
-    if (t.includes("hello") || t.includes("hi")) return "Hello! How can I help you today?";
-    if (t.includes("time")) return "It seems you asked for time — currently I can't access system time in this demo.";
-    if (t.includes("bye") || t.includes("goodbye")) return "Goodbye! Take care.";
-    return "Thanks — I heard: " + userText + ". I can help write letters, explain code, or summarize text.";
-  }
+function speakResponse(text){
+  const utter = new SpeechSynthesisUtterance(text);
+  if(voiceSelect.value==="male"){ utter.pitch=0.9; }
+  else if(voiceSelect.value==="female"){ utter.pitch=1.3; }
+  speechSynthesis.speak(utter);
+}
 
-  // speak text and optionally show captions for spoken text
-  function speakResponse(text) {
-    const utter = new SpeechSynthesisUtterance(text);
-    const voiceMode = voiceSelect.value;
-    if (voiceMode === "male") { utter.pitch = 0.85; utter.rate = 1.0; }
-    else if (voiceMode === "female") { utter.pitch = 1.35; utter.rate = 1.05; }
-    else { utter.pitch = 1.05; utter.rate = 1.0; }
-    utter.lang = "en-US";
-
-    statusText.textContent = "Speaking...";
-    speechSynthesis.speak(utter);
-
-    utter.onend = () => {
-      statusText.textContent = ccEnabled ? "" : "Tap mic to start speaking";
-      // keep captions visible if CC is enabled (do not auto-hide)
-    };
-  }
-
-  // optional: allow clicking any caption line to copy text
-  captionsBox.addEventListener("click", (e) => {
-    const el = e.target.closest(".caption-line");
-    if (!el) return;
-    const txt = el.querySelector(".caption-text").textContent;
-    navigator.clipboard?.writeText(txt).then(()=> {
-      el.style.opacity = "0.85";
-      setTimeout(()=> el.style.opacity = "1", 400);
-    }).catch(()=> {});
-  });
-
-  // keyboard friendly: space toggles mic (for demo)
-  window.addEventListener("keydown", (e) => {
-    if (e.key === " " && document.activeElement.tagName !== "INPUT" && document.activeElement.tagName !== "TEXTAREA") {
-      e.preventDefault();
-      if (recognition && circle.classList.contains("active")) {
-        recognition.abort();
-      } else if (recognition) {
-        recognition.start();
-      }
-    }
-  });
+function addCaption(role, text){
+  captionsBox.style.display = "block";
+  const line = document.createElement("div");
+  line.className = "caption-line " + (role==="ai"?"caption-ai":"caption-user");
+  const roleSpan = document.createElement("div");
+  roleSpan.className = "caption-role";
+  roleSpan.textContent = role==="ai"?"Bravexa":"You";
+  const textSpan = document.createElement("div");
+  textSpan.className = "caption-text";
+  textSpan.textContent = text;
+  line.appendChild(roleSpan);
+  line.appendChild(textSpan);
+  captionsBox.appendChild(line);
+  captionsBox.scrollTop = captionsBox.scrollHeight;
+}
 </script>
 </body>
 </html>
