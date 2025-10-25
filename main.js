@@ -118,32 +118,27 @@ async function generateAIResponse(userMessage) {
   const msg = userMessage.toLowerCase();
   let response = "";
 
-  // Utility function (moved to top for global access)
-  function includes(...words) {
-    return words.some(w => msg.includes(w));
-  }
-
   // --- GREETINGS ---
   if (msg.includes("hello") || msg.includes("hi") || msg.includes("hey")) {
     response = `
       <h2>👋 Hello!</h2>
-      <p>I’m <strong>Bravexa AI</strong> — ready to help you write, code, or learn something new!</p>
-      <p>Try saying:<br>• "Generate leave letter"<br>• "Official email"<br>• "Project documentation"<br>• "Python code for calculator"</p>`;
+      <p>I’m <strong>Bravexa AI</strong> — your creative workspace assistant.</p>
+      <p>Try me with:<br>• "Generate leave letter"<br>• "Official email"<br>• "Create project documentation"<br>• "Make presentation slides"</p>`;
   }
 
   // --- LEAVE LETTER ---
-  else if (includes("leave letter", "application", "leave request")) {
+  else if (msg.includes("leave letter") || msg.includes("application")) {
     response = `
       <h2>📄 Leave Letter</h2>
-      <div class="neon-block">
-        <div class="neon-toolbar">
-          <span class="neon-label">📝 Letter</span>
+      <div class="code-block-container">
+        <div class="code-toolbar">
+          <span class="lang-label">📧 mailto</span>
           <div class="btn-group">
-            <button class="copyBtn">📋 Copy</button>
-            <button class="sendBtn">✉️ Send</button>
+            <button id="copyBtn">📋 Copy</button>
+            <button id="sendBtn">✉️ Send</button>
           </div>
         </div>
-        <pre class="neon-content">
+        <pre class="code-content" contenteditable="true">
 To  
 The Principal,  
 [Your College Name],  
@@ -163,22 +158,22 @@ Yours faithfully,
   }
 
   // --- OFFICIAL EMAIL ---
-  else if (includes("email", "official", "mail format")) {
+  else if (msg.includes("email") || msg.includes("official")) {
     response = `
       <h2>📧 Official Email</h2>
-      <div class="neon-block">
-        <div class="neon-toolbar">
-          <span class="neon-label">📨 Email</span>
+      <div class="code-block-container">
+        <div class="code-toolbar">
+          <span class="lang-label">📧 mailto</span>
           <div class="btn-group">
-            <button class="copyBtn">📋 Copy</button>
-            <button class="sendBtn">✉️ Send</button>
+            <button id="copyBtn">📋 Copy</button>
+            <button id="sendBtn">✉️ Send</button>
           </div>
         </div>
-        <pre class="neon-content">
+        <pre class="code-content" contenteditable="true">
 Subject: Regarding Project Discussion  
 
 Dear [Recipient Name],  
-I hope this email finds you well.  
+I hope you are doing well.  
 
 I would like to schedule a short discussion about our project progress and upcoming deadlines.  
 Please let me know your availability.  
@@ -190,19 +185,19 @@ Best regards,
       </div>`;
   }
 
-  // --- RESUME / PROJECT / DOCS ---
-  else if (includes("resume", "project", "documentation", "report")) {
+  // --- RESUME / PROJECT DOC ---
+  else if (msg.includes("resume") || msg.includes("project") || msg.includes("documentation")) {
     response = `
       <h2>📘 Project Documentation</h2>
-      <div class="neon-block">
-        <div class="neon-toolbar">
-          <span class="neon-label">📂 Resume / Docs</span>
+      <div class="code-block-container">
+        <div class="code-toolbar">
+          <span class="lang-label">📘 resume / doc</span>
           <div class="btn-group">
-            <button class="copyBtn">📋 Copy</button>
-            <button class="saveBtn">💾 Save</button>
+            <button id="copyBtn">📋 Copy</button>
+            <button id="saveBtn">💾 Save</button>
           </div>
         </div>
-        <pre class="neon-content">
+        <pre class="code-content" contenteditable="true">
 <b>Project Title:</b> Smart Waste Management System  
 
 <b>Objective:</b> To automate waste collection and monitoring using IoT sensors.  
@@ -212,95 +207,121 @@ Best regards,
 - Node.js Backend  
 - Firebase Database  
 
-<b>Outcome:</b> Efficient and eco-friendly waste management with live monitoring.
+<b>Outcome:</b> Efficient and eco-friendly waste management with live status monitoring.
         </pre>
       </div>`;
   }
 
-  // --- EXCEL / WORD ---
-  else if (includes("excel", "spreadsheet", "word document", "report file")) {
+  // --- WORD DOCUMENT ---
+  else if (msg.includes("word") || msg.includes("report")) {
     response = `
-      <h2>📑 Document Format</h2>
-      <div class="neon-block">
-        <div class="neon-toolbar">
-          <span class="neon-label">📊 Word / Excel</span>
+      <h2>📝 Word Document</h2>
+      <div class="code-block-container">
+        <div class="code-toolbar">
+          <span class="lang-label">📄 .docx</span>
           <div class="btn-group">
-            <button class="copyBtn">📋 Copy</button>
-            <button class="saveBtn">💾 Save</button>
+            <button id="copyBtn">📋 Copy</button>
+            <button id="saveBtn">💾 Save</button>
           </div>
         </div>
-        <pre class="neon-content">
-📘 <b>Report Title:</b> Monthly Sales Analysis  
+        <pre class="code-content" contenteditable="true">
+<b>Title:</b> Annual Business Growth Report  
 
-- Data Source: Internal Database  
-- Tools: Excel & Power BI  
-- Summary: Sales improved by 12% compared to last quarter.  
+<b>Introduction:</b>  
+This report outlines the performance growth, challenges, and strategic plans for the upcoming financial year.  
 
-<b>Conclusion:</b> Marketing strategy and customer engagement drove higher conversions.
+<b>Highlights:</b>  
+- 24% increase in client acquisition  
+- 15% boost in overall revenue  
+- Expansion into 3 new markets  
+
+<b>Conclusion:</b>  
+Consistent improvement in operations and partnerships are key to sustaining growth.
         </pre>
       </div>`;
   }
 
-  // --- CODE GENERATOR (MULTI-LANG) ---
-  else if (includes("code", "program", "script")) {
-    let language = "javascript", label = "JavaScript";
-    if (msg.includes("python")) { language = "python"; label = "Python"; }
-    if (msg.includes("java")) { language = "java"; label = "Java"; }
-    if (msg.includes("html")) { language = "html"; label = "HTML"; }
+  // --- PRESENTATION ---
+  else if (msg.includes("presentation") || msg.includes("slides")) {
+    response = `
+      <h2>🎤 Presentation Slides</h2>
+      <div class="code-block-container">
+        <div class="code-toolbar">
+          <span class="lang-label">🎞️ presentation</span>
+          <div class="btn-group">
+            <button id="copyBtn">📋 Copy</button>
+            <button id="saveBtn">💾 Save</button>
+          </div>
+        </div>
+        <pre class="code-content" contenteditable="true">
+<b>Slide 1:</b> Introduction  
+- Welcome to our Product Launch  
+- Overview of Features  
 
-    const examples = {
-      javascript: `function greet(name){\n  console.log("Hello, " + name + "!");\n}\ngreet("Bravexa User");`,
+<b>Slide 2:</b> Problem Statement  
+- Current market gap  
+- User needs and challenges  
+
+<b>Slide 3:</b> Our Solution  
+- AI-driven system  
+- Real-time results  
+
+<b>Slide 4:</b> Future Vision  
+- Scalability  
+- Global expansion  
+        </pre>
+      </div>`;
+  }
+
+  // --- CODE GENERATOR ---
+  else if (msg.includes("code") || msg.includes("program")) {
+    let language = "javascript";
+    let langLabel = "JavaScript";
+
+    if (msg.includes("python")) { language = "python"; langLabel = "Python"; }
+    else if (msg.includes("java")) { language = "java"; langLabel = "Java"; }
+    else if (msg.includes("html")) { language = "html"; langLabel = "HTML"; }
+    else if (msg.includes("css")) { language = "css"; langLabel = "CSS"; }
+
+    const codeExamples = {
+      javascript: `function greet(name) {\n  console.log("Hello, " + name + "!");\n}\n\ngreet("Bravexa User");`,
       python: `def greet(name):\n    print("Hello, " + name + "!")\n\ngreet("Bravexa User")`,
-      java: `class Main{\n  public static void main(String[] args){\n    System.out.println("Hello, Bravexa User!");\n  }\n}`,
-      html: `<!DOCTYPE html>\n<html>\n<body>\n<h1>Hello, Bravexa User!</h1>\n</body>\n</html>`
+      java: `class Main {\n  public static void main(String[] args) {\n    System.out.println("Hello, Bravexa User!");\n  }\n}`,
+      html: `<!DOCTYPE html>\n<html>\n<body>\n  <h1>Hello, Bravexa User!</h1>\n</body>\n</html>`,
+      css: `body {\n  background-color: #f5f5f5;\n  color: #333;\n  font-family: Arial;\n}`
     };
 
     response = `
-      <h2>💻 ${label} Code</h2>
-      <div class="neon-block">
-        <div class="neon-toolbar">
-          <span class="neon-label">⚙️ ${label}</span>
+      <h2>💻 Generated ${langLabel} Code</h2>
+      <div class="code-block-container">
+        <div class="code-toolbar">
+          <span class="lang-label">${langLabel}</span>
           <div class="btn-group">
-            <button class="copyBtn">📋 Copy</button>
+            <button id="copyBtn">📋 Copy</button>
           </div>
         </div>
-        <pre class="neon-content"><code>${examples[language]}</code></pre>
+        <pre class="code-content"><code>${codeExamples[language]}</code></pre>
       </div>`;
   }
 
   // --- MOTIVATION ---
   else if (msg.includes("motivate") || msg.includes("inspire")) {
     response = `
-      <h2>💪 Bravexa Motivation</h2>
-      <p>Every great builder starts small — but never stops.  
-      Be proud of progress, not perfection. Keep going, Founder 🚀</p>`;
+      <h2>🚀 Motivation Boost</h2>
+      <p>Every line of code and every idea you test is a step toward mastery. Keep building, keep believing! 💪</p>`;
   }
 
-  // --- QUOTES & FACTS ---
-  else if (msg.includes("quote")) {
-    response = `
-      <h2>📜 Quote</h2>
-      <p>“Don’t wait for the perfect moment — take the moment and make it perfect.” ✨</p>`;
-  }
-
-  else if (msg.includes("fact") || msg.includes("knowledge")) {
-    response = `
-      <h2>🧠 Tech Fact</h2>
-      <p>Did you know? The first computer mouse was made of wood in 1964 by Douglas Engelbart!</p>`;
-  }
-
-  // --- JOKES ---
-  else if (msg.includes("joke")) {
-    response = `
-      <h2>😂 Tech Joke</h2>
-      <p>Why did the computer go to therapy?<br>Because it had too many tabs open! 😆</p>`;
-  }
-
-  // --- DEFAULT RESPONSE ---
+  // --- DEFAULT ---
   else {
     response = `
-      <p>💡 I’m ready to help you write letters, generate code, or document projects.<br>
-      Try saying:<br>• “Official email”<br>• “Resume format”<br>• “HTML login page code”</p>`;
+      <p>✨ I’m Bravexa AI — your workspace friend. Try:</p>
+      <ul>
+        <li>“Generate leave letter”</li>
+        <li>“Official email”</li>
+        <li>“Create project documentation”</li>
+        <li>“Generate HTML code”</li>
+        <li>“Make presentation slides”</li>
+      </ul>`;
   }
 
   return response;
