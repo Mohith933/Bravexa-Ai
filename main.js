@@ -127,11 +127,18 @@ async function generateAIResponse(userMessage) {
   }
 
   // --- LEAVE LETTER ---
-  else if (msg.includes("leave letter") || msg.includes("application")) {
-    response = `
-      <h2>📄 Leave Letter</h2>
-      <div class="editable-container">
-        <div class="editable-content">
+else if (msg.includes("leave letter") || msg.includes("application")) {
+  response = `
+    <h2>📄 Leave Letter</h2>
+    <div class="code-block-container">
+      <div class="code-toolbar">
+        <span class="lang-label">📧 mailto</span>
+        <div class="btn-group">
+          <button id="copyBtn">📋 Copy</button>
+          <button id="sendBtn">✉️ Send</button>
+        </div>
+      </div>
+      <pre class="code-content" contenteditable="true">
 To  
 The Principal,  
 [Your College Name],  
@@ -146,20 +153,23 @@ I kindly request leave from [Start Date] to [End Date] due to [Reason].
 Thanking you,  
 Yours faithfully,  
 [Your Name]
-        </div>
+      </pre>
+    </div>`;
+}
+
+// --- OFFICIAL EMAIL ---
+else if (msg.includes("email") || msg.includes("official")) {
+  response = `
+    <h2>📧 Official Email</h2>
+    <div class="code-block-container">
+      <div class="code-toolbar">
+        <span class="lang-label">📧 mailto</span>
         <div class="btn-group">
           <button id="copyBtn">📋 Copy</button>
           <button id="sendBtn">✉️ Send</button>
         </div>
-      </div>`;
-  }
-
-  // --- OFFICIAL EMAIL ---
-  else if (msg.includes("email") || msg.includes("official")) {
-    response = `
-      <h2>📧 Official Email</h2>
-      <div class="editable-container">
-        <div class="editable-content">
+      </div>
+      <pre class="code-content" contenteditable="true">
 Subject: Regarding Project Discussion  
 
 Dear [Recipient Name],  
@@ -171,20 +181,23 @@ Please let me know your availability.
 Best regards,  
 [Your Name]  
 [Your Contact Info]
-        </div>
+      </pre>
+    </div>`;
+}
+
+// --- RESUME / PROJECT DOC ---
+else if (msg.includes("resume") || msg.includes("project") || msg.includes("documentation")) {
+  response = `
+    <h2>📘 Project Documentation</h2>
+    <div class="code-block-container">
+      <div class="code-toolbar">
+        <span class="lang-label">📘 resume / doc</span>
         <div class="btn-group">
           <button id="copyBtn">📋 Copy</button>
-          <button id="sendBtn">✉️ Send</button>
+          <button id="saveBtn">💾 Save</button>
         </div>
-      </div>`;
-  }
-
-  // --- RESUME / PROJECT DOC ---
-  else if (msg.includes("resume") || msg.includes("project") || msg.includes("documentation")) {
-    response = `
-      <h2>📘 Project Documentation</h2>
-      <div class="editable-container">
-        <div class="editable-content">
+      </div>
+      <pre class="code-content" contenteditable="true">
 <b>Project Title:</b> Smart Waste Management System  
 
 <b>Objective:</b> To automate waste collection and monitoring using IoT sensors.  
@@ -195,13 +208,9 @@ Best regards,
 - Firebase Database  
 
 <b>Outcome:</b> Efficient and eco-friendly waste management with live status monitoring.
-        </div>
-        <div class="btn-group">
-          <button id="copyBtn">📋 Copy</button>
-          <button id="saveBtn">💾 Save</button>
-        </div>
-      </div>`;
-  }
+      </pre>
+    </div>`;
+}
 
   // --- CODE GENERATION ---
   else if (msg.includes("code") || msg.includes("program")) {
