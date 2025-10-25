@@ -126,19 +126,24 @@ async function generateAIResponse(userMessage) {
       <p>Try saying:<br>• "Generate leave letter"<br>• "Official email"<br>• "Project documentation"<br>• "Python code for calculator"</p>`;
   }
 
-  // --- LEAVE LETTER ---
-else if (msg.includes("leave letter") || msg.includes("application")) {
+  // --- Utility ---
+function includes(...words) {
+  return words.some(w => msg.includes(w));
+}
+
+// --- LEAVE LETTER ---
+else if (includes("leave letter", "application", "leave request")) {
   response = `
     <h2>📄 Leave Letter</h2>
-    <div class="code-block-container">
-      <div class="code-toolbar">
-        <span class="lang-label">📧 mailto</span>
+    <div class="neon-block">
+      <div class="neon-toolbar">
+        <span class="neon-label">📝 Letter</span>
         <div class="btn-group">
-          <button id="copyBtn">📋 Copy</button>
-          <button id="sendBtn">✉️ Send</button>
+          <button class="copyBtn">📋 Copy</button>
+          <button class="sendBtn">✉️ Send</button>
         </div>
       </div>
-      <pre class="code-content" contenteditable="true">
+      <pre class="neon-content">
 To  
 The Principal,  
 [Your College Name],  
@@ -158,22 +163,22 @@ Yours faithfully,
 }
 
 // --- OFFICIAL EMAIL ---
-else if (msg.includes("email") || msg.includes("official")) {
+else if (includes("email", "official", "mail format")) {
   response = `
     <h2>📧 Official Email</h2>
-    <div class="code-block-container">
-      <div class="code-toolbar">
-        <span class="lang-label">📧 mailto</span>
+    <div class="neon-block">
+      <div class="neon-toolbar">
+        <span class="neon-label">📨 Email</span>
         <div class="btn-group">
-          <button id="copyBtn">📋 Copy</button>
-          <button id="sendBtn">✉️ Send</button>
+          <button class="copyBtn">📋 Copy</button>
+          <button class="sendBtn">✉️ Send</button>
         </div>
       </div>
-      <pre class="code-content" contenteditable="true">
+      <pre class="neon-content">
 Subject: Regarding Project Discussion  
 
 Dear [Recipient Name],  
-I hope you are doing well.  
+I hope this email finds you well.  
 
 I would like to schedule a short discussion about our project progress and upcoming deadlines.  
 Please let me know your availability.  
@@ -185,19 +190,19 @@ Best regards,
     </div>`;
 }
 
-// --- RESUME / PROJECT DOC ---
-else if (msg.includes("resume") || msg.includes("project") || msg.includes("documentation")) {
+// --- RESUME / PROJECT / DOCS ---
+else if (includes("resume", "project", "documentation", "report")) {
   response = `
     <h2>📘 Project Documentation</h2>
-    <div class="code-block-container">
-      <div class="code-toolbar">
-        <span class="lang-label">📘 resume / doc</span>
+    <div class="neon-block">
+      <div class="neon-toolbar">
+        <span class="neon-label">📂 Resume / Docs</span>
         <div class="btn-group">
-          <button id="copyBtn">📋 Copy</button>
-          <button id="saveBtn">💾 Save</button>
+          <button class="copyBtn">📋 Copy</button>
+          <button class="saveBtn">💾 Save</button>
         </div>
       </div>
-      <pre class="code-content" contenteditable="true">
+      <pre class="neon-content">
 <b>Project Title:</b> Smart Waste Management System  
 
 <b>Objective:</b> To automate waste collection and monitoring using IoT sensors.  
@@ -207,42 +212,61 @@ else if (msg.includes("resume") || msg.includes("project") || msg.includes("docu
 - Node.js Backend  
 - Firebase Database  
 
-<b>Outcome:</b> Efficient and eco-friendly waste management with live status monitoring.
+<b>Outcome:</b> Efficient and eco-friendly waste management with live monitoring.
       </pre>
     </div>`;
 }
 
-  // --- CODE GENERATION ---
-  else if (msg.includes("code") || msg.includes("program")) {
-    let language = "javascript";
-    let langLabel = "JavaScript";
-
-    if (msg.includes("python")) { language = "python"; langLabel = "Python"; }
-    else if (msg.includes("c++") || msg.includes("cpp")) { language = "cpp"; langLabel = "C++"; }
-    else if (msg.includes("java")) { language = "java"; langLabel = "Java"; }
-    else if (msg.includes("html")) { language = "html"; langLabel = "HTML"; }
-    else if (msg.includes("css")) { language = "css"; langLabel = "CSS"; }
-
-    const codeExamples = {
-      javascript: `function greet(name) {\n  console.log("Hello, " + name + "!");\n}\ngreet("Bravexa User");`,
-      python: `def calculator(a, b, op):\n    if op == '+': return a + b\n    elif op == '-': return a - b\n    elif op == '*': return a * b\n    elif op == '/': return a / b\n\nprint(calculator(5, 3, '+'))`,
-      cpp: `#include <iostream>\nusing namespace std;\nint main() {\n    cout << "Hello, Bravexa User!";\n    return 0;\n}`,
-      java: `class Main {\n  public static void main(String[] args) {\n    System.out.println("Hello, Bravexa User!");\n  }\n}`,
-      html: `<!DOCTYPE html>\n<html>\n<body>\n  <h1>Welcome to Bravexa</h1>\n  <p>This is a sample web page.</p>\n</body>\n</html>`,
-      css: `body {\n  background-color: #222;\n  color: #fff;\n  font-family: Arial;\n  text-align: center;\n}`
-    };
-
-    const codeSnippet = codeExamples[language];
-    response = `
-      <h2>💻 ${langLabel} Code Example</h2>
-      <div class="code-block-container">
-        <div class="code-toolbar">
-          <span class="lang-label">${langLabel}</span>
-          <button id="copyCodeBtn">📋 Copy</button>
+// --- EXCEL / WORD ---
+else if (includes("excel", "spreadsheet", "word document", "report file")) {
+  response = `
+    <h2>📑 Document Format</h2>
+    <div class="neon-block">
+      <div class="neon-toolbar">
+        <span class="neon-label">📊 Word / Excel</span>
+        <div class="btn-group">
+          <button class="copyBtn">📋 Copy</button>
+          <button class="saveBtn">💾 Save</button>
         </div>
-        <pre class="code-content"><code>${codeSnippet}</code></pre>
-      </div>`;
-  }
+      </div>
+      <pre class="neon-content">
+📘 <b>Report Title:</b> Monthly Sales Analysis  
+
+- Data Source: Internal Database  
+- Tools: Excel & Power BI  
+- Summary: Sales improved by 12% compared to last quarter.  
+
+<b>Conclusion:</b> Marketing strategy and customer engagement drove higher conversions.
+      </pre>
+    </div>`;
+}
+
+// --- CODE GENERATOR (MULTI-LANG) ---
+else if (includes("code", "program", "script")) {
+  let language = "javascript", label = "JavaScript";
+  if (msg.includes("python")) { language = "python"; label = "Python"; }
+  if (msg.includes("java")) { language = "java"; label = "Java"; }
+  if (msg.includes("html")) { language = "html"; label = "HTML"; }
+
+  const examples = {
+    javascript: `function greet(name){\n  console.log("Hello, " + name + "!");\n}\ngreet("Bravexa User");`,
+    python: `def greet(name):\n    print("Hello, " + name + "!")\n\ngreet("Bravexa User")`,
+    java: `class Main{\n  public static void main(String[] args){\n    System.out.println("Hello, Bravexa User!");\n  }\n}`,
+    html: `<!DOCTYPE html>\n<html>\n<body>\n<h1>Hello, Bravexa User!</h1>\n</body>\n</html>`
+  };
+
+  response = `
+    <h2>💻 ${label} Code</h2>
+    <div class="neon-block">
+      <div class="neon-toolbar">
+        <span class="neon-label">⚙️ ${label}</span>
+        <div class="btn-group">
+          <button class="copyBtn">📋 Copy</button>
+        </div>
+      </div>
+      <pre class="neon-content"><code>${examples[language]}</code></pre>
+    </div>`;
+}
 
   // --- MOTIVATION ---
   else if (msg.includes("motivate") || msg.includes("inspire")) {
@@ -283,35 +307,41 @@ else if (msg.includes("resume") || msg.includes("project") || msg.includes("docu
 }
 
 // === GLOBAL EVENT DELEGATION FOR BUTTONS ===
-document.addEventListener("click", function (e) {
-  // COPY BUTTON
-  if (e.target.id === "copyCodeBtn" || e.target.id === "copyBtn") {
-    const parent = e.target.closest(".editable-container, .code-block-container");
-    const text = parent.querySelector(".editable-content, .code-content")?.innerText || "";
+document.addEventListener("click", (e) => {
+  const block = e.target.closest(".neon-block");
+  if (!block) return;
+  const text = block.querySelector(".neon-content").innerText;
+
+  // Copy text
+  if (e.target.classList.contains("copyBtn")) {
     navigator.clipboard.writeText(text);
-    e.target.textContent = "✅ Copied!";
-    setTimeout(() => (e.target.textContent = "📋 Copy"), 1500);
+    alert("📋 Copied to clipboard!");
   }
 
-  // SEND BUTTON (EMAIL)
-  if (e.target.id === "sendBtn") {
-    const content = e.target.closest(".editable-container").querySelector(".editable-content").innerText;
-    const subject = encodeURIComponent("From Bravexa AI - Message");
-    const body = encodeURIComponent(content);
+  // Send Mail (for email & leave letters)
+  if (e.target.classList.contains("sendMailBtn")) {
+    const subject = "Generated from Bravexa AI";
+    const body = encodeURIComponent(text);
     window.location.href = `mailto:?subject=${subject}&body=${body}`;
   }
 
-  // SAVE BUTTON (for resume or projects)
-  if (e.target.id === "saveBtn") {
-    const parent = e.target.closest(".editable-container");
-    const content = parent.querySelector(".editable-content").innerText;
-    const key = "bravexa_saved_" + Date.now();
-    localStorage.setItem(key, content);
-    e.target.textContent = "💾 Saved!";
-    setTimeout(() => (e.target.textContent = "Save"), 1500);
+  // Share on LinkedIn (for projects & resumes)
+  if (e.target.classList.contains("shareLinkedInBtn")) {
+    const url = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
+      "https://bravexa.ai"
+    )}&text=${encodeURIComponent(text)}`;
+    window.open(url, "_blank");
+  }
+
+  // Save file (for code or docs)
+  if (e.target.classList.contains("saveBtn")) {
+    const blob = new Blob([text], { type: "text/plain" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "bravexa_output.txt";
+    a.click();
   }
 });
-
   // === RESPONSIVE LAYOUT ===
   function adjustLayoutForViewport() {
     const viewportWidth = window.innerWidth;
