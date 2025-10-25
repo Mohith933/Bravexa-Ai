@@ -595,29 +595,55 @@ body.light-mode .dropdown li a:hover {
   overflow: hidden;
 }
 
+/* 🌌💖 Hybrid Neon–Valentine Style */
+
+.neon-block {
+  background: linear-gradient(145deg, rgba(15, 30, 60, 0.6), rgba(255, 20, 147, 0.15));
+  border: 1px solid rgba(0, 255, 255, 0.2);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 0 12px rgba(255, 105, 180, 0.2),
+              0 0 25px rgba(0, 255, 255, 0.15);
+  transition: all 0.5s ease;
+}
+
+.neon-block:hover {
+  box-shadow: 0 0 18px rgba(255, 105, 180, 0.35),
+              0 0 35px rgba(0, 255, 255, 0.25);
+  transform: scale(1.01);
+}
+
+/* Toolbar — technical precision with a romantic glow */
 .neon-toolbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   background: rgba(15, 30, 60, 0.6);
   padding: 10px 14px;
-  border-bottom: 1px solid rgba(0, 255, 255, 0.15);
-  backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(255, 105, 180, 0.25);
+  backdrop-filter: blur(8px);
+  animation: hueShift 6s linear infinite alternate;
 }
 
+/* Soft label pulse */
 .neon-label {
   font-size: 0.9rem;
   color: #00ffff;
-  text-shadow: 0 0 8px #00ffff;
+  text-shadow: 0 0 8px #00ffff, 0 0 16px #ff69b4;
+  letter-spacing: 0.5px;
+  animation: glowPulse 2.5s ease-in-out infinite alternate;
 }
 
+/* Content — clean code area */
 .neon-content {
   padding: 14px;
   font-family: "Courier New", monospace;
   white-space: pre-wrap;
   line-height: 1.5;
+  color: #d8ffff;
 }
 
+/* Buttons — tech glass with heart pulse */
 .btn-group button {
   background: transparent;
   border: 1px solid #00ffff;
@@ -627,14 +653,25 @@ body.light-mode .dropdown li a:hover {
   margin-left: 6px;
   cursor: pointer;
   transition: 0.25s;
-  text-shadow: 0 0 8px #00ffff;
+  text-shadow: 0 0 8px #00ffff, 0 0 10px #ff69b4;
 }
 
 .btn-group button:hover {
-  background: #00ffff;
+  background: linear-gradient(90deg, #00ffff, #ff69b4);
   color: #000;
-  box-shadow: 0 0 10px #00ffff;
+  box-shadow: 0 0 12px #00ffff, 0 0 20px #ff69b4;
   transform: scale(1.05);
+}
+
+/* 💫 Animations */
+@keyframes glowPulse {
+  from { text-shadow: 0 0 6px #00ffff, 0 0 10px #ff69b4; }
+  to   { text-shadow: 0 0 12px #ff69b4, 0 0 18px #00ffff; }
+}
+
+@keyframes hueShift {
+  from { filter: hue-rotate(0deg); }
+  to   { filter: hue-rotate(30deg); }
 }
 
 /* ================= Footer ================= */
