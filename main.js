@@ -118,6 +118,11 @@ async function generateAIResponse(userMessage) {
   const msg = userMessage.toLowerCase();
   let response = "";
 
+  // Utility function (moved to top for global access)
+  function includes(...words) {
+    return words.some(w => msg.includes(w));
+  }
+
   // --- GREETINGS ---
   if (msg.includes("hello") || msg.includes("hi") || msg.includes("hey")) {
     response = `
@@ -126,24 +131,19 @@ async function generateAIResponse(userMessage) {
       <p>Try saying:<br>• "Generate leave letter"<br>• "Official email"<br>• "Project documentation"<br>• "Python code for calculator"</p>`;
   }
 
-  // --- Utility ---
-function includes(...words) {
-  return words.some(w => msg.includes(w));
-}
-
-// --- LEAVE LETTER ---
-else if (includes("leave letter", "application", "leave request")) {
-  response = `
-    <h2>📄 Leave Letter</h2>
-    <div class="neon-block">
-      <div class="neon-toolbar">
-        <span class="neon-label">📝 Letter</span>
-        <div class="btn-group">
-          <button class="copyBtn">📋 Copy</button>
-          <button class="sendBtn">✉️ Send</button>
+  // --- LEAVE LETTER ---
+  else if (includes("leave letter", "application", "leave request")) {
+    response = `
+      <h2>📄 Leave Letter</h2>
+      <div class="neon-block">
+        <div class="neon-toolbar">
+          <span class="neon-label">📝 Letter</span>
+          <div class="btn-group">
+            <button class="copyBtn">📋 Copy</button>
+            <button class="sendBtn">✉️ Send</button>
+          </div>
         </div>
-      </div>
-      <pre class="neon-content">
+        <pre class="neon-content">
 To  
 The Principal,  
 [Your College Name],  
@@ -158,23 +158,23 @@ I kindly request leave from [Start Date] to [End Date] due to [Reason].
 Thanking you,  
 Yours faithfully,  
 [Your Name]
-      </pre>
-    </div>`;
-}
+        </pre>
+      </div>`;
+  }
 
-// --- OFFICIAL EMAIL ---
-else if (includes("email", "official", "mail format")) {
-  response = `
-    <h2>📧 Official Email</h2>
-    <div class="neon-block">
-      <div class="neon-toolbar">
-        <span class="neon-label">📨 Email</span>
-        <div class="btn-group">
-          <button class="copyBtn">📋 Copy</button>
-          <button class="sendBtn">✉️ Send</button>
+  // --- OFFICIAL EMAIL ---
+  else if (includes("email", "official", "mail format")) {
+    response = `
+      <h2>📧 Official Email</h2>
+      <div class="neon-block">
+        <div class="neon-toolbar">
+          <span class="neon-label">📨 Email</span>
+          <div class="btn-group">
+            <button class="copyBtn">📋 Copy</button>
+            <button class="sendBtn">✉️ Send</button>
+          </div>
         </div>
-      </div>
-      <pre class="neon-content">
+        <pre class="neon-content">
 Subject: Regarding Project Discussion  
 
 Dear [Recipient Name],  
@@ -186,23 +186,23 @@ Please let me know your availability.
 Best regards,  
 [Your Name]  
 [Your Contact Info]
-      </pre>
-    </div>`;
-}
+        </pre>
+      </div>`;
+  }
 
-// --- RESUME / PROJECT / DOCS ---
-else if (includes("resume", "project", "documentation", "report")) {
-  response = `
-    <h2>📘 Project Documentation</h2>
-    <div class="neon-block">
-      <div class="neon-toolbar">
-        <span class="neon-label">📂 Resume / Docs</span>
-        <div class="btn-group">
-          <button class="copyBtn">📋 Copy</button>
-          <button class="saveBtn">💾 Save</button>
+  // --- RESUME / PROJECT / DOCS ---
+  else if (includes("resume", "project", "documentation", "report")) {
+    response = `
+      <h2>📘 Project Documentation</h2>
+      <div class="neon-block">
+        <div class="neon-toolbar">
+          <span class="neon-label">📂 Resume / Docs</span>
+          <div class="btn-group">
+            <button class="copyBtn">📋 Copy</button>
+            <button class="saveBtn">💾 Save</button>
+          </div>
         </div>
-      </div>
-      <pre class="neon-content">
+        <pre class="neon-content">
 <b>Project Title:</b> Smart Waste Management System  
 
 <b>Objective:</b> To automate waste collection and monitoring using IoT sensors.  
@@ -213,23 +213,23 @@ else if (includes("resume", "project", "documentation", "report")) {
 - Firebase Database  
 
 <b>Outcome:</b> Efficient and eco-friendly waste management with live monitoring.
-      </pre>
-    </div>`;
-}
+        </pre>
+      </div>`;
+  }
 
-// --- EXCEL / WORD ---
-else if (includes("excel", "spreadsheet", "word document", "report file")) {
-  response = `
-    <h2>📑 Document Format</h2>
-    <div class="neon-block">
-      <div class="neon-toolbar">
-        <span class="neon-label">📊 Word / Excel</span>
-        <div class="btn-group">
-          <button class="copyBtn">📋 Copy</button>
-          <button class="saveBtn">💾 Save</button>
+  // --- EXCEL / WORD ---
+  else if (includes("excel", "spreadsheet", "word document", "report file")) {
+    response = `
+      <h2>📑 Document Format</h2>
+      <div class="neon-block">
+        <div class="neon-toolbar">
+          <span class="neon-label">📊 Word / Excel</span>
+          <div class="btn-group">
+            <button class="copyBtn">📋 Copy</button>
+            <button class="saveBtn">💾 Save</button>
+          </div>
         </div>
-      </div>
-      <pre class="neon-content">
+        <pre class="neon-content">
 📘 <b>Report Title:</b> Monthly Sales Analysis  
 
 - Data Source: Internal Database  
@@ -237,36 +237,36 @@ else if (includes("excel", "spreadsheet", "word document", "report file")) {
 - Summary: Sales improved by 12% compared to last quarter.  
 
 <b>Conclusion:</b> Marketing strategy and customer engagement drove higher conversions.
-      </pre>
-    </div>`;
-}
+        </pre>
+      </div>`;
+  }
 
-// --- CODE GENERATOR (MULTI-LANG) ---
-else if (includes("code", "program", "script")) {
-  let language = "javascript", label = "JavaScript";
-  if (msg.includes("python")) { language = "python"; label = "Python"; }
-  if (msg.includes("java")) { language = "java"; label = "Java"; }
-  if (msg.includes("html")) { language = "html"; label = "HTML"; }
+  // --- CODE GENERATOR (MULTI-LANG) ---
+  else if (includes("code", "program", "script")) {
+    let language = "javascript", label = "JavaScript";
+    if (msg.includes("python")) { language = "python"; label = "Python"; }
+    if (msg.includes("java")) { language = "java"; label = "Java"; }
+    if (msg.includes("html")) { language = "html"; label = "HTML"; }
 
-  const examples = {
-    javascript: `function greet(name){\n  console.log("Hello, " + name + "!");\n}\ngreet("Bravexa User");`,
-    python: `def greet(name):\n    print("Hello, " + name + "!")\n\ngreet("Bravexa User")`,
-    java: `class Main{\n  public static void main(String[] args){\n    System.out.println("Hello, Bravexa User!");\n  }\n}`,
-    html: `<!DOCTYPE html>\n<html>\n<body>\n<h1>Hello, Bravexa User!</h1>\n</body>\n</html>`
-  };
+    const examples = {
+      javascript: `function greet(name){\n  console.log("Hello, " + name + "!");\n}\ngreet("Bravexa User");`,
+      python: `def greet(name):\n    print("Hello, " + name + "!")\n\ngreet("Bravexa User")`,
+      java: `class Main{\n  public static void main(String[] args){\n    System.out.println("Hello, Bravexa User!");\n  }\n}`,
+      html: `<!DOCTYPE html>\n<html>\n<body>\n<h1>Hello, Bravexa User!</h1>\n</body>\n</html>`
+    };
 
-  response = `
-    <h2>💻 ${label} Code</h2>
-    <div class="neon-block">
-      <div class="neon-toolbar">
-        <span class="neon-label">⚙️ ${label}</span>
-        <div class="btn-group">
-          <button class="copyBtn">📋 Copy</button>
+    response = `
+      <h2>💻 ${label} Code</h2>
+      <div class="neon-block">
+        <div class="neon-toolbar">
+          <span class="neon-label">⚙️ ${label}</span>
+          <div class="btn-group">
+            <button class="copyBtn">📋 Copy</button>
+          </div>
         </div>
-      </div>
-      <pre class="neon-content"><code>${examples[language]}</code></pre>
-    </div>`;
-}
+        <pre class="neon-content"><code>${examples[language]}</code></pre>
+      </div>`;
+  }
 
   // --- MOTIVATION ---
   else if (msg.includes("motivate") || msg.includes("inspire")) {
