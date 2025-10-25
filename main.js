@@ -329,9 +329,9 @@ Consistent improvement in operations and partnerships are key to sustaining grow
 
 // === GLOBAL EVENT DELEGATION FOR BUTTONS ===
 document.addEventListener("click", (e) => {
-  const block = e.target.closest(".neon-block");
+  const block = e.target.closest(".code-block-container");
   if (!block) return;
-  const text = block.querySelector(".neon-content").innerText;
+  const text = block.querySelector(".code-content").innerText;
 
   // Copy text
   if (e.target.classList.contains("copyBtn")) {
@@ -340,18 +340,10 @@ document.addEventListener("click", (e) => {
   }
 
   // Send Mail (for email & leave letters)
-  if (e.target.classList.contains("sendMailBtn")) {
+  if (e.target.classList.contains("sendBtn")) {
     const subject = "Generated from Bravexa AI";
     const body = encodeURIComponent(text);
     window.location.href = `mailto:?subject=${subject}&body=${body}`;
-  }
-
-  // Share on LinkedIn (for projects & resumes)
-  if (e.target.classList.contains("shareLinkedInBtn")) {
-    const url = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
-      "https://bravexa.ai"
-    )}&text=${encodeURIComponent(text)}`;
-    window.open(url, "_blank");
   }
 
   // Save file (for code or docs)
@@ -384,6 +376,7 @@ document.addEventListener("click", (e) => {
   window.addEventListener("resize", adjustLayoutForViewport);
   adjustLayoutForViewport();
 });
+
 
 
 
