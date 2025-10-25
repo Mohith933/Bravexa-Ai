@@ -338,13 +338,24 @@ document.addEventListener("click", (e) => {
     navigator.clipboard.writeText(text);
     alert("📋 Copied to clipboard!");
   }
-
   // Send Mail (for email & leave letters)
-  if (e.target.classList.contains("sendBtn")) {
-    const subject = "Generated from Bravexa AI";
-    const body = encodeURIComponent(text);
+if (e.target.classList.contains("sendBtn")) {
+  const subject = "Generated from Bravexa AI";
+  const body = encodeURIComponent(text);
+
+  // Detect mobile vs desktop
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+  if (isMobile) {
+    // Mobile → use default mail app
     window.location.href = `mailto:?subject=${subject}&body=${body}`;
+  } else {
+    // Desktop → use Gmail web compose
+    const gmailURL = `https://mail.google.com/mail/?view=cm&fs=1&su=${subject}&body=${body}`;
+    window.open(gmailURL, "_blank");
   }
+}
+
 
   // Save file (for code or docs)
   if (e.target.classList.contains("saveBtn")) {
@@ -376,6 +387,7 @@ document.addEventListener("click", (e) => {
   window.addEventListener("resize", adjustLayoutForViewport);
   adjustLayoutForViewport();
 });
+
 
 
 
