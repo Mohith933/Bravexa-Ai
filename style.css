@@ -585,78 +585,49 @@ body.light-mode .dropdown li a:hover {
   color: #caf0f8;
 }
 /* ===== Uniform Container Styling ===== */
-..neon-block {
-  background: linear-gradient(135deg, #0a0f1f, #1a0033);
-  border: 1px solid rgba(0, 255, 255, 0.2);
+.code-block-container {
+  background: #111;
+  color: #f5f5f5;
   border-radius: 10px;
-  box-shadow: 0 0 20px rgba(0, 255, 255, 0.15);
-  color: #d0eaff;
-  margin: 18px 0;
+  margin: 15px 0;
+  box-shadow: 0 0 10px rgba(255,255,255,0.05);
   overflow: hidden;
 }
 
-.neon-block {
-  background: rgba(10, 20, 40, 0.85);
-  border: 1px solid rgba(0, 255, 255, 0.2);
-  border-radius: 10px;
-  margin: 14px 0;
-  box-shadow: 0 0 20px rgba(0, 255, 255, 0.1),
-              inset 0 0 15px rgba(0, 255, 255, 0.05);
-  transition: all 0.3s ease;
-  animation: glowPulse 4s infinite ease-in-out;
-}
-
-@keyframes glowPulse {
-  0% { box-shadow: 0 0 15px rgba(0, 255, 255, 0.2); }
-  50% { box-shadow: 0 0 25px rgba(0, 255, 255, 0.6); }
-  100% { box-shadow: 0 0 15px rgba(0, 255, 255, 0.2); }
-}
-
-.neon-toolbar {
+.code-toolbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: rgba(20, 40, 60, 0.7);
-  padding: 10px 14px;
-  border-bottom: 1px solid rgba(0, 255, 255, 0.15);
-  backdrop-filter: blur(8px);
+  background: #222;
+  padding: 8px 12px;
 }
 
-.neon-label {
-  font-size: 0.95rem;
-  color: #00eaff;
-  font-weight: 500;
-  text-shadow: 0 0 6px #00eaff, 0 0 12px #00eaff;
-  letter-spacing: 0.5px;
-}
-
-.neon-content {
-  padding: 14px;
-  font-family: "Courier New", monospace;
-  color: #e0faff;
-  white-space: pre-wrap;
-  line-height: 1.6;
-  background: rgba(0, 20, 30, 0.6);
-  border-radius: 0 0 10px 10px;
+.lang-label {
+  color: #ff6ec7;
+  font-weight: bold;
+  font-size: 0.9rem;
 }
 
 .btn-group button {
-  background: transparent;
-  border: 1px solid #00eaff;
-  color: #00eaff;
-  border-radius: 6px;
-  padding: 5px 12px;
+  background: #333;
+  color: #fff;
+  border: none;
   margin-left: 6px;
+  padding: 4px 10px;
+  border-radius: 6px;
   cursor: pointer;
-  transition: 0.25s;
-  text-shadow: 0 0 6px #00eaff;
+  transition: 0.2s;
 }
 
 .btn-group button:hover {
-  background: #00eaff;
-  color: #00151f;
-  box-shadow: 0 0 12px #00eaff, 0 0 25px #00eaff;
-  transform: scale(1.05);
+  background: #555;
+}
+
+.code-content {
+  font-family:Quicksand;
+  padding: 14px;
+  line-height: 1.5;
+  white-space: pre-wrap;
 }
 
 /* ================= Footer ================= */
