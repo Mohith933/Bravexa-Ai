@@ -238,399 +238,202 @@ function typeText(element, htmlContent, speed = 8) {
 }
   // === SIMPLE AI RESPONSES ===
   // === 💫 BRAVEXA B1 — INTELLIGENT RESPONSE ENGINE ===
+// === SIMPLE AI RESPONSES ===
 async function generateAIResponse(userMessage) {
   const msg = userMessage.toLowerCase();
   let response = "";
 
-  // === 🟢 0. GREETING & INTRODUCTION ===
+  // --- GREETINGS ---
   if (msg.includes("hello") || msg.includes("hi") || msg.includes("hey")) {
     response = `
-      <h2>👋 Hello, Founder!</h2>
-      <p>I’m <strong>Bravexa AI (Build 1.0)</strong> — your intelligent assistant for logic, emotion, and creation.</p>
-      <p>I can assist in <strong>Problem Solving</strong>, <strong>Fact Checking</strong>, <strong>Analysis</strong>, <strong>Generation</strong>, <strong>Research</strong>, and <strong>Conclusion</strong>.</p>
-      <p>💡 Try something like:<br>
-      • “Solve 25% of 240”<br>
-      • “Generate a leave letter for 2 days”<br>
-      • “Compare AI and ML”</p>
-      <p>Let’s build clarity together. 🚀</p>`;
+      <h2>👋 Hello!</h2>
+      <p>I’m <strong>Bravexa AI</strong> — ready to help you write, code, or learn something new!</p>
+      <p>Try saying:<br>• "Generate leave letter"<br>• "Official email"<br>• "Project documentation"<br>• "Python code for calculator"</p>`;
   }
 
-  // === 🧩 1. PROBLEM SOLVING ===
-  else if (msg.includes("solve") || msg.includes("find") || msg.includes("calculate")) {
-    const exampleProblems = `
-      <ul>
-        <li>Find 15% of 480</li>
-        <li>Solve 5x + 3 = 18</li>
-        <li>Calculate area of a circle (radius 7cm)</li>
-      </ul>`;
-
-    response = `
-      <h2>🧩 Problem Solving Mode</h2>
-      <p>Bravexa breaks complex logic into clear steps.</p>
-      <p>${exampleProblems}</p>
-      <p>Try one, and I’ll solve it step-by-step ⚙️</p>`;
-  }
-
-  // === 🧠 2. FACT CHECKING ===
-  else if (msg.includes("fact") || msg.includes("true or false") || msg.includes("check")) {
-    response = `
-      <h2>🧠 Fact Checking Mode</h2>
-      <p>Bravexa verifies information using reasoning logic and contextual awareness.</p>
-      <p>🔍 Try:</p>
-      <ul>
-        <li>“Check if humans can live on Mars”</li>
-        <li>“Fact check: water boils at 90°C”</li>
-        <li>“Is AI faster than the human brain?”</li>
-      </ul>`;
-  }
-
-  // === 📊 3. ANALYSIS MODE ===
-  else if (msg.includes("analyze") || msg.includes("compare") || msg.includes("difference")) {
-    response = `
-      <h2>📊 Analysis Mode</h2>
-      <p>Bravexa compares, contrasts, and explains topics with balanced reasoning.</p>
-      <p>🔍 Example:</p>
-      <ul>
-        <li>“Analyze Python vs Java”</li>
-        <li>“Compare AI and ML”</li>
-        <li>“Difference between RAM and ROM”</li>
-      </ul>`;
-  }
-
-  // === ⚙️ 5. GENERATION (Docs + Code) ===  
-Perfect 👍 you’re organizing it like a real system now.
-Here’s the else if block version you can directly drop inside your AI response generator (like generateAIResponse() or wherever you’re building dynamic messages).
-
-
----
-
-✅ Bravexa Style “Else If” Code (for Leave Letter, Resume, Project Report, Privacy Policy)
-
-// === BRAVEXA DOCUMENT GENERATOR ===
-else if (
-  msg.includes("leave letter") ||
-  msg.includes("resume") ||
-  msg.includes("project report") ||
-  msg.includes("privacy policy")
-) {
-
-  let type = "";
-
-  if (msg.includes("leave letter")) type = "leave";
-  else if (msg.includes("resume")) type = "resume";
-  else if (msg.includes("project report")) type = "project";
-  else if (msg.includes("privacy policy")) type = "policy";
-
-  let content = "";
-
-  switch (type) {
-
-    case "leave":
-      content = `
-      <h2>📄 Leave Letter</h2>
-      <div class="bravexa-box">
-        <p>To,<br>The Principal,<br>[Your College Name]</p>
-        <p><strong>Subject:</strong> Request for Leave</p>
-        <p>Respected Sir/Madam,<br>
-        I am [Your Name], studying in [Your Department].<br>
-        I kindly request leave from [Start Date] to [End Date] due to [Reason].</p>
-        <p>Thanking you,<br>Yours faithfully,<br>[Your Name]</p>
-        <div class="bravexa-toolbar">
-          <button class="copyBtn">📋 Copy</button>
-          <button class="saveBtn">💾 Save</button>
+  // --- LEAVE LETTER ---
+else if (msg.includes("leave letter") || msg.includes("application")) {
+  response = `
+    <h2>📄 Leave Letter</h2>
+    <div class="code-block-container">
+      <div class="code-toolbar">
+        <span class="lang-label">📧 mailto</span>
+        <div class="btn-group">
+          <button id="copyBtn">📋 Copy</button>
+          <button id="sendBtn">✉️ Send</button>
         </div>
-      </div>`;
-      break;
+      </div>
+      <pre class="code-content" contenteditable="true">
+To  
+The Principal,  
+[Your College Name],  
+[City].  
 
-    case "resume":
-      content = `
-      <h2>🧑‍💼 Resume — Bravexa User</h2>
-      <div class="bravexa-box">
-        <p><strong>Name:</strong> [Your Name]</p>
-        <p><strong>Objective:</strong> To contribute to emotionally intelligent AI systems that serve users with clarity and warmth.</p>
-        <p><strong>Skills:</strong><br>UI/UX Clarity • Prompt Engineering • LLM Integration • JavaScript • Python</p>
-        <p><strong>Projects:</strong><br>Bravexa AI • Valantine AI</p>
-        <p><strong>Contact:</strong> [Your Email] | [Phone]</p>
-        <div class="bravexa-toolbar">
-          <button class="copyBtn">📋 Copy</button>
-          <button class="saveBtn">💾 Save</button>
-        </div>
-      </div>`;
-      break;
+Subject: Request for Leave  
 
-    case "project":
-      content = `
-      <h2>📘 Project Report — Bravexa AI</h2>
-      <div class="bravexa-box">
-        <p><strong>Title:</strong> Bravexa AI — Emotional Intelligence System</p>
-        <p><strong>Objective:</strong> To build an emotionally aware AI that connects creative and logical reasoning.</p>
-        <p><strong>Modules:</strong></p>
-        <ul>
-          <li>Frontend Interface (Emotion UI)</li>
-          <li>LLM Core</li>
-          <li>Memory Engine</li>
-          <li>Document Generator</li>
-        </ul>
-        <p><strong>Status:</strong> Beta 1.0, Frontend Stable.</p>
-        <div class="bravexa-toolbar">
-          <button class="copyBtn">📋 Copy</button>
-          <button class="saveBtn">💾 Save</button>
-        </div>
-      </div>`;
-      break;
+Respected Sir/Madam,  
+I am [Your Name], studying in [Your Department].  
+I kindly request leave from [Start Date] to [End Date] due to [Reason].  
 
-    case "policy":
-      content = `
-      <h2>🔒 Privacy Policy — Bravexa AI</h2>
-      <div class="bravexa-box">
-        <p>We respect your privacy. Bravexa AI never stores personal data without your consent.</p>
-        <p>All local interactions remain on your device unless explicitly shared.</p>
-        <p>Your emotional and creative safety is our foundation. 💫</p>
-        <div class="bravexa-toolbar">
-          <button class="copyBtn">📋 Copy</button>
-          <button class="saveBtn">💾 Save</button>
-        </div>
-      </div>`;
-      break;
-  }
-
-  response = content;
+Thanking you,  
+Yours faithfully,  
+[Your Name]
+      </pre>
+    </div>`;
 }
 
+// --- OFFICIAL EMAIL ---
+else if (msg.includes("email") || msg.includes("official")) {
+  response = `
+    <h2>📧 Official Email</h2>
+    <div class="code-block-container">
+      <div class="code-toolbar">
+        <span class="lang-label">📧 mailto</span>
+        <div class="btn-group">
+          <button id="copyBtn">📋 Copy</button>
+          <button id="sendBtn">✉️ Send</button>
+        </div>
+      </div>
+      <pre class="code-content" contenteditable="true">
+Subject: Regarding Project Discussion  
 
-  // === 🔍 5. DEEP RESEARCH ===
-  else if (msg.includes("research") || msg.includes("study") || msg.includes("report on")) {
+Dear [Recipient Name],  
+I hope you are doing well.  
+
+I would like to schedule a short discussion about our project progress and upcoming deadlines.  
+Please let me know your availability.  
+
+Best regards,  
+[Your Name]  
+[Your Contact Info]
+      </pre>
+    </div>`;
+}
+
+// --- RESUME / PROJECT DOC ---
+else if (msg.includes("resume") || msg.includes("project") || msg.includes("documentation")) {
+  response = `
+    <h2>📘 Project Documentation</h2>
+    <div class="code-block-container">
+      <div class="code-toolbar">
+        <span class="lang-label">📘 resume / doc</span>
+        <div class="btn-group">
+          <button id="copyBtn">📋 Copy</button>
+          <button id="saveBtn">💾 Save</button>
+        </div>
+      </div>
+      <pre class="code-content" contenteditable="true">
+<b>Project Title:</b> Smart Waste Management System  
+
+<b>Objective:</b> To automate waste collection and monitoring using IoT sensors.  
+
+<b>Technologies Used:</b>  
+- Arduino, Ultrasonic Sensors  
+- Node.js Backend  
+- Firebase Database  
+
+<b>Outcome:</b> Efficient and eco-friendly waste management with live status monitoring.
+      </pre>
+    </div>`;
+}
+
+  // --- CODE GENERATION ---
+  else if (msg.includes("code") || msg.includes("program")) {
+    let language = "javascript";
+    let langLabel = "JavaScript";
+
+    if (msg.includes("python")) { language = "python"; langLabel = "Python"; }
+    else if (msg.includes("c++") || msg.includes("cpp")) { language = "cpp"; langLabel = "C++"; }
+    else if (msg.includes("java")) { language = "java"; langLabel = "Java"; }
+    else if (msg.includes("html")) { language = "html"; langLabel = "HTML"; }
+    else if (msg.includes("css")) { language = "css"; langLabel = "CSS"; }
+
+    const codeExamples = {
+      javascript: `function greet(name) {\n  console.log("Hello, " + name + "!");\n}\ngreet("Bravexa User");`,
+      python: `def calculator(a, b, op):\n    if op == '+': return a + b\n    elif op == '-': return a - b\n    elif op == '*': return a * b\n    elif op == '/': return a / b\n\nprint(calculator(5, 3, '+'))`,
+      cpp: `#include <iostream>\nusing namespace std;\nint main() {\n    cout << "Hello, Bravexa User!";\n    return 0;\n}`,
+      java: `class Main {\n  public static void main(String[] args) {\n    System.out.println("Hello, Bravexa User!");\n  }\n}`,
+      html: `<!DOCTYPE html>\n<html>\n<body>\n  <h1>Welcome to Bravexa</h1>\n  <p>This is a sample web page.</p>\n</body>\n</html>`,
+      css: `body {\n  background-color: #222;\n  color: #fff;\n  font-family: Arial;\n  text-align: center;\n}`
+    };
+
+    const codeSnippet = codeExamples[language];
     response = `
-      <h2>🔍 Deep Research Mode</h2>
-      <p>Bravexa compiles structured knowledge and critical data for reports and essays.</p>
-      <p>Try topics like:</p>
-      <ul>
-        <li>“Research about AI ethics”</li>
-        <li>“Study of renewable energy trends”</li>
-        <li>“Report on space exploration progress”</li>
-      </ul>`;
+      <h2>💻 ${langLabel} Code Example</h2>
+      <div class="code-block-container">
+        <div class="code-toolbar">
+          <span class="lang-label">${langLabel}</span>
+          <button id="copyCodeBtn">📋 Copy</button>
+        </div>
+        <pre class="code-content"><code>${codeSnippet}</code></pre>
+      </div>`;
   }
 
-  // === 🧭 6. CONCLUSION ===
-  else if (msg.includes("conclude") || msg.includes("summary") || msg.includes("final")) {
+  // --- MOTIVATION ---
+  else if (msg.includes("motivate") || msg.includes("inspire")) {
     response = `
-      <h2>🧭 Conclusion Mode</h2>
-      <p>Bravexa gives concise logical summaries to close your topic perfectly.</p>
-      <p>Example:</p>
-      <ul>
-        <li>“Give conclusion for report on AI”</li>
-        <li>“Summarize renewable energy advantages”</li>
-      </ul>`;
+      <h2>💪 Bravexa Motivation</h2>
+      <p>Every great builder starts small — but never stops.  
+      Be proud of progress, not perfection. Keep going, Founder 🚀</p>`;
   }
 
-  // === 💤 7. DEFAULT / HELP MODE ===
+  // --- QUOTES & FACTS ---
+  else if (msg.includes("quote")) {
+    response = `
+      <h2>📜 Quote</h2>
+      <p>“Don’t wait for the perfect moment — take the moment and make it perfect.” ✨</p>`;
+  }
+
+  else if (msg.includes("fact") || msg.includes("knowledge")) {
+    response = `
+      <h2>🧠 Tech Fact</h2>
+      <p>Did you know? The first computer mouse was made of wood in 1964 by Douglas Engelbart!</p>`;
+  }
+
+  // --- JOKES ---
+  else if (msg.includes("joke")) {
+    response = `
+      <h2>😂 Tech Joke</h2>
+      <p>Why did the computer go to therapy?<br>Because it had too many tabs open! 😆</p>`;
+  }
+
+  // --- DEFAULT RESPONSE ---
   else {
     response = `
-      <h2>💡 Bravexa Assistance</h2>
-      <p>I can help across six intelligent modes:</p>
-      <ul>
-        <li>🧩 Problem Solving</li>
-        <li>🧠 Fact Checking</li>
-        <li>📊 Analysis</li>
-        <li>⚙️ Generation</li>
-        <li>🔍 Deep Research</li>
-        <li>🧭 Conclusion</li>
-      </ul>
-      <p>Type your question to begin ⚡</p>`;
+      <p>💡 I’m ready to help you write letters, generate code, or document projects.<br>
+      Try saying:<br>• “Official email”<br>• “Resume format”<br>• “HTML login page code”</p>`;
   }
 
   return response;
-}
-document.addEventListener("click", async (e) => {
-  if (e.target.classList.contains("copyBtn")) {
-    const box = e.target.closest(".bravexa-box");
-    const text = box.innerText.trim();
-    await navigator.clipboard.writeText(text);
-    e.target.textContent = "✅ Copied";
-    setTimeout(() => (e.target.textContent = "📋 Copy"), 2000);
+
+// === GLOBAL EVENT DELEGATION FOR BUTTONS ===
+document.addEventListener("click", function (e) {
+  // COPY BUTTON
+  if (e.target.id === "copyCodeBtn" || e.target.id === "copyBtn") {
+    const parent = e.target.closest(".editable-container, .code-block-container");
+    const text = parent.querySelector(".editable-content, .code-content")?.innerText || "";
+    navigator.clipboard.writeText(text);
+    e.target.textContent = "✅ Copied!";
+    setTimeout(() => (e.target.textContent = "📋 Copy"), 1500);
+  }
+  // SEND BUTTON (EMAIL)
+  if (e.target.id === "sendBtn") {
+    const content = e.target.closest(".editable-container").querySelector(".editable-content").innerText;
+    const subject = encodeURIComponent("From Bravexa AI - Message");
+    const body = encodeURIComponent(content);
+    window.location.href = `mailto:?subject=${subject}&body=${body}`;
   }
 
-  if (e.target.classList.contains("saveBtn")) {
-    const box = e.target.closest(".bravexa-box");
-    const text = box.innerText.trim();
-    localStorage.setItem("Bravexa_LastSaved", text);
-    e.target.textContent = "💾 Saved";
-    setTimeout(() => (e.target.textContent = "💾 Save"), 2000);
+  // SAVE BUTTON (for resume or projects)
+  if (e.target.id === "saveBtn") {
+    const parent = e.target.closest(".editable-container");
+    const content = parent.querySelector(".editable-content").innerText;
+    const key = "bravexa_saved_" + Date.now();
+    localStorage.setItem(key, content);
+    e.target.textContent = "💾 Saved!";
+    setTimeout(() => (e.target.textContent = "Save"), 1500);
   }
 });
-// === 💫 BRAVEXA B1 — Dynamic Content Generator ===
-function generateBravexaContent(msg) {
-  msg = msg.toLowerCase();
-  let output = "";
-
-  // === ✉️ LEAVE LETTER / EMAIL ===
-  if (msg.includes("leave letter") || msg.includes("email")) {
-    output = `
-To,
-The Principal,
-[Your College Name]
-
-Subject: Request for Leave
-
-Respected Sir/Madam,
-I am [Your Name], studying in [Your Department]. I kindly request leave from [Start Date] to [End Date] due to [Reason].
-
-Thanking you,
-Yours faithfully,
-[Your Name]
-`;
-  }
-
-  // === 🧑‍💼 RESUME ===
-  else if (msg.includes("resume")) {
-    output = `
-Name: [Your Name]
-Email: [Your Email]
-Phone: [Your Phone]
-
-Objective:
-To contribute to emotionally intelligent systems that connect logic and creativity.
-
-Skills:
-• JavaScript  • Python  • AI Integration  • UI/UX Logic
-
-Projects:
-• Bravexa AI — Emotion + Logic Engine
-• Valantine AI — Creative Poetry Model
-
-Education:
-• B.Tech in Computer Science (or your course)
-• [College Name], [Year]
-
-Thank you.
-`;
-  }
-
-  // === 📘 PROJECT REPORT ===
-  else if (msg.includes("project report")) {
-    output = `
-📘 Project Report — Bravexa AI
-
-Title: Bravexa AI — Emotionally Intelligent System
-Objective: To design an AI that combines logical clarity with emotional reasoning.
-
-Modules:
-1. UI/UX Interface
-2. LLM Core Engine
-3. Memory Layer
-4. Code & Document Generator
-
-Outcome:
-The system bridges emotional intelligence with code reasoning for better human–AI connection.
-
-Status: Beta Build 1.0 — Stable.
-`;
-  }
-
-  // === 🔒 PRIVACY POLICY ===
-  else if (msg.includes("privacy policy")) {
-    output = `
-🔒 Privacy Policy — Bravexa AI
-
-Bravexa AI respects your privacy and ensures your data remains confidential.
-• No personal data is stored without user consent.
-• All interactions remain on your local device unless shared manually.
-• Emotional and creative safety are our priority.
-
-By using Bravexa AI, you agree to responsible and transparent AI use.
-`;
-  }
-
-  // === 💻 CODE / PROGRAM ===
-  else if (msg.includes("code") || msg.includes("program")) {
-    // Detect language from user input
-    let language = "javascript";
-    if (msg.includes("python")) language = "python";
-    else if (msg.includes("java")) language = "java";
-    else if (msg.includes("c++") || msg.includes("cpp")) language = "cpp";
-    else if (msg.includes("html")) language = "html";
-    else if (msg.includes("css")) language = "css";
-
-    const codeSnippets = {
-      javascript: `// Simple Calculator Example
-function calculate(a, b, op) {
-  switch (op) {
-    case '+': return a + b;
-    case '-': return a - b;
-    case '*': return a * b;
-    case '/': return b !== 0 ? a / b : 'Error: divide by 0';
-    default: return 'Invalid operator';
-  }
-}
-console.log("Result:", calculate(5, 3, '+'));`,
-
-      python: `# Simple Calculator Example
-def calculate(a, b, op):
-    if op == '+': return a + b
-    elif op == '-': return a - b
-    elif op == '*': return a * b
-    elif op == '/': return a / b if b != 0 else 'Error: divide by 0'
-    else: return 'Invalid operator'
-
-print("Result:", calculate(5, 3, '+'))`,
-
-      cpp: `#include <iostream>
-using namespace std;
-int main() {
-    int a = 5, b = 3;
-    char op = '+';
-    int result;
-    switch(op) {
-        case '+': result = a + b; break;
-        case '-': result = a - b; break;
-        default: result = 0;
-    }
-    cout << "Result: " << result << endl;
-    return 0;
-}`,
-
-      java: `class Main {
-  public static void main(String[] args) {
-    int a = 5, b = 3;
-    char op = '+';
-    int result = 0;
-    switch(op) {
-      case '+': result = a + b; break;
-      case '-': result = a - b; break;
-    }
-    System.out.println("Result: " + result);
-  }
-}`,
-
-      html: `<!DOCTYPE html>
-<html>
-  <body>
-    <h2>Simple Calculator</h2>
-    <input id="a" type="number" placeholder="Number 1">
-    <input id="b" type="number" placeholder="Number 2">
-    <button onclick="alert(parseInt(a.value) + parseInt(b.value))">Add</button>
-  </body>
-</html>`,
-
-      css: `body {
-  background: #f9f9f9;
-  font-family: Arial;
-  color: #222;
-}`
-    };
-
-    output = codeSnippets[language] || "// Code example not found.";
-  }
-
-  // === 🌐 FALLBACK (Generic) ===
-  else {
-    output = `
-Bravexa AI generated your content successfully.
-Use copy or send to proceed further. 💫`;
-  }
-
-  return output;
-}
   // === AVATAR DROPDOWN ===
   avatarIcon.addEventListener("click", () => {
     dropdownMenu.classList.toggle("active");
