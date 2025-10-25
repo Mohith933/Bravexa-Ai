@@ -595,83 +595,68 @@ body.light-mode .dropdown li a:hover {
   overflow: hidden;
 }
 
-/* 🌌💖 Hybrid Neon–Valentine Style */
-
 .neon-block {
-  background: linear-gradient(145deg, rgba(15, 30, 60, 0.6), rgba(255, 20, 147, 0.15));
+  background: rgba(10, 20, 40, 0.85);
   border: 1px solid rgba(0, 255, 255, 0.2);
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: 0 0 12px rgba(255, 105, 180, 0.2),
-              0 0 25px rgba(0, 255, 255, 0.15);
-  transition: all 0.5s ease;
+  border-radius: 10px;
+  margin: 14px 0;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.1),
+              inset 0 0 15px rgba(0, 255, 255, 0.05);
+  transition: all 0.3s ease;
+  animation: glowPulse 4s infinite ease-in-out;
 }
 
-.neon-block:hover {
-  box-shadow: 0 0 18px rgba(255, 105, 180, 0.35),
-              0 0 35px rgba(0, 255, 255, 0.25);
-  transform: scale(1.01);
+@keyframes glowPulse {
+  0% { box-shadow: 0 0 15px rgba(0, 255, 255, 0.2); }
+  50% { box-shadow: 0 0 25px rgba(0, 255, 255, 0.6); }
+  100% { box-shadow: 0 0 15px rgba(0, 255, 255, 0.2); }
 }
 
-/* Toolbar — technical precision with a romantic glow */
 .neon-toolbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: rgba(15, 30, 60, 0.6);
+  background: rgba(20, 40, 60, 0.7);
   padding: 10px 14px;
-  border-bottom: 1px solid rgba(255, 105, 180, 0.25);
+  border-bottom: 1px solid rgba(0, 255, 255, 0.15);
   backdrop-filter: blur(8px);
-  animation: hueShift 6s linear infinite alternate;
 }
 
-/* Soft label pulse */
 .neon-label {
-  font-size: 0.9rem;
-  color: #00ffff;
-  text-shadow: 0 0 8px #00ffff, 0 0 16px #ff69b4;
+  font-size: 0.95rem;
+  color: #00eaff;
+  font-weight: 500;
+  text-shadow: 0 0 6px #00eaff, 0 0 12px #00eaff;
   letter-spacing: 0.5px;
-  animation: glowPulse 2.5s ease-in-out infinite alternate;
 }
 
-/* Content — clean code area */
 .neon-content {
   padding: 14px;
   font-family: "Courier New", monospace;
+  color: #e0faff;
   white-space: pre-wrap;
-  line-height: 1.5;
-  color: #d8ffff;
+  line-height: 1.6;
+  background: rgba(0, 20, 30, 0.6);
+  border-radius: 0 0 10px 10px;
 }
 
-/* Buttons — tech glass with heart pulse */
 .btn-group button {
   background: transparent;
-  border: 1px solid #00ffff;
-  color: #00ffff;
+  border: 1px solid #00eaff;
+  color: #00eaff;
   border-radius: 6px;
-  padding: 4px 10px;
+  padding: 5px 12px;
   margin-left: 6px;
   cursor: pointer;
   transition: 0.25s;
-  text-shadow: 0 0 8px #00ffff, 0 0 10px #ff69b4;
+  text-shadow: 0 0 6px #00eaff;
 }
 
 .btn-group button:hover {
-  background: linear-gradient(90deg, #00ffff, #ff69b4);
-  color: #000;
-  box-shadow: 0 0 12px #00ffff, 0 0 20px #ff69b4;
+  background: #00eaff;
+  color: #00151f;
+  box-shadow: 0 0 12px #00eaff, 0 0 25px #00eaff;
   transform: scale(1.05);
-}
-
-/* 💫 Animations */
-@keyframes glowPulse {
-  from { text-shadow: 0 0 6px #00ffff, 0 0 10px #ff69b4; }
-  to   { text-shadow: 0 0 12px #ff69b4, 0 0 18px #00ffff; }
-}
-
-@keyframes hueShift {
-  from { filter: hue-rotate(0deg); }
-  to   { filter: hue-rotate(30deg); }
 }
 
 /* ================= Footer ================= */
