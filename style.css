@@ -585,51 +585,57 @@ body.light-mode .dropdown li a:hover {
   color: #caf0f8;
 }
 /* ===== Uniform Container Styling ===== */
-.code-block-container {
-  background: #111;
-  color: white;
+..neon-block {
+  background: linear-gradient(135deg, #0a0f1f, #1a0033);
+  border: 1px solid rgba(0, 255, 255, 0.2);
   border-radius: 10px;
-  margin: 15px 0;
-  box-shadow: 0 0 10px rgba(255,255,255,0.05);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.15);
+  color: #d0eaff;
+  margin: 18px 0;
   overflow: hidden;
 }
 
-.code-toolbar {
+.neon-toolbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #222;
-  padding: 8px 12px;
+  background: rgba(15, 30, 60, 0.6);
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(0, 255, 255, 0.15);
+  backdrop-filter: blur(6px);
 }
 
-.lang-label {
-  color: #ff6ec7;
-  font-weight: bold;
+.neon-label {
   font-size: 0.9rem;
+  color: #00ffff;
+  text-shadow: 0 0 8px #00ffff;
+}
+
+.neon-content {
+  padding: 14px;
+  font-family: "Courier New", monospace;
+  white-space: pre-wrap;
+  line-height: 1.5;
 }
 
 .btn-group button {
-  background: #333;
-  color: #fff;
-  border: none;
-  margin-left: 6px;
-  padding: 4px 10px;
+  background: transparent;
+  border: 1px solid #00ffff;
+  color: #00ffff;
   border-radius: 6px;
+  padding: 4px 10px;
+  margin-left: 6px;
   cursor: pointer;
-  transition: 0.2s;
+  transition: 0.25s;
+  text-shadow: 0 0 8px #00ffff;
 }
 
 .btn-group button:hover {
-  background: #555;
+  background: #00ffff;
+  color: #000;
+  box-shadow: 0 0 10px #00ffff;
+  transform: scale(1.05);
 }
-
-.code-content {
-  font-family: "Courier New", monospace;
-  padding: 14px;
-  line-height: 1.5;
-  white-space: pre-wrap;
-}
-
 
 /* ================= Footer ================= */
 .footer {
