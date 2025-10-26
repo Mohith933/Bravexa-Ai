@@ -115,213 +115,225 @@ function typeText(element, htmlContent, speed = 8) {
 }
 // === SIMPLE AI RESPONSES ===
 async function generateAIResponse(userMessage) {
-  const msg = userMessage.toLowerCase();
+  const msg = userMessage.toLowerCase().trim();
   let response = "";
 
-  // --- GREETINGS ---
-  if (msg.includes("hello") || msg.includes("hi") || msg.includes("hey")) {
-    response = `
-      <h2>👋 Hello!</h2>
-      <p>I’m <strong>Bravexa AI</strong> — your creative workspace assistant.</p>
-      <p>Try me with:<br>• "Generate leave letter"<br>• "Official email"<br>• "Create project documentation"<br>• "Make presentation slides"</p>`;
+  // --- 🧠 UNDERSTANDING LAYER ---
+  // Normalize and detect intent keywords.
+  const intents = {
+    greeting: ["hello", "hi", "hey", "good morning", "good evening"],
+    leave: ["leave letter", "application", "holiday", "absent", "permission"],
+    email: ["email", "official", "mail", "message"],
+    resume: ["resume", "project", "documentation", "portfolio"],
+    word: ["word", "report", "docx", "file"],
+    presentation: ["presentation", "slides", "ppt", "deck"],
+    code: ["code", "program", "script", "snippet"],
+    motivate: ["motivate", "inspire", "encourage", "boost"]
+  };
+
+  let intent = "default";
+
+  // simple understanding mapping
+  for (const [key, words] of Object.entries(intents)) {
+    if (words.some(word => msg.includes(word))) {
+      intent = key;
+      break;
+    }
   }
 
-  // --- LEAVE LETTER ---
-  else if (msg.includes("leave letter") || msg.includes("application")) {
-    response = `
-      <h2>📄 Leave Letter</h2>
-      <div class="code-block-container">
-        <div class="code-toolbar">
-          <span class="lang-label">📧 mailto</span>
-          <div class="btn-group">
-            <button id="copyBtn">📋 Copy</button>
-            <button id="sendBtn">✉️ Send</button>
+  // --- 💬 RULE-BASED LAYER ---
+  switch (intent) {
+    case "greeting":
+      response = `
+        <h2>👋 Hello!</h2>
+        <p>I’m <strong>Bravexa AI</strong> — your creative workspace assistant.</p>
+        <p>Try me with:<br>• "Generate leave letter"<br>• "Official email"<br>• "Create project documentation"<br>• "Make presentation slides"</p>`;
+      break;
+
+    case "leave":
+      response = `
+        <h2>📄 Leave Letter</h2>
+        <div class="code-block-container">
+          <div class="code-toolbar">
+            <span class="lang-label">📧 mailto</span>
+            <div class="btn-group">
+              <button id="copyBtn">📋 Copy</button>
+              <button id="sendBtn">✉️ Send</button>
+            </div>
           </div>
-        </div>
-        <pre class="code-content" contenteditable="true">
-To  
-The Principal,  
-[Your College Name],  
-[City].  
+          <pre class="code-content" contenteditable="true">
+To    
+The Principal,    
+[Your College Name],    
+[City].    
 
-Subject: Request for Leave  
+Subject: Request for Leave    
 
-Respected Sir/Madam,  
-I am [Your Name], studying in [Your Department].  
-I kindly request leave from [Start Date] to [End Date] due to [Reason].  
+Respected Sir/Madam,    
+I am [Your Name], studying in [Your Department].    
+I kindly request leave from [Start Date] to [End Date] due to [Reason].    
 
-Thanking you,  
-Yours faithfully,  
+Thanking you,    
+Yours faithfully,    
 [Your Name]
-        </pre>
-      </div>`;
-  }
+          </pre>
+        </div>`;
+      break;
 
-  // --- OFFICIAL EMAIL ---
-  else if (msg.includes("email") || msg.includes("official")) {
-    response = `
-      <h2>📧 Official Email</h2>
-      <div class="code-block-container">
-        <div class="code-toolbar">
-          <span class="lang-label">📧 mailto</span>
-          <div class="btn-group">
-            <button id="copyBtn">📋 Copy</button>
-            <button id="sendBtn">✉️ Send</button>
+    case "email":
+      response = `
+        <h2>📧 Official Email</h2>
+        <div class="code-block-container">
+          <div class="code-toolbar">
+            <span class="lang-label">📧 mailto</span>
+            <div class="btn-group">
+              <button id="copyBtn">📋 Copy</button>
+              <button id="sendBtn">✉️ Send</button>
+            </div>
           </div>
-        </div>
-        <pre class="code-content" contenteditable="true">
-Subject: Regarding Project Discussion  
+          <pre class="code-content" contenteditable="true">
+Subject: Regarding Project Discussion    
 
-Dear [Recipient Name],  
-I hope you are doing well.  
+Dear [Recipient Name],    
+I hope you are doing well.    
 
-I would like to schedule a short discussion about our project progress and upcoming deadlines.  
-Please let me know your availability.  
+I would like to schedule a short discussion about our project progress and upcoming deadlines.    
+Please let me know your availability.    
 
-Best regards,  
-[Your Name]  
+Best regards,    
+[Your Name]    
 [Your Contact Info]
-        </pre>
-      </div>`;
-  }
+          </pre>
+        </div>`;
+      break;
 
-  // --- RESUME / PROJECT DOC ---
-  else if (msg.includes("resume") || msg.includes("project") || msg.includes("documentation")) {
-    response = `
-      <h2>📘 Project Documentation</h2>
-      <div class="code-block-container">
-        <div class="code-toolbar">
-          <span class="lang-label">📘 resume / doc</span>
-          <div class="btn-group">
-            <button id="copyBtn">📋 Copy</button>
-            <button id="saveBtn">💾 Save</button>
+    case "resume":
+      response = `
+        <h2>📘 Project Documentation</h2>
+        <div class="code-block-container">
+          <div class="code-toolbar">
+            <span class="lang-label">📘 resume / doc</span>
+            <div class="btn-group">
+              <button id="copyBtn">📋 Copy</button>
+              <button id="saveBtn">💾 Save</button>
+            </div>
           </div>
-        </div>
-        <pre class="code-content" contenteditable="true">
-<b>Project Title:</b> Smart Waste Management System  
+          <pre class="code-content" contenteditable="true">
+<b>Project Title:</b> Smart Waste Management System    
 
-<b>Objective:</b> To automate waste collection and monitoring using IoT sensors.  
+<b>Objective:</b> To automate waste collection and monitoring using IoT sensors.    
 
-<b>Technologies Used:</b>  
-- Arduino, Ultrasonic Sensors  
-- Node.js Backend  
-- Firebase Database  
+<b>Technologies Used:</b>    
+- Arduino, Ultrasonic Sensors    
+- Node.js Backend    
+- Firebase Database    
 
 <b>Outcome:</b> Efficient and eco-friendly waste management with live status monitoring.
-        </pre>
-      </div>`;
-  }
+          </pre>
+        </div>`;
+      break;
 
-  // --- WORD DOCUMENT ---
-  else if (msg.includes("word") || msg.includes("report")) {
-    response = `
-      <h2>📝 Word Document</h2>
-      <div class="code-block-container">
-        <div class="code-toolbar">
-          <span class="lang-label">📄 .docx</span>
-          <div class="btn-group">
-            <button id="copyBtn">📋 Copy</button>
-            <button id="saveBtn">💾 Save</button>
+    case "word":
+      response = `
+        <h2>📝 Word Document</h2>
+        <div class="code-block-container">
+          <div class="code-toolbar">
+            <span class="lang-label">📄 .docx</span>
+            <div class="btn-group">
+              <button id="copyBtn">📋 Copy</button>
+              <button id="saveBtn">💾 Save</button>
+            </div>
           </div>
-        </div>
-        <pre class="code-content" contenteditable="true">
-<b>Title:</b> Annual Business Growth Report  
+          <pre class="code-content" contenteditable="true">
+<b>Title:</b> Annual Business Growth Report    
 
-<b>Introduction:</b>  
-This report outlines the performance growth, challenges, and strategic plans for the upcoming financial year.  
+<b>Introduction:</b>    
+This report outlines the performance growth, challenges, and strategic plans for the upcoming financial year.    
 
-<b>Highlights:</b>  
-- 24% increase in client acquisition  
-- 15% boost in overall revenue  
-- Expansion into 3 new markets  
+<b>Highlights:</b>    
+- 24% increase in client acquisition    
+- 15% boost in overall revenue    
+- Expansion into 3 new markets    
 
-<b>Conclusion:</b>  
+<b>Conclusion:</b>    
 Consistent improvement in operations and partnerships are key to sustaining growth.
-        </pre>
-      </div>`;
-  }
+          </pre>
+        </div>`;
+      break;
 
-  // --- PRESENTATION ---
-  else if (msg.includes("presentation") || msg.includes("slides")) {
-    response = `
-      <h2>🎤 Presentation Slides</h2>
-      <div class="code-block-container">
-        <div class="code-toolbar">
-          <span class="lang-label">🎞️ presentation</span>
-          <div class="btn-group">
-            <button id="copyBtn">📋 Copy</button>
-            <button id="saveBtn">💾 Save</button>
+    case "presentation":
+      response = `
+        <h2>🎤 Presentation Slides</h2>
+        <div class="code-block-container">
+          <div class="code-toolbar">
+            <span class="lang-label">🎞️ presentation</span>
+            <div class="btn-group">
+              <button id="copyBtn">📋 Copy</button>
+              <button id="saveBtn">💾 Save</button>
+            </div>
           </div>
-        </div>
-        <pre class="code-content" contenteditable="true">
-<b>Slide 1:</b> Introduction  
-- Welcome to our Product Launch  
-- Overview of Features  
+          <pre class="code-content" contenteditable="true">
+<b>Slide 1:</b> Introduction    
+- Welcome to our Product Launch    
+- Overview of Features    
 
-<b>Slide 2:</b> Problem Statement  
-- Current market gap  
-- User needs and challenges  
+<b>Slide 2:</b> Problem Statement    
+- Current market gap    
+- User needs and challenges    
 
-<b>Slide 3:</b> Our Solution  
-- AI-driven system  
-- Real-time results  
+<b>Slide 3:</b> Our Solution    
+- AI-driven system    
+- Real-time results    
 
-<b>Slide 4:</b> Future Vision  
-- Scalability  
-- Global expansion  
-        </pre>
-      </div>`;
-  }
+<b>Slide 4:</b> Future Vision    
+- Scalability    
+- Global expansion
+          </pre>
+        </div>`;
+      break;
 
-  // --- CODE GENERATOR ---
-  else if (msg.includes("code") || msg.includes("program")) {
-    let language = "javascript";
-    let langLabel = "JavaScript";
+    case "code":
+      let lang = "javascript";
+      if (msg.includes("python")) lang = "python";
+      else if (msg.includes("java")) lang = "java";
+      else if (msg.includes("html")) lang = "html";
+      else if (msg.includes("css")) lang = "css";
 
-    if (msg.includes("python")) { language = "python"; langLabel = "Python"; }
-    else if (msg.includes("java")) { language = "java"; langLabel = "Java"; }
-    else if (msg.includes("html")) { language = "html"; langLabel = "HTML"; }
-    else if (msg.includes("css")) { language = "css"; langLabel = "CSS"; }
+      const examples = {
+        javascript: `function greet(name) {\n  console.log("Hello, " + name + "!");\n}\n\ngreet("Bravexa User");`,
+        python: `def greet(name):\n    print("Hello, " + name + "!")\n\ngreet("Bravexa User")`,
+        java: `class Main {\n  public static void main(String[] args) {\n    System.out.println("Hello, Bravexa User!");\n  }\n}`,
+        html: `<!DOCTYPE html>\n<html>\n<body>\n  <h1>Hello, Bravexa User!</h1>\n</body>\n</html>`,
+        css: `body {\n  background-color: #f5f5f5;\n  color: #333;\n  font-family: Arial;\n}`
+      };
 
-    const codeExamples = {
-      javascript: `function greet(name) {\n  console.log("Hello, " + name + "!");\n}\n\ngreet("Bravexa User");`,
-      python: `def greet(name):\n    print("Hello, " + name + "!")\n\ngreet("Bravexa User")`,
-      java: `class Main {\n  public static void main(String[] args) {\n    System.out.println("Hello, Bravexa User!");\n  }\n}`,
-      html: `<!DOCTYPE html>\n<html>\n<body>\n  <h1>Hello, Bravexa User!</h1>\n</body>\n</html>`,
-      css: `body {\n  background-color: #f5f5f5;\n  color: #333;\n  font-family: Arial;\n}`
-    };
-
-    response = `
-      <h2>💻 Generated ${langLabel} Code</h2>
-      <div class="code-block-container">
-        <div class="code-toolbar">
-          <span class="lang-label">${langLabel}</span>
-          <div class="btn-group">
-            <button id="copyBtn">📋 Copy</button>
+      response = `
+        <h2>💻 ${lang.toUpperCase()} Code</h2>
+        <div class="code-block-container">
+          <div class="code-toolbar">
+            <span class="lang-label">${lang.toUpperCase()}</span>
+            <div class="btn-group"><button id="copyBtn">📋 Copy</button></div>
           </div>
-        </div>
-        <pre class="code-content"><code>${codeExamples[language]}</code></pre>
-      </div>`;
-  }
+          <pre class="code-content"><code>${examples[lang]}</code></pre>
+        </div>`;
+      break;
 
-  // --- MOTIVATION ---
-  else if (msg.includes("motivate") || msg.includes("inspire")) {
-    response = `
-      <h2>🚀 Motivation Boost</h2>
-      <p>Every line of code and every idea you test is a step toward mastery. Keep building, keep believing! 💪</p>`;
-  }
+    case "motivate":
+      response = `
+        <h2>🚀 Motivation Boost</h2>
+        <p>Every line of code and every idea you test is a step toward mastery. Keep building, keep believing! 💪</p>`;
+      break;
 
-  // --- DEFAULT ---
-  else {
-    response = `
-      <p>✨ I’m Bravexa AI — your workspace friend. Try:</p>
-      <ul>
-        <li>“Generate leave letter”</li>
-        <li>“Official email”</li>
-        <li>“Create project documentation”</li>
-        <li>“Generate HTML code”</li>
-        <li>“Make presentation slides”</li>
-      </ul>`;
+    default:
+      response = `
+        <p>✨ I’m Bravexa AI — your workspace friend. Try:</p>
+        <ul>
+          <li>“Generate leave letter”</li>
+          <li>“Official email”</li>
+          <li>“Create project documentation”</li>
+          <li>“Generate HTML code”</li>
+          <li>“Make presentation slides”</li>
+        </ul>`;
   }
 
   return response;
