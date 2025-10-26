@@ -115,245 +115,239 @@ function typeText(element, htmlContent, speed = 8) {
 }
 // === SIMPLE AI RESPONSES ===
 async function generateAIResponse(userMessage) {
-  const msg = userMessage.toLowerCase().trim();
-  let response = "";
+const msg = userMessage.toLowerCase().trim();
+let response = "";
 
-  // --- 🧠 UNDERSTANDING LAYER ---
-  const intents = {
-    greeting: ["hello", "hi", "hey", "good morning", "good evening"],
-    leave: ["leave letter", "application", "holiday", "absent", "permission"],
-    email: ["email", "official", "mail", "message"],
-    resume: ["resume", "project", "documentation", "portfolio"],
-    word: ["word", "report", "docx", "document"],
-    excel: ["excel", "sheet", "table", "spreadsheet"],
-    presentation: ["presentation", "slides", "ppt", "deck", "powerpoint"],
-    access: ["access", "database", "query", "record"],
-    code: ["code", "program", "script", "snippet"],
-    motivate: ["motivate", "inspire", "encourage", "boost"],
-    computer: ["computer", "algorithm", "network", "software", "ai"],
-    physics: ["physics", "force", "energy", "motion", "quantum"],
-    math: ["math", "mathematics", "algebra", "geometry", "calculus"]
-  };
+// --- 🧠 UNDERSTANDING LAYER ---
+// Normalize and detect intent keywords.
+const intents = {
+greeting: ["hello", "hi", "hey", "good morning", "good evening"],
+leave: ["leave letter", "application", "holiday", "absent", "permission"],
+email: ["email", "official", "mail", "message"],
+resume: ["resume", "project", "documentation", "portfolio"],
+word: ["word", "report", "docx", "file"],
+presentation: ["presentation", "slides", "ppt", "deck"],
+code: ["code", "program", "script", "snippet"],
+motivate: ["motivate", "inspire", "encourage", "boost"]
+};
 
-  let intent = "default";
+let intent = "default";
 
-  for (const [key, words] of Object.entries(intents)) {
-    if (words.some(word => msg.includes(word))) {
-      intent = key;
-      break;
-    }
-  }
+// simple understanding mapping
+for (const [key, words] of Object.entries(intents)) {
+if (words.some(word => msg.includes(word))) {
+intent = key;
+break;
+}
+}
 
-  // --- 💬 RULE-BASED LAYER ---
-  switch (intent) {
-    case "greeting":
-      response = `
-        <h2>👋 Hello!</h2>
-        <p>I’m <strong>Bravexa AI</strong> — your creative workspace assistant.</p>
-        <p>Try me with:<br>• "Generate leave letter"<br>• "Official email"<br>• "Excel sheet"<br>• "Physics notes"</p>`;
-      break;
+// --- 💬 RULE-BASED LAYER ---
+switch (intent) {
+case "greeting":
+response =    <h2>👋 Hello!</h2>   <p>I’m <strong>Bravexa AI</strong> — your creative workspace assistant.</p>   <p>Try me with:<br>• "Generate leave letter"<br>• "Official email"<br>• "Create project documentation"<br>• "Make presentation slides"</p>;
+break;
 
-    case "leave":
-      response = `
-        <h2>📄 Leave Letter</h2>
-        <pre class="code-content" contenteditable="true">
-To    
-The Principal,    
-[Your College Name],    
-[City].    
+case "leave":  
+  response = `  
+    <h2>📄 Leave Letter</h2>  
+    <div class="code-block-container">  
+      <div class="code-toolbar">  
+        <span class="lang-label">📧 mailto</span>  
+        <div class="btn-group">  
+          <button class="copyBtn">📋 Copy</button>  
+          <button class="sendBtn">✉️ Send</button>  
+        </div>  
+      </div>  
+      <pre class="code-content" contenteditable="true">
 
-Subject: Request for Leave    
+To
+The Principal,
+[Your College Name],
+[City].
 
-Respected Sir/Madam,    
-I am [Your Name], studying in [Your Department].    
-I kindly request leave from [Start Date] to [End Date] due to [Reason].    
+Subject: Request for Leave
 
-Thanking you,    
-Yours faithfully,    
+Respected Sir/Madam,
+I am [Your Name], studying in [Your Department].
+I kindly request leave from [Start Date] to [End Date] due to [Reason].
+
+Thanking you,
+Yours faithfully,
 [Your Name]
-        </pre>`;
-      break;
+</pre>
+</div>`;
+break;
 
-    case "email":
-      response = `
-        <h2>📧 Official Email</h2>
-        <pre class="code-content" contenteditable="true">
-Subject: Regarding Project Discussion    
+case "email":  
+  response = `  
+    <h2>📧 Official Email</h2>  
+    <div class="code-block-container">  
+      <div class="code-toolbar">  
+        <span class="lang-label">📧 mailto</span>  
+        <div class="btn-group">  
+          <button class="copyBtn">📋 Copy</button>  
+          <button class="sendBtn">✉️ Send</button>  
+        </div>  
+      </div>  
+      <pre class="code-content" contenteditable="true">
 
-Dear [Recipient Name],    
-I hope you are doing well.    
+Subject: Regarding Project Discussion
 
-I would like to schedule a discussion about our project progress and upcoming deadlines.    
-Please let me know your availability.    
+Dear [Recipient Name],
+I hope you are doing well.
 
-Best regards,    
-[Your Name]    
+I would like to schedule a short discussion about our project progress and upcoming deadlines.
+Please let me know your availability.
+
+Best regards,
+[Your Name]
 [Your Contact Info]
-        </pre>`;
-      break;
+</pre>
+</div>`;
+break;
 
-    case "resume":
-      response = `
-        <h2>📘 Project Documentation</h2>
-        <pre class="code-content" contenteditable="true">
-<b>Project Title:</b> Smart Waste Management System    
+case "resume":  
+  response = `  
+    <h2>📘 Project Documentation</h2>  
+    <div class="code-block-container">  
+      <div class="code-toolbar">  
+        <span class="lang-label">📘 resume / doc</span>  
+        <div class="btn-group">  
+          <button class="copyBtn">📋 Copy</button>  
+          <button class="saveBtn">💾 Save</button>  
+        </div>  
+      </div>  
+      <pre class="code-content" contenteditable="true">
 
-<b>Objective:</b> Automate waste collection using IoT sensors.    
+<b>Project Title:</b> Smart Waste Management System
 
-<b>Technologies Used:</b>    
-- Arduino, Node.js, Firebase    
+<b>Objective:</b> To automate waste collection and monitoring using IoT sensors.
 
-<b>Outcome:</b> Efficient and eco-friendly waste management with live monitoring.
-        </pre>`;
-      break;
+<b>Technologies Used:</b>
 
-    case "word":
-      response = `
-        <h2>📝 Microsoft Word Document</h2>
-        <pre class="code-content" contenteditable="true">
-<b>Title:</b> Annual Report    
+Arduino, Ultrasonic Sensors
 
-<b>Introduction:</b>    
-Performance summary and strategic outlook.    
+Node.js Backend
 
-<b>Highlights:</b>    
-- 24% growth    
-- 3 new branches    
-- Improved retention    
+Firebase Database
 
-<b>Conclusion:</b>    
-Focus on innovation and teamwork.
-        </pre>`;
-      break;
 
-    case "excel":
-      response = `
-        <h2>📊 Microsoft Excel Sheet</h2>
-        <pre class="code-content" contenteditable="true">
-| Month | Sales | Profit | Growth |
-|--------|--------|---------|---------|
-| Jan    | 12000  | 4000   | 33%     |
-| Feb    | 15000  | 5000   | 35%     |
-| Mar    | 18000  | 6000   | 38%     |
-        </pre>`;
-      break;
+<b>Outcome:</b> Efficient and eco-friendly waste management with live status monitoring.
+</pre>
+</div>`;
+break;
 
-    case "presentation":
-      response = `
-        <h2>🎤 PowerPoint Presentation</h2>
-        <pre class="code-content" contenteditable="true">
-<b>Slide 1:</b> Introduction    
-- Welcome to Bravexa AI    
+case "word":  
+  response = `  
+    <h2>📝 Word Document</h2>  
+    <div class="code-block-container">  
+      <div class="code-toolbar">  
+        <span class="lang-label">📄 .docx</span>  
+        <div class="btn-group">  
+          <button class="copyBtn">📋 Copy</button>  
+          <button class="saveBtn">💾 Save</button>  
+        </div>  
+      </div>  
+      <pre class="code-content" contenteditable="true">
 
-<b>Slide 2:</b> Vision    
-- Smarter workspace assistant    
+<b>Title:</b> Annual Business Growth Report
 
-<b>Slide 3:</b> Features    
-- Word, Excel, Presentation, Access    
-- Multi-subject understanding    
+<b>Introduction:</b>
+This report outlines the performance growth, challenges, and strategic plans for the upcoming financial year.
 
-<b>Slide 4:</b> Future Roadmap    
-- AI Agent Upgrade (November)    
-- Voice + Document fusion
-        </pre>`;
-      break;
+<b>Highlights:</b>
 
-    case "access":
-      response = `
-        <h2>💾 Microsoft Access Database</h2>
-        <pre class="code-content" contenteditable="true">
-<b>Table:</b> StudentRecords    
+24% increase in client acquisition
 
-| ID | Name | Department | Marks | Grade |
-|----|------|-------------|--------|--------|
-| 1  | John | CS | 87 | A |
-| 2  | Priya | ECE | 91 | A+ |
-| 3  | Rahul | ME | 76 | B+ |
+15% boost in overall revenue
 
-<b>Query Example:</b>    
-SELECT Name, Department, Marks FROM StudentRecords WHERE Marks > 80;
-        </pre>`;
-      break;
+Expansion into 3 new markets
 
-    case "computer":
-      response = `
-        <h2>💻 Computer Science Notes</h2>
-        <pre class="code-content" contenteditable="true">
-<b>Topic:</b> Algorithm Time Complexity    
 
-<b>Example:</b> Binary Search — O(log n)    
+<b>Conclusion:</b>
+Consistent improvement in operations and partnerships are key to sustaining growth.
+</pre>
+</div>`;
+break;
 
-<b>Explanation:</b>    
-Each iteration halves the search space. Used in sorted arrays for fast lookups.
-        </pre>`;
-      break;
+case "presentation":  
+  response = `  
+    <h2>🎤 Presentation Slides</h2>  
+    <div class="code-block-container">  
+      <div class="code-toolbar">  
+        <span class="lang-label">🎞️ presentation</span>  
+        <div class="btn-group">  
+          <button class="copyBtn">📋 Copy</button>  
+          <button class="saveBtn">💾 Save</button>  
+        </div>  
+      </div>  
+      <pre class="code-content" contenteditable="true">
 
-    case "physics":
-      response = `
-        <h2>⚛️ Physics Summary</h2>
-        <pre class="code-content" contenteditable="true">
-<b>Topic:</b> Newton’s Laws of Motion    
+<b>Slide 1:</b> Introduction
 
-1️⃣ Law of Inertia — Objects resist change in motion    
-2️⃣ F = m × a    
-3️⃣ Action-Reaction Principle    
+Welcome to our Product Launch
 
-<b>Example:</b> Rocket propulsion uses the 3rd law.
-        </pre>`;
-      break;
+Overview of Features
 
-    case "math":
-      response = `
-        <h2>📐 Mathematics Formula Sheet</h2>
-        <pre class="code-content" contenteditable="true">
-<b>Topic:</b> Calculus Basics    
 
-d/dx (x²) = 2x    
-∫ x dx = x² / 2 + C    
+<b>Slide 2:</b> Problem Statement
 
-<b>Topic:</b> Algebra    
-(a + b)² = a² + 2ab + b²
-        </pre>`;
-      break;
+Current market gap
 
-    case "code":
-      let lang = "javascript";
-      if (msg.includes("python")) lang = "python";
-      else if (msg.includes("java")) lang = "java";
-      else if (msg.includes("html")) lang = "html";
-      else if (msg.includes("css")) lang = "css";
+User needs and challenges
 
-      const examples = {
-        javascript: `function greet(name){\n  console.log("Hello, " + name + "!");\n}\ngreet("Bravexa User");`,
-        python: `def greet(name):\n    print("Hello, " + name + "!")\n\ngreet("Bravexa User")`,
-        java: `class Main {\n  public static void main(String[] args){\n    System.out.println("Hello, Bravexa User!");\n  }\n}`,
-        html: `<!DOCTYPE html>\n<html>\n<body>\n  <h1>Hello, Bravexa User!</h1>\n</body>\n</html>`,
-        css: `body {\n  background-color: #f5f5f5;\n  color: #333;\n  font-family: Arial;\n}`
-      };
 
-      response = `
-        <h2>💻 ${lang.toUpperCase()} Code</h2>
-        <pre class="code-content"><code>${examples[lang]}</code></pre>`;
-      break;
+<b>Slide 3:</b> Our Solution
 
-    case "motivate":
-      response = `
-        <h2>🚀 Motivation Boost</h2>
-        <p>Keep building — your ideas shape the future! Bravexa learns from every experiment you run 💪</p>`;
-      break;
+AI-driven system
 
-    default:
-      response = `
-        <p>✨ I’m Bravexa AI — your workspace friend.</p>
-        <ul>
-          <li>Generate Word, Excel, or PowerPoint content</li>
-          <li>Write Physics or Computer Science notes</li>
-          <li>Create code snippets</li>
-          <li>Motivate you to keep progressing</li>
-        </ul>`;
-  }
+Real-time results
 
-  return response;
+
+<b>Slide 4:</b> Future Vision
+
+Scalability
+
+Global expansion
+</pre>
+</div>`;
+break;
+
+case "code":
+let lang = "javascript";
+if (msg.includes("python")) lang = "python";
+else if (msg.includes("java")) lang = "java";
+else if (msg.includes("html")) lang = "html";
+else if (msg.includes("css")) lang = "css";
+
+const examples = {  
+  javascript: `function greet(name) {\n  console.log("Hello, " + name + "!");\n}\n\ngreet("Bravexa User");`,  
+  python: `def greet(name):\n    print("Hello, " + name + "!")\n\ngreet("Bravexa User")`,  
+  java: `class Main {\n  public static void main(String[] args) {\n    System.out.println("Hello, Bravexa User!");\n  }\n}`,  
+  html: `<!DOCTYPE html>\n<html>\n<body>\n  <h1>Hello, Bravexa User!</h1>\n</body>\n</html>`,  
+  css: `body {\n  background-color: #f5f5f5;\n  color: #333;\n  font-family: Arial;\n}`  
+};  
+
+response = `  
+  <h2>💻 ${lang.toUpperCase()} Code</h2>  
+  <div class="code-block-container">  
+    <div class="code-toolbar">  
+      <span class="lang-label">${lang.toUpperCase()}</span>  
+      <div class="btn-group"><button class="copyBtn">📋 Copy</button></div>  
+    </div>  
+    <pre class="code-content"><code>${examples[lang]}</code></pre>  
+  </div>`;  
+break;
+
+case "motivate":
+response =    <h2>🚀 Motivation Boost</h2>   <p>Every line of code and every idea you test is a step toward mastery. Keep building, keep believing! 💪</p>;
+break;
+
+default:
+response =    <p>✨ I’m Bravexa AI — your workspace friend. Try:</p>   <ul>   <li>“Generate leave letter”</li>   <li>“Official email”</li>   <li>“Create project documentation”</li>   <li>“Generate HTML code”</li>   <li>“Make presentation slides”</li>   </ul>;
+}
+
+return response;
 }
 // === GLOBAL EVENT DELEGATION FOR BUTTONS ===
 document.addEventListener("click", (e) => {
