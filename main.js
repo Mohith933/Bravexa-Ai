@@ -157,8 +157,8 @@ async function generateAIResponse(userMessage) {
           <div class="code-toolbar">
             <span class="lang-label">📧 mailto</span>
             <div class="btn-group">
-              <button id="copyBtn">📋 Copy</button>
-              <button id="sendBtn">✉️ Send</button>
+              <button class="copyBtn">📋 Copy</button>
+              <button class="sendBtn">✉️ Send</button>
             </div>
           </div>
           <pre class="code-content" contenteditable="true">
@@ -187,8 +187,8 @@ Yours faithfully,
           <div class="code-toolbar">
             <span class="lang-label">📧 mailto</span>
             <div class="btn-group">
-              <button id="copyBtn">📋 Copy</button>
-              <button id="sendBtn">✉️ Send</button>
+              <button class="copyBtn">📋 Copy</button>
+              <button class="sendBtn">✉️ Send</button>
             </div>
           </div>
           <pre class="code-content" contenteditable="true">
@@ -214,8 +214,8 @@ Best regards,
           <div class="code-toolbar">
             <span class="lang-label">📘 resume / doc</span>
             <div class="btn-group">
-              <button id="copyBtn">📋 Copy</button>
-              <button id="saveBtn">💾 Save</button>
+              <button class="copyBtn">📋 Copy</button>
+              <button class="saveBtn">💾 Save</button>
             </div>
           </div>
           <pre class="code-content" contenteditable="true">
@@ -240,8 +240,8 @@ Best regards,
           <div class="code-toolbar">
             <span class="lang-label">📄 .docx</span>
             <div class="btn-group">
-              <button id="copyBtn">📋 Copy</button>
-              <button id="saveBtn">💾 Save</button>
+              <button class="copyBtn">📋 Copy</button>
+              <button class="saveBtn">💾 Save</button>
             </div>
           </div>
           <pre class="code-content" contenteditable="true">
@@ -268,8 +268,8 @@ Consistent improvement in operations and partnerships are key to sustaining grow
           <div class="code-toolbar">
             <span class="lang-label">🎞️ presentation</span>
             <div class="btn-group">
-              <button id="copyBtn">📋 Copy</button>
-              <button id="saveBtn">💾 Save</button>
+              <button class="copyBtn">📋 Copy</button>
+              <button class="saveBtn">💾 Save</button>
             </div>
           </div>
           <pre class="code-content" contenteditable="true">
@@ -312,7 +312,7 @@ Consistent improvement in operations and partnerships are key to sustaining grow
         <div class="code-block-container">
           <div class="code-toolbar">
             <span class="lang-label">${lang.toUpperCase()}</span>
-            <div class="btn-group"><button id="copyBtn">📋 Copy</button></div>
+            <div class="btn-group"><button class="copyBtn">📋 Copy</button></div>
           </div>
           <pre class="code-content"><code>${examples[lang]}</code></pre>
         </div>`;
@@ -343,31 +343,29 @@ Consistent improvement in operations and partnerships are key to sustaining grow
 document.addEventListener("click", (e) => {
   const block = e.target.closest(".code-block-container");
   if (!block) return;
-  const text = block.querySelector(".code-content").innerText;
+  const text = block.querySelector(".code-content").textContent.trim();
 
   // Copy text
   if (e.target.classList.contains("copyBtn")) {
     navigator.clipboard.writeText(text);
     alert("📋 Copied to clipboard!");
   }
+
   // Send Mail (for email & leave letters)
-if (e.target.classList.contains("sendBtn")) {
-  const subject = "Generated from Bravexa AI";
-  const body = encodeURIComponent(text);
+  if (e.target.classList.contains("sendBtn")) {
+    const subject = "Generated from Bravexa AI";
+    const body = encodeURIComponent(text);
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
-  // Detect mobile vs desktop
-  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-
-  if (isMobile) {
-    // Mobile → use default mail app
-    window.location.href = `mailto:?subject=${subject}&body=${body}`;
-  } else {
-    // Desktop → use Gmail web compose
-    const gmailURL = `https://mail.google.com/mail/?view=cm&fs=1&su=${subject}&body=${body}`;
-    window.open(gmailURL, "_blank");
+    if (isMobile) {
+      // Mobile default mail app
+      window.location.href = `mailto:?subject=${subject}&body=${body}`;
+    } else {
+      // Desktop Gmail
+      const gmailURL = `https://mail.google.com/mail/?view=cm&fs=1&su=${subject}&body=${body}`;
+      window.open(gmailURL, "_blank");
+    }
   }
-}
-
 
   // Save file (for code or docs)
   if (e.target.classList.contains("saveBtn")) {
@@ -378,6 +376,7 @@ if (e.target.classList.contains("sendBtn")) {
     a.click();
   }
 });
+
   // === RESPONSIVE LAYOUT ===
   function adjustLayoutForViewport() {
     const viewportWidth = window.innerWidth;
@@ -399,6 +398,7 @@ if (e.target.classList.contains("sendBtn")) {
   window.addEventListener("resize", adjustLayoutForViewport);
   adjustLayoutForViewport();
 });
+
 
 
 
