@@ -280,8 +280,8 @@ function typeText(element, htmlContent, speed = 8) {
           <div class="code-toolbar">
             <span class="lang-label">📧 mailto</span>
             <div class="btn-group">
-              <button id="copyBtn">📋 Copy</button>
-              <button id="sendBtn">✉️ Send</button>
+              <button class="copyBtn">📋 Copy</button>
+              <button class="sendBtn">✉️ Send</button>
             </div>
           </div>
           <pre class="code-content" contenteditable="true">
@@ -310,8 +310,8 @@ Yours faithfully,
           <div class="code-toolbar">
             <span class="lang-label">📧 mailto</span>
             <div class="btn-group">
-              <button id="copyBtn">📋 Copy</button>
-              <button id="sendBtn">✉️ Send</button>
+              <button class="copyBtn">📋 Copy</button>
+              <button class="sendBtn">✉️ Send</button>
             </div>
           </div>
           <pre class="code-content" contenteditable="true">
@@ -337,8 +337,8 @@ Best regards,
           <div class="code-toolbar">
             <span class="lang-label">📘 resume / doc</span>
             <div class="btn-group">
-              <button id="copyBtn">📋 Copy</button>
-              <button id="saveBtn">💾 Save</button>
+              <button class="copyBtn">📋 Copy</button>
+              <button class="saveBtn">💾 Save</button>
             </div>
           </div>
           <pre class="code-content" contenteditable="true">
@@ -363,8 +363,8 @@ Best regards,
           <div class="code-toolbar">
             <span class="lang-label">📄 .docx</span>
             <div class="btn-group">
-              <button id="copyBtn">📋 Copy</button>
-              <button id="saveBtn">💾 Save</button>
+              <button class="copyBtn">📋 Copy</button>
+              <button class="saveBtn">💾 Save</button>
             </div>
           </div>
           <pre class="code-content" contenteditable="true">
@@ -391,8 +391,8 @@ Consistent improvement in operations and partnerships are key to sustaining grow
           <div class="code-toolbar">
             <span class="lang-label">🎞️ presentation</span>
             <div class="btn-group">
-              <button id="copyBtn">📋 Copy</button>
-              <button id="saveBtn">💾 Save</button>
+              <button class="copyBtn">📋 Copy</button>
+              <button class="saveBtn">💾 Save</button>
             </div>
           </div>
           <pre class="code-content" contenteditable="true">
