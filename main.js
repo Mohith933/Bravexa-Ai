@@ -540,37 +540,26 @@ d/dx (x²) = 2x
 document.addEventListener("click", (e) => {
   const block = e.target.closest(".code-block-container");
   if (!block) return;
-  const text = block.querySelector(".code-content").textContent.trim();
+  const textElement = block.querySelector(".code-content");
 
-  // Copy text
+  // Disable editing in main.js (view-only)
+  textElement.setAttribute("contenteditable", "false");
+
+  // --- COPY ---
   if (e.target.classList.contains("copyBtn")) {
+    const text = textElement.textContent.trim();
     navigator.clipboard.writeText(text);
     alert("📋 Copied to clipboard!");
   }
 
-  // Send Mail (for email & leave letters)
+  // --- SEND (Blocked) ---
   if (e.target.classList.contains("sendBtn")) {
-    const subject = "Generated from Bravexa AI";
-    const body = encodeURIComponent(text);
-    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-
-    if (isMobile) {
-      // Mobile default mail app
-      window.location.href = `mailto:?subject=${subject}&body=${body}`;
-    } else {
-      // Desktop Gmail
-      const gmailURL = `https://mail.google.com/mail/?view=cm&fs=1&su=${subject}&body=${body}`;
-      window.open(gmailURL, "_blank");
-    }
+    alert("⚠️ Please login to send emails!");
   }
 
-  // Save file (for code or docs)
+  // --- SAVE (Blocked) ---
   if (e.target.classList.contains("saveBtn")) {
-    const blob = new Blob([text], { type: "text/plain" });
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = "bravexa_output.txt";
-    a.click();
+    alert("⚠️ Please login to save files!");
   }
 });
 
