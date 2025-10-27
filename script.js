@@ -635,7 +635,7 @@ document.addEventListener("click", (e) => {
     if (viewportWidth <= 420) {
       sendBtn.style.right = isLandscape ? "50px" : "20px";
       inputArea.style.width = "90%";
-    } else if (viewportWidth <= 1025) {
+    } else if (viewportWidth <= 1024) {
       sendBtn.style.right = isLandscape ? "60px" : "30px";
       inputArea.style.width = "80%";
     } else {
@@ -648,6 +648,7 @@ document.addEventListener("click", (e) => {
   adjustLayoutForViewport();
   updateHistorySidebar(); // Load history at startup
 });
+
 
 
 
