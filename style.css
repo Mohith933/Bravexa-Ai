@@ -722,7 +722,7 @@ body.light-mode .dropdown li a:hover {
 @media (min-width:768px) and (max-width: 1024px) {
 
   .input-box {
-    width: 85%;
+    width: 80%;
     height: 120px;
   }
 
@@ -745,6 +745,7 @@ body.light-mode .dropdown li a:hover {
   50% { box-shadow: 0 0 20px rgba(0, 223, 216, 0.6); }
   100% { box-shadow: 0 0 12px rgba(0, 223, 216, 0.3); }
 }
+
 
 
 
