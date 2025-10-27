@@ -738,11 +738,11 @@ body.light-mode .dropdown li a:hover {
 @media (max-width:1025px){
 .chat-window{
    width:100%;
-   max-width:51%;
+   max-width:95%;
 }
 .input-box{
   width:100%;
-   max-width:50%;   
+   max-width:90%;   
 }
 }
 /* ================= Animations ================= */
@@ -756,5 +756,6 @@ body.light-mode .dropdown li a:hover {
   50% { box-shadow: 0 0 20px rgba(0, 223, 216, 0.6); }
   100% { box-shadow: 0 0 12px rgba(0, 223, 216, 0.3); }
 }
+
 
 
