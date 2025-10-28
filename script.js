@@ -237,231 +237,348 @@ function typeText(element, htmlContent, speed = 8) {
   setTimeout(() => clearInterval(scrollInterval), (htmlContent.length / 3) * speed + 100);
 }
   // === SIMPLE AI RESPONSES ===
- async function generateAIResponse(userMessage) {          
-  const msg = userMessage.toLowerCase().trim();          
-  let response = "";          
-  
-  // --- 🧩 UNDERSTANDING LAYER ---          
-  const intents = {          
-    greeting: ["hello", "hi", "hey", "good morning", "good evening"],          
-    leave: ["leave letter", "application", "holiday", "absent", "permission"],          
-    email: ["email", "official", "mail", "message"],          
-    resume: ["resume", "project", "documentation", "portfolio"],          
-    word: ["word", "report", "docx", "file"],          
-    excel: ["excel", "sheet", "data", "xlsx"],          
-    powerpoint: ["presentation", "slides", "ppt", "deck"],          
-    access: ["access", "database", "accdb"],          
-    cs: ["computer science", "programming", "algorithm", "data structure"],          
-    physics: ["physics", "force", "motion", "energy"],          
-    math: ["math", "algebra", "geometry", "calculus"],          
-    code: ["code", "program", "script", "snippet"],          
+ async function generateAIResponse(userMessage) {
+  const msg = userMessage.toLowerCase().trim();
+  let response = "";
+
+  // --- 🧩 UNDERSTANDING LAYER ---
+  const intents = {
+    greeting: ["hello", "hi", "hey", "good morning", "good evening"],
+    leave: ["leave letter", "application", "holiday", "absent", "permission"],
+    email: ["email", "official", "mail", "message"],
+    resume: ["resume", "project", "documentation", "portfolio"],
+    word: ["word", "report", "docx", "file"],
+    excel: ["excel", "sheet", "data", "xlsx"],
+    powerpoint: ["presentation", "slides", "ppt", "deck"],
+    access: ["access", "database", "accdb"],
+    cs: ["computer science", "programming", "algorithm", "data structure"],
+    physics: ["physics", "force", "motion", "energy"],
+    math: ["math", "algebra", "geometry", "calculus"],
+    code: ["code", "program", "script", "snippet"],
     motivate: ["motivate", "inspire", "encourage", "boost"],
-    weather: ["weather", "temperature", "climate", "forecast"],
-    news: ["news", "headlines", "update", "latest"],
-    voice: ["voice", "speak", "read", "talk"]
-  };          
-  
-  let intent = "default";          
-  for (const [key, words] of Object.entries(intents)) {          
-    if (words.some(word => msg.includes(word))) {          
-      intent = key;          
-      break;          
-    }          
-  }          
-  
-  // --- ⚙️ RULE-BASED RESPONSE LAYER ---          
-  switch (intent) {          
-  
-    // 🎯 GREETING  
-    case "greeting":  
-      response = `  
-        <h2>👋 Hello!</h2>  
-        <p>I’m <strong>Bravexa AI</strong> — your creative workspace assistant.</p>  
-        <p>Try me with:<br>• "Generate leave letter"<br>• "Official email"<br>• "Weather today"<br>• "Latest news"</p>`;  
-      break;  
+    weather: ["weather", "temperature", "forecast", "climate"],
+    news: ["news", "headlines", "updates"]
+  };
 
-    // 📨 EMAIL  
-    case "email":  
-      response = `  
-        <h2>📧 Official Email</h2>  
-        <div class="code-block-container">  
-          <div class="code-toolbar">  
-            <span class="lang-label">📧 mailto</span>  
-            <div class="btn-group">  
-              <button class="copyBtn">📋 Copy</button>  
-              <button class="sendBtn">✉️ Send</button>  
-            </div>  
-          </div>  
-          <pre class="code-content" contenteditable="true">  
-Subject: Regarding Project Discussion  
-  
-Dear [Recipient Name],  
-I hope you are doing well.  
-  
-I would like to schedule a short discussion about our project progress and upcoming deadlines.  
-Please let me know your availability.  
-  
-Best regards,  
-[Your Name]  
-[Your Contact Info]  
-          </pre>  
-        </div>`;  
-      break;  
+  let intent = "default";
+  for (const [key, words] of Object.entries(intents)) {
+    if (words.some(word => msg.includes(word))) {
+      intent = key;
+      break;
+    }
+  }
 
-    // 📝 LEAVE LETTER  
-    case "leave":  
-      response = `  
-        <h2>📄 Leave Letter</h2>  
-        <div class="code-block-container">  
-          <div class="code-toolbar">  
-            <span class="lang-label">📧 mailto</span>  
-            <div class="btn-group">  
-              <button class="copyBtn">📋 Copy</button>  
-              <button class="sendBtn">✉️ Send</button>  
-            </div>  
-          </div>  
-          <pre class="code-content" contenteditable="true">  
-To  
-The Principal,  
-[Your College Name],  
-[City].  
-  
-Subject: Request for Leave  
-  
-Respected Sir/Madam,  
-I am [Your Name], studying in [Your Department].  
-I kindly request leave from [Start Date] to [End Date] due to [Reason].  
-  
-Thanking you,  
-Yours faithfully,  
-[Your Name]  
-          </pre>  
-        </div>`;  
-      break;  
+  // --- ⚙️ RULE-BASED RESPONSE LAYER ---
+  switch (intent) {
+    case "greeting":
+      response = `
+        <h2>👋 Hello!</h2>
+        <p>I’m <strong>Bravexa AI</strong> — your creative workspace assistant.</p>
+        <p>Try me with:<br>• "Generate leave letter"<br>• "Official email"<br>• "Create project documentation"<br>• "Check weather"<br>• "Show latest news"</p>`;
+      break;
 
-    // 🧾 WORD DOC  
-    case "word":  
-      response = `  
-        <h2>📝 Microsoft Word Document</h2>  
-        <div class="code-block-container">  
-          <div class="code-toolbar">  
-            <span class="lang-label">📄 .docx</span>  
-            <div class="btn-group">  
-              <button class="copyBtn">📋 Copy</button>  
-              <button class="saveBtn">💾 Save</button>  
-            </div>  
-          </div>  
-          <pre class="code-content" contenteditable="true">  
-<b>Title:</b> Annual Business Report  
-  
-<b>Introduction:</b>  
-This document presents a detailed analysis of company growth, revenue trends, and improvement plans.  
-  
-<b>Key Points:</b>  
-- Q1 sales growth: +15%  
-- Q2 market expansion: +10%  
-- Future outlook: optimistic growth  
-  
-<b>Conclusion:</b>  
-Sustained innovation and customer focus remain top priorities.  
-          </pre>  
-        </div>`;  
-      break;  
+    case "email":
+      response = `
+        <h2>📧 Official Email</h2>
+        <div class="code-block-container">
+          <div class="code-toolbar">
+            <span class="lang-label">📧 mailto</span>
+            <div class="btn-group">
+              <button class="copyBtn">📋 Copy</button>
+              <button class="sendBtn">✉️ Send</button>
+            </div>
+          </div>
+          <pre class="code-content" contenteditable="true">
+Subject: Regarding Project Discussion
 
-    // 💻 CODE  
-    case "code":  
-      let lang = "javascript";          
-      if (msg.includes("python")) lang = "python";          
-      else if (msg.includes("java")) lang = "java";          
-      else if (msg.includes("html")) lang = "html";          
-      else if (msg.includes("css")) lang = "css";          
-      const examples = {          
-        javascript: `function greet(name) {\n  console.log("Hello, " + name + "!");\n}\ngreet("Bravexa User");`,          
-        python: `def greet(name):\n    print("Hello, " + name + "!")\n\ngreet("Bravexa User")`,          
-        java: `class Main {\n  public static void main(String[] args) {\n    System.out.println("Hello, Bravexa User!");\n  }\n}`,          
-        html: `<!DOCTYPE html>\n<html>\n<body>\n  <h1>Hello, Bravexa User!</h1>\n</body>\n</html>`,          
-        css: `body {\n  background-color: #f5f5f5;\n  color: #333;\n  font-family: Arial;\n}`          
-      };          
-  
-      response = `  
-        <h2>💻 ${lang.toUpperCase()} Code</h2>  
-        <div class="code-block-container">  
-          <div class="code-toolbar">  
-            <span class="lang-label">${lang.toUpperCase()}</span>  
-            <div class="btn-group"><button class="copyBtn">📋 Copy</button></div>  
-          </div>  
-          <pre class="code-content"><code>${examples[lang]}</code></pre>  
-        </div>`;  
-      break;  
+Dear [Recipient Name],
+I hope you are doing well.
 
-    // ☁️ WEATHER REPORT  
-    case "weather":  
-      response = `  
-        <h2>☁️ Weather Report</h2>  
-        <p><b>Location:</b> Your City</p>  
-        <p><b>Temperature:</b> 29°C</p>  
-        <p><b>Condition:</b> Partly Cloudy ⛅</p>  
-        <p><b>Advice:</b> Great day to study outside — take water with you! 💧</p>`;  
-      break;  
+I would like to schedule a short discussion about our project progress and upcoming deadlines.
+Please let me know your availability.
 
-    // 🗞️ NEWS UPDATE  
-    case "news":  
-      response = `  
-        <h2>🗞️ Latest News</h2>  
-        <ul>  
-          <li>🌐 AI innovation accelerates global startups.</li>  
-          <li>🚀 Space mission success: new satellite deployed.</li>  
-          <li>📱 Tech giants announce collaboration for open AI frameworks.</li>  
-        </ul>`;  
-      break;  
+Best regards,
+[Your Name]
+[Your Contact Info]
+          </pre>
+        </div>`;
+      break;
 
-    // 🔊 VOICE READER  
-    case "voice":  
-      response = `  
-        <h2>🔊 Voice Mode</h2>  
-        <p>Click below to hear Bravexa AI speak!</p>  
-        <button id="speakBtn">🎤 Speak</button>  
-        <script>  
-          document.getElementById("speakBtn").onclick = () => {  
-            const msg = new SpeechSynthesisUtterance("Hello, I am Bravexa AI. I can read your content aloud.");  
-            msg.rate = 1;  
-            msg.pitch = 1;  
-            speechSynthesis.speak(msg);  
-          };  
-        </script>`;  
-      break;  
+    case "leave":
+      response = `
+        <h2>📄 Leave Letter</h2>
+        <div class="code-block-container">
+          <div class="code-toolbar">
+            <span class="lang-label">📧 mailto</span>
+            <div class="btn-group">
+              <button class="copyBtn">📋 Copy</button>
+              <button class="sendBtn">✉️ Send</button>
+            </div>
+          </div>
+          <pre class="code-content" contenteditable="true">
+To
+The Principal,
+[Your College Name],
+[City].
 
-    // 📚 SUBJECTS  
-    case "cs":  
-      response = `<h2>💻 Computer Science Note</h2><p><b>Topic:</b> Time Complexity</p><p>Binary Search → O(log n)</p>`;  
-      break;  
-  
-    case "physics":  
-      response = `<h2>⚛️ Physics Concept</h2><p><b>Topic:</b> Newton’s Laws of Motion</p><p>F = m × a</p>`;  
-      break;  
-  
-    case "math":  
-      response = `<h2>📐 Mathematics Formula</h2><p><b>Topic:</b> Calculus</p><p>d/dx (x²) = 2x</p>`;  
-      break;  
-  
-    // 🚀 MOTIVATION  
-    case "motivate":  
-      response = `<h2>🚀 Motivation Boost</h2><p>Every small step builds your mastery. Keep moving forward! 💪</p>`;  
-      break;  
-  
-    // 🌟 DEFAULT  
-    default:  
-      response = `  
-        <p>✨ I’m Bravexa AI — your workspace friend. Try:</p>  
-        <ul>  
-          <li>“Generate leave letter”</li>  
-          <li>“Weather report”</li>  
-          <li>“Read in voice”</li>  
-          <li>“Show latest news”</li>  
-        </ul>`;  
-  }  
-  
-  return response;          
+Subject: Request for Leave
+
+Respected Sir/Madam,
+I am [Your Name], studying in [Your Department].
+I kindly request leave from [Start Date] to [End Date] due to [Reason].
+
+Thanking you,
+Yours faithfully,
+[Your Name]
+          </pre>
+        </div>`;
+      break;
+
+    case "resume":
+      response = `
+        <h2>📘 Project Documentation</h2>
+        <div class="code-block-container">
+          <div class="code-toolbar">
+            <span class="lang-label">📘 resume / doc</span>
+            <div class="btn-group">
+              <button class="copyBtn">📋 Copy</button>
+              <button class="saveBtn">💾 Save</button>
+            </div>
+          </div>
+          <pre class="code-content" contenteditable="true">
+<b>Project Title:</b> Smart Waste Management System
+
+<b>Objective:</b> To automate waste collection and monitoring using IoT sensors.
+
+<b>Technologies Used:</b>
+- Arduino, Ultrasonic Sensors
+- Node.js Backend
+- Firebase Database
+
+<b>Outcome:</b> Efficient and eco-friendly waste management with live monitoring.
+          </pre>
+        </div>`;
+      break;
+
+    case "word":
+      response = `
+        <h2>📝 Microsoft Word Document</h2>
+        <div class="code-block-container">
+          <div class="code-toolbar">
+            <span class="lang-label">📄 .docx</span>
+            <div class="btn-group">
+              <button class="copyBtn">📋 Copy</button>
+              <button class="saveBtn">💾 Save</button>
+            </div>
+          </div>
+          <pre class="code-content" contenteditable="true">
+<b>Title:</b> Annual Business Report
+
+<b>Introduction:</b>
+This document presents a detailed analysis of company growth, revenue trends, and improvement plans.
+
+<b>Key Points:</b>
+- Q1 sales growth: +15%
+- Q2 market expansion: +10%
+- Future outlook: optimistic growth
+
+<b>Conclusion:</b>
+Sustained innovation and customer focus remain top priorities.
+          </pre>
+        </div>`;
+      break;
+
+    case "excel":
+      response = `
+        <h2>📊 Microsoft Excel Sheet</h2>
+        <div class="code-block-container">
+          <div class="code-toolbar">
+            <span class="lang-label">📈 .xlsx</span>
+            <div class="btn-group">
+              <button class="copyBtn">📋 Copy</button>
+              <button class="saveBtn">💾 Save</button>
+            </div>
+          </div>
+          <pre class="code-content" contenteditable="true">
+| Month | Sales | Profit | Growth |
+|--------|--------|---------|---------|
+| Jan    | 12000  | 4000   | 33%     |
+| Feb    | 15000  | 5000   | 35%     |
+| Mar    | 18000  | 6000   | 38%     |
+          </pre>
+        </div>`;
+      break;
+
+    case "powerpoint":
+      response = `
+        <h2>🎤 PowerPoint Presentation</h2>
+        <div class="code-block-container">
+          <div class="code-toolbar">
+            <span class="lang-label">🎞️ .pptx</span>
+            <div class="btn-group">
+              <button class="copyBtn">📋 Copy</button>
+              <button class="saveBtn">💾 Save</button>
+            </div>
+          </div>
+          <pre class="code-content" contenteditable="true">
+<b>Slide 1:</b> Introduction
+- Welcome to Bravexa AI Presentation
+
+<b>Slide 2:</b> Problem & Solution
+- Challenges in workspace automation
+- Bravexa AI’s Intelligent Assistant Layer
+
+<b>Slide 3:</b> Future Vision
+- Integration with MS Office Suite
+- AI Collaboration System
+          </pre>
+        </div>`;
+      break;
+
+    case "access":
+      response = `
+        <h2>💾 Microsoft Access Database Report</h2>
+        <div class="code-block-container">
+          <div class="code-toolbar">
+            <span class="lang-label">📁 .accdb</span>
+            <div class="btn-group">
+              <button class="copyBtn">📋 Copy</button>
+              <button class="saveBtn">💾 Save</button>
+            </div>
+          </div>
+          <pre class="code-content" contenteditable="true">
+<b>Table:</b> StudentRecords
+
+| ID | Name        | Department | Marks | Grade |
+|----|--------------|-------------|--------|--------|
+| 1  | John Doe     | CS          | 87     | A      |
+| 2  | Priya Sharma | ECE         | 91     | A+     |
+| 3  | Rahul Kumar  | ME          | 76     | B+     |
+          </pre>
+        </div>`;
+      break;
+
+    // --- ✅ CODE GENERATOR (Copy only) ---
+    case "code": {
+      // detect language from message (basic)
+      let lang = "javascript";
+      if (msg.includes("python")) lang = "python";
+      else if (msg.includes("java")) lang = "java";
+      else if (msg.includes("html")) lang = "html";
+      else if (msg.includes("css")) lang = "css";
+      else if (msg.includes("sql")) lang = "sql";
+      else if (msg.includes("c++") || msg.includes("cpp")) lang = "cpp";
+
+      const examples = {
+        javascript: `function greet(name) {\n  console.log("Hello, " + name + "!");\n}\n\ngreet("Bravexa User");`,
+        python: `def greet(name):\n    print("Hello, " + name + "!")\n\nif __name__ == "__main__":\n    greet("Bravexa User")`,
+        java: `class Main {\n  public static void main(String[] args) {\n    System.out.println("Hello, Bravexa User!");\n  }\n}`,
+        html: `<!DOCTYPE html>\n<html>\n  <body>\n    <h1>Hello, Bravexa User!</h1>\n  </body>\n</html>`,
+        css: `body { background-color:#f5f5f5; color:#333; font-family:Arial, sans-serif; }`,
+        sql: `-- Sample SQL\nCREATE TABLE users (id INT PRIMARY KEY, name VARCHAR(100));\nINSERT INTO users (id, name) VALUES (1, 'Bravexa User');`,
+        cpp: `#include <iostream>\nusing namespace std;\nint main(){ cout << "Hello, Bravexa User!\\n"; return 0; }`
+      };
+
+      const snippet = examples[lang] || examples.javascript;
+
+      response = `
+        <h2>💻 ${lang.toUpperCase()} Code</h2>
+        <div class="code-block-container">
+          <div class="code-toolbar">
+            <span class="lang-label">${lang.toUpperCase()}</span>
+            <div class="btn-group">
+              <button class="copyBtn">📋 Copy</button>
+            </div>
+          </div>
+          <pre class="code-content"><code>${snippet}</code></pre>
+        </div>`;
+      break;
+    }
+
+    case "weather":
+      response = await getWeatherData("Hyderabad"); // keep default city; later you can detect
+      break;
+
+    case "news":
+      response = await getLatestNews();
+      break;
+
+    case "motivate":
+      response = `<h2>🚀 Motivation Boost</h2><p>Every small step builds your mastery. Keep moving forward! 💪</p>`;
+      break;
+
+    // Subjects / notes (no buttons)
+    case "cs":
+      response = `<h2>💻 Computer Science Note</h2><p><b>Topic:</b> Time Complexity</p><p>Binary Search → O(log n)</p>`;
+      break;
+    case "physics":
+      response = `<h2>⚛️ Physics Concept</h2><p><b>Topic:</b> Newton’s Laws of Motion</p><p>F = m × a</p>`;
+      break;
+    case "math":
+      response = `<h2>📐 Mathematics Formula</h2><p><b>Topic:</b> Calculus</p><p>d/dx (x²) = 2x</p>`;
+      break;
+
+    default:
+      response = `
+        <p>✨ I’m Bravexa AI — your workspace friend. Try:</p>
+        <ul>
+          <li>“Generate leave letter”</li>
+          <li>“Official email”</li>
+          <li>“Create project documentation”</li>
+          <li>“Generate Excel data”</li>
+          <li>“Make presentation slides”</li>
+        </ul>`;
+  }
+
+  // speak only when not code (avoid reading code out loud)
+  if (!msg.includes("code")) speakResponse(response);
+  return response;
+}
+
+// --- 🔊 VOICE OUTPUT FUNCTION ---
+function speakResponse(text) {
+  if (!window.speechSynthesis) return;
+  const synth = window.speechSynthesis;
+  const cleanText = text.replace(/<[^>]*>/g, " "); // remove HTML tags
+  const utterance = new SpeechSynthesisUtterance(cleanText);
+  utterance.lang = "en-US";
+  synth.cancel(); // stop previous
+  synth.speak(utterance);
+}
+
+// --- 🌦️ WEATHER FUNCTION (uses OpenWeather API) ---
+async function getWeatherData(city) {
+  const apiKey = "YOUR_OPENWEATHER_API_KEY"; // Replace with your key
+  try {
+    const res = await fetch(
+      `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&appid=${apiKey}&units=metric`
+    );
+    if (!res.ok) throw new Error("Weather fetch failed");
+    const data = await res.json();
+    return `<h2>🌦️ Weather in ${data.name}</h2>
+      <p>${data.weather[0].description}, ${data.main.temp}°C</p>
+      <p>Humidity: ${data.main.humidity}% | Wind: ${data.wind.speed} m/s</p>`;
+  } catch (err) {
+    return `<h2>🌦️ Weather</h2><p>Unable to fetch weather. Check API key or network.</p>`;
+  }
+}
+
+// --- 🗞️ NEWS FUNCTION (uses NewsAPI) ---
+async function getLatestNews() {
+  const apiKey = "YOUR_NEWSAPI_KEY"; // Replace with your key
+  try {
+    const res = await fetch(
+      `https://newsapi.org/v2/top-headlines?country=in&pageSize=5&apiKey=${apiKey}`
+    );
+    if (!res.ok) throw new Error("News fetch failed");
+    const data = await res.json();
+    const articles = data.articles.slice(0, 5).map(a =>
+      `<li><a href="${a.url}" target="_blank" rel="noopener">${a.title}</a></li>`
+    ).join("");
+    return `<h2>🗞️ Latest News</h2><ul>${articles}</ul>`;
+  } catch (err) {
+    return `<h2>🗞️ News</h2><p>Unable to fetch news. Check API key or network.</p>`;
+  }
 }
 // === GLOBAL EVENT DELEGATION FOR BUTTONS ===
 document.addEventListener("click", (e) => {
