@@ -629,6 +629,30 @@ body.light-mode .dropdown li a:hover {
   line-height: 1.5;
   white-space: pre-wrap;
 }
+.voiceBtn {
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  color: #fff;
+  border: none;
+  outline: none;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  font-size: 22px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: all 0.25s ease;
+  margin: 10px auto;
+}
+
+/* Hover Effect */
+.voiceBtn:hover {
+  transform: scale(1.1);
+  background: linear-gradient(135deg, #2575fc, #6a11cb);
+  box-shadow: 0 6px 18px rgba(37, 117, 252, 0.3);
+}
 
 /* ================= Footer ================= */
 .footer {
@@ -718,6 +742,12 @@ body.light-mode .dropdown li a:hover {
     width: 100%;
   max-width: 95%;
   }
+  voiceBtn {
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+  }
+
 }
 @media (min-width:768px) and (max-width: 1024px) {
 
