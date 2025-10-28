@@ -630,7 +630,6 @@ body.light-mode .dropdown li a:hover {
   white-space: pre-wrap;
 }
 .voiceBtn {
-  color: #fff;
   border: none;
   outline: none;
   border-radius: 50%;
@@ -640,7 +639,6 @@ body.light-mode .dropdown li a:hover {
   cursor: pointer;
   display: flex;
   align-items: left;
-  justify-content: center;
   transition: all 0.25s ease;
   margin: 10px auto;
 }
@@ -771,6 +769,7 @@ body.light-mode .dropdown li a:hover {
   50% { box-shadow: 0 0 20px rgba(0, 223, 216, 0.6); }
   100% { box-shadow: 0 0 12px rgba(0, 223, 216, 0.3); }
 }
+
 
 
 
