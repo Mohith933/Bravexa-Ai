@@ -496,12 +496,20 @@ Sustained innovation and customer focus remain top priorities.
     }
 
     case "weather":
-      response = await getWeatherData("Hyderabad"); // keep default city; later you can detect
-      break;
+  response = `<h2>🌤️ Weather Report</h2>
+  <p>📍 Location: New York</p>
+  <p>🌡️ Temperature: 25°C</p>
+  <p>🌧️ Condition: Partly Cloudy</p>`;
+  break;
 
-    case "news":
-      response = await getLatestNews();
-      break;
+case "news":
+  response = `<h2>📰 Today's Headlines</h2>
+  <ul>
+    <li>🚀 Tech innovation reshapes AI industry.</li>
+    <li>🌍 Global markets see moderate growth.</li>
+    <li>🎬 New blockbuster breaks weekend records.</li>
+  </ul>`;
+  break;
 
     case "motivate":
       response = `<h2>🚀 Motivation Boost</h2><p>Every small step builds your mastery. Keep moving forward! 💪</p>`;
@@ -531,42 +539,6 @@ Sustained innovation and customer focus remain top priorities.
   }
   
   return response;
-}
-
-
-// --- 🌦️ WEATHER FUNCTION (uses OpenWeather API) ---
-async function getWeatherData(city) {
-  const apiKey = "YOUR_OPENWEATHER_API_KEY"; // Replace with your key
-  try {
-    const res = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&appid=${apiKey}&units=metric`
-    );
-    if (!res.ok) throw new Error("Weather fetch failed");
-    const data = await res.json();
-    return `<h2>🌦️ Weather in ${data.name}</h2>
-      <p>${data.weather[0].description}, ${data.main.temp}°C</p>
-      <p>Humidity: ${data.main.humidity}% | Wind: ${data.wind.speed} m/s</p>`;
-  } catch (err) {
-    return `<h2>🌦️ Weather</h2><p>Unable to fetch weather. Check API key or network.</p>`;
-  }
-}
-
-// --- 🗞️ NEWS FUNCTION (uses NewsAPI) ---
-async function getLatestNews() {
-  const apiKey = "YOUR_NEWSAPI_KEY"; // Replace with your key
-  try {
-    const res = await fetch(
-      `https://newsapi.org/v2/top-headlines?country=in&pageSize=5&apiKey=${apiKey}`
-    );
-    if (!res.ok) throw new Error("News fetch failed");
-    const data = await res.json();
-    const articles = data.articles.slice(0, 5).map(a =>
-      `<li><a href="${a.url}" target="_blank" rel="noopener">${a.title}</a></li>`
-    ).join("");
-    return `<h2>🗞️ Latest News</h2><ul>${articles}</ul>`;
-  } catch (err) {
-    return `<h2>🗞️ News</h2><p>Unable to fetch news. Check API key or network.</p>`;
-  }
 }
 // === GLOBAL EVENT DELEGATION FOR BUTTONS ===
 document.addEventListener("click", (e) => {
