@@ -538,7 +538,7 @@ case "news":
         </ul>`;
   }
   
-  return response + '<button class="voiceBtn">🔊 Speak</button>';
+  return response + '<button class="voiceBtn">🔊</button>';
 }
 
 // 🎤 Voice (Text-to-Speech) Feature
@@ -686,6 +686,7 @@ document.addEventListener("click", (e) => {
   adjustLayoutForViewport();
   updateHistorySidebar(); // Load history at startup
 });
+
 
 
 
