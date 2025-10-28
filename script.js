@@ -529,22 +529,10 @@ Sustained innovation and customer focus remain top priorities.
           <li>“Make presentation slides”</li>
         </ul>`;
   }
-
-  // speak only when not code (avoid reading code out loud)
-  if (!msg.includes("code")) speakResponse(response);
+  
   return response;
 }
 
-// --- 🔊 VOICE OUTPUT FUNCTION ---
-function speakResponse(text) {
-  if (!window.speechSynthesis) return;
-  const synth = window.speechSynthesis;
-  const cleanText = text.replace(/<[^>]*>/g, " "); // remove HTML tags
-  const utterance = new SpeechSynthesisUtterance(cleanText);
-  utterance.lang = "en-US";
-  synth.cancel(); // stop previous
-  synth.speak(utterance);
-}
 
 // --- 🌦️ WEATHER FUNCTION (uses OpenWeather API) ---
 async function getWeatherData(city) {
