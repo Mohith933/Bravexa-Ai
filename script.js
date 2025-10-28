@@ -241,7 +241,7 @@ function typeText(element, htmlContent, speed = 8) {
   const msg = userMessage.toLowerCase().trim();        
   let response = "";        
 
-  // --- 🧩 UNDERSTANDING LAYER ---        
+  // --- 🧩 UNDERSTANDING LAYER ---
   const intents = {        
     greeting: ["hello", "hi", "hey", "good morning", "good evening"],        
     leave: ["leave letter", "application", "holiday", "absent", "permission"],        
@@ -255,7 +255,11 @@ function typeText(element, htmlContent, speed = 8) {
     physics: ["physics", "force", "motion", "energy"],        
     math: ["math", "algebra", "geometry", "calculus"],        
     code: ["code", "program", "script", "snippet"],        
-    motivate: ["motivate", "inspire", "encourage", "boost"]        
+    motivate: ["motivate", "inspire", "encourage", "boost"],
+    weather: ["weather", "temperature", "climate", "forecast"],
+    news: ["news", "headlines", "latest", "today news"],
+    quote: ["quote", "saying", "inspire me"],
+    time: ["time", "clock", "date", "day"]
   };        
 
   let intent = "default";        
@@ -266,18 +270,16 @@ function typeText(element, htmlContent, speed = 8) {
     }        
   }        
 
-  // --- ⚙️ RULE-BASED RESPONSE LAYER ---        
+  // --- ⚙️ RULE-BASED RESPONSE LAYER ---
   switch (intent) {        
 
-    // 🎯 GREETING (No Buttons)
     case "greeting":
       response = `
         <h2>👋 Hello!</h2>
         <p>I’m <strong>Bravexa AI</strong> — your creative workspace assistant.</p>
-        <p>Try me with:<br>• "Generate leave letter"<br>• "Official email"<br>• "Create project documentation"<br>• "Make presentation slides"</p>`;
+        <p>Try:<br>• "Generate leave letter"<br>• "Official email"<br>• "Weather report"<br>• "Show latest news"</p>`;
       break;
 
-    // 📨 EMAIL (Copy + Send)
     case "email":
       response = `
         <h2>📧 Official Email</h2>
@@ -305,7 +307,6 @@ Best regards,
         </div>`;
       break;
 
-    // 📝 LEAVE LETTER (Copy + Send)
     case "leave":
       response = `
         <h2>📄 Leave Letter</h2>
@@ -336,7 +337,6 @@ Yours faithfully,
         </div>`;
       break;
 
-    // 📘 PROJECT / RESUME (Copy + Save)
     case "resume":
       response = `
         <h2>📘 Project Documentation</h2>
@@ -351,19 +351,14 @@ Yours faithfully,
           <pre class="code-content" contenteditable="true">
 <b>Project Title:</b> Smart Waste Management System
 
-<b>Objective:</b> To automate waste collection and monitoring using IoT sensors.
+<b>Objective:</b> Automate waste collection and monitoring using IoT.
 
-<b>Technologies Used:</b>
-- Arduino, Ultrasonic Sensors
-- Node.js Backend
-- Firebase Database
-
-<b>Outcome:</b> Efficient and eco-friendly waste management with live monitoring.
+<b>Technologies:</b> Arduino, Node.js, Firebase
+<b>Outcome:</b> Eco-friendly waste management with live monitoring.
           </pre>
         </div>`;
       break;
 
-    // 🧾 WORD DOC (Copy + Save)
     case "word":
       response = `
         <h2>📝 Microsoft Word Document</h2>
@@ -379,20 +374,11 @@ Yours faithfully,
 <b>Title:</b> Annual Business Report
 
 <b>Introduction:</b>
-This document presents a detailed analysis of company growth, revenue trends, and improvement plans.
-
-<b>Key Points:</b>
-- Q1 sales growth: +15%
-- Q2 market expansion: +10%
-- Future outlook: optimistic growth
-
-<b>Conclusion:</b>
-Sustained innovation and customer focus remain top priorities.
+This report summarizes the company’s growth and performance across key metrics.
           </pre>
         </div>`;
       break;
 
-    // 📊 EXCEL (Copy + Save)
     case "excel":
       response = `
         <h2>📊 Microsoft Excel Sheet</h2>
@@ -414,7 +400,6 @@ Sustained innovation and customer focus remain top priorities.
         </div>`;
       break;
 
-    // 🎤 POWERPOINT (Copy + Save)
     case "powerpoint":
       response = `
         <h2>🎤 PowerPoint Presentation</h2>
@@ -427,21 +412,13 @@ Sustained innovation and customer focus remain top priorities.
             </div>
           </div>
           <pre class="code-content" contenteditable="true">
-<b>Slide 1:</b> Introduction
-- Welcome to Bravexa AI Presentation
-
-<b>Slide 2:</b> Problem & Solution
-- Challenges in workspace automation
-- Bravexa AI’s Intelligent Assistant Layer
-
-<b>Slide 3:</b> Future Vision
-- Integration with MS Office Suite
-- AI Collaboration System
+<b>Slide 1:</b> Introduction to Bravexa AI  
+<b>Slide 2:</b> Features & AI Layers  
+<b>Slide 3:</b> Vision for Future AI Workspaces  
           </pre>
         </div>`;
       break;
 
-    // 💾 ACCESS DATABASE (Copy + Save)
     case "access":
       response = `
         <h2>💾 Microsoft Access Database Report</h2>
@@ -460,49 +437,49 @@ Sustained innovation and customer focus remain top priorities.
 |----|--------------|-------------|--------|--------|
 | 1  | John Doe     | CS          | 87     | A      |
 | 2  | Priya Sharma | ECE         | 91     | A+     |
-| 3  | Rahul Kumar  | ME          | 76     | B+     |
           </pre>
         </div>`;
       break;
 
-    // 💻 CODE (Copy Only)
-    case "code":
-      let lang = "javascript";        
-      if (msg.includes("python")) lang = "python";        
-      else if (msg.includes("java")) lang = "java";        
-      else if (msg.includes("html")) lang = "html";        
-      else if (msg.includes("css")) lang = "css";        
-
-      const examples = {        
-        javascript: `function greet(name) {\n  console.log("Hello, " + name + "!");\n}\ngreet("Bravexa User");`,        
-        python: `def greet(name):\n    print("Hello, " + name + "!")\n\ngreet("Bravexa User")`,        
-        java: `class Main {\n  public static void main(String[] args) {\n    System.out.println("Hello, Bravexa User!");\n  }\n}`,        
-        html: `<!DOCTYPE html>\n<html>\n<body>\n  <h1>Hello, Bravexa User!</h1>\n</body>\n</html>`,        
-        css: `body {\n  background-color: #f5f5f5;\n  color: #333;\n  font-family: Arial;\n}`        
-      };        
-
+    // 📰 NEWS
+    case "news":
       response = `
-        <h2>💻 ${lang.toUpperCase()} Code</h2>
-        <div class="code-block-container">
-          <div class="code-toolbar">
-            <span class="lang-label">${lang.toUpperCase()}</span>
-            <div class="btn-group"><button class="copyBtn">📋 Copy</button></div>
-          </div>
-          <pre class="code-content"><code>${examples[lang]}</code></pre>
-        </div>`;
+        <h2>📰 Latest News</h2>
+        <p>🟢 Global markets steady as tech stocks rise.</p>
+        <p>🟢 India launches new space exploration project.</p>
+        <p>🟢 AI startups show record growth in 2025.</p>
+        <p><i>Note: For live updates, connect API integration.</i></p>`;
       break;
 
-    // 📚 SUBJECTS (No Buttons)
-    case "cs":
-      response = `<h2>💻 Computer Science Note</h2><p><b>Topic:</b> Time Complexity</p><p>Binary Search → O(log n)</p>`;
+    // 🌤️ WEATHER
+    case "weather":
+      response = `
+        <h2>🌤️ Weather Report</h2>
+        <p>📍 Location: [Your City]</p>
+        <p>🌡️ Temperature: 29°C</p>
+        <p>☀️ Condition: Clear Sky</p>
+        <p>💨 Wind: 10 km/h</p>
+        <p><i>Live weather via API coming soon.</i></p>`;
       break;
 
-    case "physics":
-      response = `<h2>⚛️ Physics Concept</h2><p><b>Topic:</b> Newton’s Laws of Motion</p><p>F = m × a</p>`;
+    // ⏰ TIME
+    case "time":
+      const now = new Date();
+      response = `
+        <h2>⏰ Current Date & Time</h2>
+        <p>${now.toDateString()} - ${now.toLocaleTimeString()}</p>`;
       break;
 
-    case "math":
-      response = `<h2>📐 Mathematics Formula</h2><p><b>Topic:</b> Calculus</p><p>d/dx (x²) = 2x</p>`;
+    // 💬 QUOTE
+    case "quote":
+      const quotes = [
+        "The future belongs to those who believe in their dreams.",
+        "Success is built one small victory at a time.",
+        "Discipline beats talent when talent doesn't work hard.",
+        "Every failure is a lesson wearing a disguise."
+      ];
+      const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+      response = `<h2>💬 Quote of the Moment</h2><p>${randomQuote}</p>`;
       break;
 
     // 🚀 MOTIVATION
@@ -515,11 +492,11 @@ Sustained innovation and customer focus remain top priorities.
       response = `
         <p>✨ I’m Bravexa AI — your workspace friend. Try:</p>
         <ul>
+          <li>“Weather report”</li>
+          <li>“Show latest news”</li>
           <li>“Generate leave letter”</li>
           <li>“Official email”</li>
-          <li>“Create project documentation”</li>
-          <li>“Generate Excel data”</li>
-          <li>“Make presentation slides”</li>
+          <li>“Project documentation”</li>
         </ul>`;
   }
 
