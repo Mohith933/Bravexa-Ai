@@ -538,8 +538,31 @@ case "news":
         </ul>`;
   }
   
-  return response;
+  return response + '<button class="voiceBtn">🔊 Speak</button>';
 }
+
+// 🎤 Voice (Text-to-Speech) Feature
+
+document.addEventListener("click", function (e) {
+  if (e.target.classList.contains("voiceBtn")) {
+    const content = e.target.parentElement.innerText || "No text available";
+    speakText(content);
+  }
+});
+
+function speakText(text) {
+  // Cancel ongoing speech
+  window.speechSynthesis.cancel();
+
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = "en-US";
+  utterance.pitch = 1.0;
+  utterance.rate = 1.0;
+  utterance.volume = 1.0;
+
+  window.speechSynthesis.speak(utterance);
+}
+
 // === GLOBAL EVENT DELEGATION FOR BUTTONS ===
 document.addEventListener("click", (e) => {
   const block = e.target.closest(".code-block-container");
