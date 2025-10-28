@@ -630,7 +630,6 @@ body.light-mode .dropdown li a:hover {
   white-space: pre-wrap;
 }
 .voiceBtn {
-  background: linear-gradient(135deg, #6a11cb, #2575fc);
   color: #fff;
   border: none;
   outline: none;
@@ -640,9 +639,8 @@ body.light-mode .dropdown li a:hover {
   font-size: 22px;
   cursor: pointer;
   display: flex;
-  align-items: center;
+  align-items: right;
   justify-content: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   transition: all 0.25s ease;
   margin: 10px auto;
 }
@@ -650,8 +648,6 @@ body.light-mode .dropdown li a:hover {
 /* Hover Effect */
 .voiceBtn:hover {
   transform: scale(1.1);
-  background: linear-gradient(135deg, #2575fc, #6a11cb);
-  box-shadow: 0 6px 18px rgba(37, 117, 252, 0.3);
 }
 
 /* ================= Footer ================= */
