@@ -639,7 +639,7 @@ body.light-mode .dropdown li a:hover {
   font-size: 22px;
   cursor: pointer;
   display: flex;
-  align-items: right;
+  align-items: left;
   justify-content: center;
   transition: all 0.25s ease;
   margin: 10px auto;
