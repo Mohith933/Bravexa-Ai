@@ -252,7 +252,7 @@ body.light-mode .header .btn.solid {
 .chatbox {
   border: none;
   outline: none;
-  background: rgba(255, 255, 255, 0.1);
+  background:transparent;
   color: #ffffff;
   font-size: 1rem;
   resize: none;
