@@ -299,7 +299,7 @@ body.light-mode .header .btn.solid {
 .upload-dropdown {
   display: none;
   position: absolute;
-  bottom: 60px;
+  bottom: 160px;
   left: 0;
   background: #fff;
   color: #000;
