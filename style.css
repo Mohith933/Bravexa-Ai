@@ -250,7 +250,6 @@ body.light-mode .header .btn.solid {
 }
 
 .input-box .chatbox {
-  flex: 1;
   border: none;
   outline: none;
   background: transparent;
