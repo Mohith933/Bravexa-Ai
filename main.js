@@ -42,7 +42,6 @@ chatbox.addEventListener("input", () => {
     if (userMessage) {
       addMessageToChat(userMessage);
       chatbox.value = "";
-      chatbox.style.height = "50px";
     }
 
     // Hide hero and set layout
@@ -52,6 +51,7 @@ chatbox.addEventListener("input", () => {
     inputArea.style.bottom = "31px";
     inputArea.style.left = "50%";
     inputArea.style.transform = "translateX(-50%)";
+chatbox.style.height = "50px";
     footer.style.marginTop = "0px";
     chatWindow.style.display = "flex";
     footer.style.fontSize = "10px";
