@@ -343,7 +343,7 @@ body.light-mode .header .btn.solid {
   color: inherit;
   cursor: pointer;
 }
-.input-box voice-icon { 
+.input-box .voice-icon { 
   background: transparent;
   border: none;
   color: #e0faff;
