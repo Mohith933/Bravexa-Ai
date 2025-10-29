@@ -15,12 +15,11 @@ document.addEventListener("DOMContentLoaded", function () {
   const toggleHistoryBtn = document.getElementById("toggleHistory");
 
 
-const textarea = document.querySelector(".chatbox");
-
-textarea.addEventListener("input", () => {
-  textarea.style.height = "auto"; // reset height
-  textarea.style.height = textarea.scrollHeight + "px"; // set to full content height
+chatbox.addEventListener("input", () => {
+  chatbox.style.height = "auto"; // reset height
+  chatbox.style.height = chatbox.scrollHeight + "px"; // set to full content height
 });
+
 
   document.getElementById("editLogoBtn").addEventListener("click", () => {
   window.location.href = "index.html";
@@ -43,6 +42,7 @@ textarea.addEventListener("input", () => {
     if (userMessage) {
       addMessageToChat(userMessage);
       chatbox.value = "";
+      chatbox.style.height = "50px";
     }
 
     // Hide hero and set layout
