@@ -371,17 +371,13 @@ body.light-mode .header .btn.solid {
 }
 /* ================= Messages ================= */
 .message {
-  max-width: 80%;
+  max-width: 100%;
   padding: 10px 14px;
   margin: 8px;
   border-radius: 18px;
   font-size: 15px;
   line-height: 1.4;
   opacity: 0;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  word-break: break-word;
-  white-space: pre-wrap;
   transform: translateY(15px);
   transition: all 0.3s ease-in-out;
 }
@@ -395,6 +391,7 @@ body.light-mode .header .btn.solid {
 .user-message {
   background: #00b4d8;
   color: #fff;
+  max-width:80%;
   margin-left: auto;
   border-bottom-right-radius: 5px;
   text-align: right;
