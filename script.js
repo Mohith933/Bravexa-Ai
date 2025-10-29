@@ -196,7 +196,6 @@ if ('webkitSpeechRecognition' in window) {
   // === DELETE CONVERSATION ===
   function deleteConversation(chatId) {
     const confirmDelete = confirm("🗑️ Delete this conversation permanently?");
-window.location.href = "dashboard.html";
     if (!confirmDelete) return;
 
     conversations = conversations.filter(c => c.id !== chatId);
@@ -206,6 +205,7 @@ window.location.href = "dashboard.html";
     if (currentChatId === chatId) {
       currentChatId = null;
       chatWindow.innerHTML = "";
+     window.location.href = "dashboard.html";
     }
   }
 
