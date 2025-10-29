@@ -258,7 +258,7 @@ body.light-mode .header .btn.solid {
   resize: none;
   border-radius: 10px;
   padding: 5px;
-  height: 90px;
+  height: 50px;
   transition: all 0.4s ease;
 }
 
@@ -731,13 +731,7 @@ body.light-mode .dropdown li a:hover {
     margin-right:10px;
   }
 
-  .input-box{
-  width:90%;
-}
- .chat-box{
- width:50%;
-}
-
+  
   
   .chat-window {
     width: 100%;
@@ -747,12 +741,7 @@ body.light-mode .dropdown li a:hover {
 }
 @media (min-width:768px) and (max-width: 1024px) {
 
-  .input-box{
-  width:90%;
-}
- .chat-box{
- width:50%;
-}
+  
 
   .chat-window {
     width: 100%;
