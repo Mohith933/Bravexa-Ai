@@ -38,9 +38,31 @@
 
   <!-- Input Box -->
   <div class="input-box">
-    <textarea placeholder="Message Bravexa AI" class="chatbox"></textarea>
-    <button class="send-btn">↑</button>
+  <textarea placeholder="Message Bravexa AI..." class="chatbox"></textarea>
+
+  <div class="bottom-row">
+    <div class="left-section">
+      <button class="plus-btn" id="plusBtn">+</button>
+      <div class="upload-dropdown" id="uploadDropdown">
+        <ul>
+          <li><label for="imageUpload">📷 Image</label><input type="file" id="imageUpload" accept="image/*" hidden></li>
+          <li><label for="videoUpload">🎥 Video</label><input type="file" id="videoUpload" accept="video/*" hidden></li>
+          <li><label for="fileUpload">📄 File</label><input type="file" id="fileUpload" hidden></li>
+          <li><button id="screenshotBtn">🖼️ Screenshot</button></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="right-section">
+      <i class="voice-icon" title="Voice">
+        <svg viewBox="0 0 24 24" width="26" height="26" xmlns="http://www.w3.org/2000/svg">
+          <path fill="currentColor" d="M12 14a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v5a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 14 0h-2zM11 20h2v2h-2z"/>
+        </svg>
+      </i>
+      <button class="send-btn">↑</button>
+    </div>
   </div>
+</div>
 
   <!-- Footer -->
   <div class="footer">
