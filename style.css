@@ -252,12 +252,12 @@ body.light-mode .header .btn.solid {
 .chatbox {
   border: none;
   outline: none;
-  background:transparent;
+  background: linear-gradient(90deg, #0077b6, #00b4d8);
   color: #ffffff;
   font-size: 1rem;
   resize: none;
   border-radius: 10px;
-  padding: 12px;
+  padding: 5px;
   height: 90px;
   transition: all 0.4s ease;
 }
