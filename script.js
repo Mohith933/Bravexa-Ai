@@ -106,6 +106,7 @@ if ('webkitSpeechRecognition' in window) {
     chatWindow.style.display = "flex";
     footer.style.fontSize = "10px";
     uploadDropdown.style.bottom = "35px";
+    uploadDropdown.style.left = "20px";
     footer.innerHTML = "⚡ Bravexa AI Verify important details.";
 
     // AI typing placeholder
@@ -227,6 +228,7 @@ if ('webkitSpeechRecognition' in window) {
     chatWindow.style.display = "flex";
     footer.style.fontSize = "10px";
     uploadDropdown.style.bottom = "35px";
+    uploadDropdown.style.left = "20px";
     footer.innerHTML = "⚡ Bravexa AI Verify important details.";
 
     chat.messages.forEach(msg => addMessageToChat(msg.text, msg.sender === "ai"));
