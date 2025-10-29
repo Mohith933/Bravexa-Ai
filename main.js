@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+ document.addEventListener("DOMContentLoaded", function () {
   // === ELEMENT REFERENCES ===
   const hero = document.querySelector('.hero');
   const chatWindow = document.querySelector('.chat-window');
