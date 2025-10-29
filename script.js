@@ -617,52 +617,63 @@ document.addEventListener("click", (e) => {
     a.click();
   }
 });
-  // === AVATAR DROPDOWN ===
+  === AVATAR DROPDOWN ===
   avatarIcon.addEventListener("click", () => {
     dropdownMenu.classList.toggle("active");
   });
 
   // === UPLOAD DROPDOWN ===
-  plusBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    uploadDropdown.style.display =
-      uploadDropdown.style.display === "block" ? "none" : "block";
-  });
+  // === AVATAR MENU TOGGLE ===
+avatarIcon.addEventListener("click", () => {
+  dropdownMenu.classList.toggle("active");
+});
 
-  document.addEventListener("click", (e) => {
-    if (!uploadDropdown.contains(e.target) && e.target !== plusBtn) {
-      uploadDropdown.style.display = "none";
+// === UPLOAD DROPDOWN ===
+plusBtn.addEventListener("click", (e) => {
+  e.stopPropagation();
+  uploadDropdown.style.display =
+    uploadDropdown.style.display === "block" ? "none" : "block";
+});
+
+document.addEventListener("click", (e) => {
+  if (!uploadDropdown.contains(e.target) && e.target !== plusBtn) {
+    uploadDropdown.style.display = "none";
+  }
+});
+
+// === FILE UPLOAD HANDLER ===
+document.querySelectorAll("#imageUpload, #videoUpload, #fileUpload").forEach(input => {
+  input.addEventListener("change", (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const fileType = file.type.split("/")[0];
+      alert(`📁 File uploaded: ${file.name} (${fileType})`);
     }
   });
-  
-  // === FILE UPLOAD HANDLER ===
-  document.querySelectorAll("#imageUpload, #videoUpload, #fileUpload").forEach(input => {
-    input.addEventListener("change", (event) => {
-      const file = event.target.files[0];
-      if (file) alert(`File uploaded: ${file.name}`);
-    });
-  });
+});
 
-  // === SCREENSHOT CAPTURE ===
-  screenshotBtn.addEventListener("click", async () => {
-    try {
-      const stream = await navigator.mediaDevices.getDisplayMedia({ video: true });
-      const track = stream.getVideoTracks()[0];
-      const imageCapture = new ImageCapture(track);
-      const blob = await imageCapture.takePhoto();
-      track.stop();
+// === SCREENSHOT CAPTURE ===
+screenshotBtn.addEventListener("click", async () => {
+  try {
+    const stream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+    const track = stream.getVideoTracks()[0];
+    const imageCapture = new ImageCapture(track);
+    const blob = await imageCapture.takePhoto();
+    track.stop();
 
-      const url = URL.createObjectURL(blob);
-      const img = document.createElement("img");
-      img.src = url;
-      img.alt = "Screenshot";
-      img.style.maxWidth = "200px";
-      img.style.borderRadius = "8px";
-      chatWindow.appendChild(img);
-    } catch {
-      alert("Failed to take screenshot. Please allow permission.");
-    }
-  });
+    const url = URL.createObjectURL(blob);
+    const img = document.createElement("img");
+    img.src = url;
+    img.alt = "Screenshot";
+    img.style.maxWidth = "200px";
+    img.style.borderRadius = "8px";
+    chatWindow.appendChild(img);
+
+    alert("📸 Screenshot captured successfully!");
+  } catch {
+    alert("⚠️ Failed to take screenshot. Please allow permission.");
+  }
+});
 
   // === RESPONSIVE LAYOUT ===
   function adjustLayoutForViewport() {
