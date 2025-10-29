@@ -621,6 +621,62 @@ ID | Name | Dept | Marks
   return response;
 }
 
+
+// === ENABLE EDIT + REAL ACTIONS ===
+document.addEventListener("click", (e) => {
+  const block = e.target.closest(".code-block-container");
+  if (!block) return;
+  const textElement = block.querySelector(".code-content");
+  textElement.setAttribute("contenteditable", "true");
+
+  // --- COPY ---
+  if (e.target.classList.contains("copyBtn")) {
+    const text = textElement.textContent.trim();
+    navigator.clipboard.writeText(text);
+    alert("✅ Copied to clipboard!");
+  }
+
+  // --- SEND EMAIL ---
+  if (e.target.classList.contains("sendBtn")) {
+    const body = encodeURIComponent(textElement.textContent.trim());
+    const mailto = `mailto:?subject=Bravexa Document&body=${body}`;
+    window.location.href = mailto;
+  }
+
+  // --- SAVE TXT / DOCX / XLSX / PPTX ---
+  if (e.target.classList.contains("saveBtn")) {
+    const text = textElement.textContent.trim();
+
+    // detect file type
+    const fileType = block.getAttribute("data-type") || "txt";
+
+    let blob, filename;
+    switch (fileType) {
+      case "word":
+        filename = "document.docx";
+        blob = new Blob([text], { type: "application/msword" });
+        break;
+      case "excel":
+        filename = "sheet.xlsx";
+        blob = new Blob([text], { type: "application/vnd.ms-excel" });
+        break;
+      case "ppt":
+        filename = "presentation.pptx";
+        blob = new Blob([text], { type: "application/vnd.ms-powerpoint" });
+        break;
+      default:
+        filename = "document.txt";
+        blob = new Blob([text], { type: "text/plain" });
+    }
+
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    link.click();
+    URL.revokeObjectURL(link.href);
+  }
+});
+
   // === VOICE BUTTON ===
   document.addEventListener("click", function (e) {
     if (e.target.classList.contains("voiceBtn")) {
