@@ -301,8 +301,8 @@ body.light-mode .header .btn.solid {
 .upload-dropdown {
   display: none;
   position: absolute;
-  bottom: 38px; /* close to + button */
-  left: 0;
+  bottom: -160px; /* close to + button */
+  left: -50px;
   background: rgba(255, 255, 255, 0.15); /* semi-transparent base */
   backdrop-filter: blur(20px) saturate(180%); /* frosted effect */
   -webkit-backdrop-filter: blur(20px) saturate(180%);
@@ -336,6 +336,9 @@ body.light-mode .header .btn.solid {
 .upload-dropdown li:hover {
   background: rgba(0, 225, 255, 0.1);
   color: #00e1ff;
+}
+.upload-dropdown button {
+      color:#fff;
 }
 
 /* Fade-in animation */
@@ -802,6 +805,7 @@ body.light-mode .dropdown li a:hover {
   50% { box-shadow: 0 0 20px rgba(0, 223, 216, 0.6); }
   100% { box-shadow: 0 0 12px rgba(0, 223, 216, 0.3); }
 }
+
 
 
 
