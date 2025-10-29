@@ -300,6 +300,7 @@ body.light-mode .header .btn.solid {
   display: none;
   position: absolute;
   bottom: 100px;
+  right: 30px;
   left: 0;
   background: #fff;
   color: #000;
