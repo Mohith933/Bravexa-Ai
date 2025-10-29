@@ -346,12 +346,12 @@ body.light-mode .header .btn.solid {
 .input-box .voice-icon { 
   background: transparent;
   border: none;
-  color: #e0faff;
+  color: #fff;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 15px;
   font-weight: bold;
   margin-top: 50px;
-  margin-right: 10px;
+  margin-right: 0px;
  transition: all 0.4s ease;
 }
 .voice-simple svg { 
