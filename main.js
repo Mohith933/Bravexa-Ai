@@ -367,6 +367,19 @@ document.addEventListener("click", (e) => {
   }
 });
 
+// === LIMITED UPLOAD FUNCTIONALITY ===
+document.querySelectorAll("#imageUpload, #videoUpload, #audioUpload").forEach(input => {
+  input.addEventListener("change", (event) => {
+    const file = event.target.files[0];
+    if (file) alert(`Uploaded: ${file.name}`);
+  });
+});
+
+// === SCREENSHOT DEMO ===
+screenshotBtn.addEventListener("click", () => {
+  alert("📸 Screenshot feature available only in Bravexa Dashboard.");
+});
+
   // === RESPONSIVE LAYOUT ===
   function adjustLayoutForViewport() {
     const viewportWidth = window.innerWidth;
