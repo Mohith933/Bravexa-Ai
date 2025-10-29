@@ -371,7 +371,7 @@ body.light-mode .header .btn.solid {
 }
 /* ================= Messages ================= */
 .message {
-  max-width: 100%;
+  max-width: 80%;
   padding: 10px 14px;
   margin: 8px;
   border-radius: 18px;
