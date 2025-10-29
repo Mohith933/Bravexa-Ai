@@ -14,11 +14,10 @@ document.addEventListener("DOMContentLoaded", function () {
   const historyList = document.getElementById("historyList");
   const toggleHistoryBtn = document.getElementById("toggleHistory");
 
-const textarea = document.querySelector(".chatbox");
 
-textarea.addEventListener("input", () => {
-  textarea.style.height = "auto"; // reset height
-  textarea.style.height = textarea.scrollHeight + "px"; // set to full content height
+chatbox.addEventListener("input", () => {
+  chatbox.style.height = "auto"; // reset height
+  chatbox.style.height = chatbox.scrollHeight + "px"; // set to full content height
 });
 
 
@@ -194,6 +193,7 @@ textarea.addEventListener("input", () => {
     hero.style.display = "none";
     inputArea.style.position = "fixed";
     chatWindow.style.marginTop = "80px";
+    chatbox.style.height = "50px";
     inputArea.style.bottom = "30px";
     inputArea.style.left = "50%";
     inputArea.style.transform = "translateX(-50%)";
