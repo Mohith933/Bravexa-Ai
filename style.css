@@ -395,6 +395,14 @@ body.light-mode .header .btn.solid {
   border-bottom-right-radius: 5px;
   text-align: right;
   box-shadow: 0 3px 6px rgba(0, 180, 216, 0.3);
+  padding: 10px 14px;
+  border-radius: 12px;
+  
+  /* ✅ FIX: word wrapping */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  white-space: pre-wrap;
 }
 
 /* AI message (left) */
