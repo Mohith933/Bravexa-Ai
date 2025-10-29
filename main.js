@@ -407,6 +407,18 @@ document.addEventListener("click", (e) => {
   }
 });
 
+  plusBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    uploadDropdown.style.display =
+      uploadDropdown.style.display === "block" ? "none" : "block";
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!uploadDropdown.contains(e.target) && e.target !== plusBtn) {
+      uploadDropdown.style.display = "none";
+    }
+  });
+
 // === LIMITED UPLOAD FUNCTIONALITY ===
 document.querySelectorAll("#imageUpload, #videoUpload, #audioUpload").forEach(input => {
   input.addEventListener("change", (event) => {
