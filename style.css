@@ -299,15 +299,15 @@ body.light-mode .header .btn.solid {
 .upload-dropdown {
   display: none;
   position: absolute;
-  bottom: 100px;
-  left: 30px;
+  bottom: 55px;
+  left: 0;
   background: #fff;
-  color: #000;
   border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-  overflow: hidden;
   width: 160px;
-  z-index: 10;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  z-index: 1000;
+  animation: fadeIn 0.25s ease;
 }
 
 .upload-dropdown ul {
@@ -780,6 +780,7 @@ body.light-mode .dropdown li a:hover {
   50% { box-shadow: 0 0 20px rgba(0, 223, 216, 0.6); }
   100% { box-shadow: 0 0 12px rgba(0, 223, 216, 0.3); }
 }
+
 
 
 
