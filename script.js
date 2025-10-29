@@ -374,35 +374,109 @@ Best regards,
       break;
 
     // 2) DOCUMENTATION — RESUME / PROJECT (copy + save)
-    case "resume":
-      response = `
-        <h2>📘 Resume / Project</h2>
-        <div class="code-block-container">
-          <div class="code-toolbar">
-            <span class="lang-label">📘 resume</span>
-            <div class="btn-group">
-              <button class="copyBtn">📋 Copy</button>
-              <button class="saveBtn">💾 Save</button>
-            </div>
-          </div>
-          <pre class="code-content" contenteditable="true">
-Project Title: Smart Waste Management System
-
-Objective:
-To automate waste collection and monitoring using IoT sensors.
-
-Technologies:
-- Arduino, Ultrasonic sensors
-- Node.js backend
-- Firebase / NoSQL db
-
-Outcome:
-Delivered prototype and user testing reports.
-          </pre>
+    // 🧾 RESUME
+case "resume":
+  response = `
+    <h2>🧾 Resume Template</h2>
+    <div class="code-block-container">
+      <div class="code-toolbar">
+        <span class="lang-label">📄 .docx</span>
+        <div class="btn-group">
+          <button class="copyBtn">📋 Copy</button>
+          <button class="saveBtn">💾 Save</button>
         </div>
-      `;
-      break;
+      </div>
+      <pre class="code-content" contenteditable="true">
+<b>Name:</b> [Your Full Name]  
+<b>Email:</b> [you@example.com]  
+<b>Phone:</b> [Your Number]  
 
+<b>Objective:</b>  
+To obtain a responsible position where I can utilize my skills and contribute to the organization’s growth.  
+
+<b>Skills:</b>  
+- Problem Solving  
+- Team Collaboration  
+- Programming (C, Python, Java)  
+
+<b>Education:</b>  
+B.Tech in Computer Science, [College Name]  
+
+<b>Experience:</b>  
+Intern – Web Developer, [Company Name]  
+      </pre>
+    </div>
+  `;
+  break;
+
+// 📃 CV TEMPLATE
+case "cv":
+  response = `
+    <h2>📃 Curriculum Vitae</h2>
+    <div class="code-block-container">
+      <div class="code-toolbar">
+        <span class="lang-label">🧑‍💼 .docx</span>
+        <div class="btn-group">
+          <button class="copyBtn">📋 Copy</button>
+          <button class="saveBtn">💾 Save</button>
+        </div>
+      </div>
+      <pre class="code-content" contenteditable="true">
+<b>Personal Details:</b>  
+Name: [Your Name]  
+Date of Birth: [DD/MM/YYYY]  
+Address: [Your Address]  
+Email: [you@example.com]  
+Phone: [Your Number]  
+
+<b>Education:</b>  
+- B.Tech in [Branch] – [University Name]  
+- Intermediate – [School Name]  
+
+<b>Achievements:</b>  
+- Won Coding Contest 2025  
+- Best Project Award in Final Year  
+
+<b>Declaration:</b>  
+I hereby declare that the above information is true to the best of my knowledge.  
+      </pre>
+    </div>
+  `;
+  break;
+
+// 📘 PROJECT REPORT
+case "project":
+  response = `
+    <h2>📘 Project Report</h2>
+    <div class="code-block-container">
+      <div class="code-toolbar">
+        <span class="lang-label">📄 .txt</span>
+        <div class="btn-group">
+          <button class="copyBtn">📋 Copy</button>
+          <button class="saveBtn">💾 Save</button>
+        </div>
+      </div>
+      <pre class="code-content" contenteditable="true">
+<b>Title:</b> Smart Chatbot Assistant using Bravexa AI  
+
+<b>Abstract:</b>  
+This project focuses on developing a rule-based AI chatbot capable of generating templates,  
+handling documentation tasks, and automating conversation workflows.
+
+<b>Modules:</b>  
+1. User Interface  
+2. Rule-based Response Layer  
+3. File Generator System  
+
+<b>Tools Used:</b>  
+HTML, CSS, JavaScript  
+
+<b>Conclusion:</b>  
+The chatbot automates daily communication and document creation efficiently.  
+      </pre>
+    </div>
+  `;
+  break;
     // 2) DOCUMENTATION — Word (copy + save)
     case "word":
       response = `
