@@ -630,12 +630,6 @@ document.addEventListener("click", (e) => {
     dropdownMenu.classList.toggle("active");
   });
 
-  // === UPLOAD DROPDOWN ===
-  // === AVATAR MENU TOGGLE ===
-avatarIcon.addEventListener("click", () => {
-  dropdownMenu.classList.toggle("active");
-});
-
 // === UPLOAD DROPDOWN ===
 plusBtn.addEventListener("click", (e) => {
   e.stopPropagation();
