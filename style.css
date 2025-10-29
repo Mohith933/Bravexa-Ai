@@ -236,77 +236,73 @@ body.light-mode .header .btn.solid {
 
 /* ================= Input Box ================= */
 .input-box {
-  display: flex;
-  align-items: center;
   background: linear-gradient(90deg, #0077b6, #00b4d8);
-  border-radius: 15px;
-  padding: 10px 15px;
-  width: 50%;
-  max-width: 100%;
+  border-radius: 18px;
+  padding: 14px 16px;
+  width: 55%;
   margin: 0 auto;
-  box-shadow: 0 5px 12px rgba(0, 200, 255, 0.2);
-  transition: all 0.4s ease;
+  box-shadow: 0 5px 15px rgba(0, 200, 255, 0.25);
   animation: pulseGlow 2.5s infinite ease-in-out;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.input-box .chatbox {
+/* Textarea (Top Section) */
+.chatbox {
   border: none;
   outline: none;
-  background: transparent;
-  color: white;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
   font-size: 1rem;
   resize: none;
-  height: 100px;
-  padding: 10px;
+  border-radius: 10px;
+  padding: 12px;
+  height: 90px;
   transition: all 0.4s ease;
 }
 
-.input-box .chatbox::placeholder {
+.chatbox::placeholder {
   color: #bfe8f7;
 }
 
-.input-box .send-btn {
+/* Bottom Row */
+.bottom-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Left Section (+ button) */
+.left-section {
+  display: flex;
+  align-items: center;
+}
+
+.plus-btn {
   background: transparent;
   border: none;
   color: #e0faff;
-  cursor: pointer;
   font-size: 25px;
-  font-weight: bold;
-  margin-top: 50px;
-  margin-left: 30px;
-  transition: all 0.4s ease;
-}
-.input-box .plus-btn {
-  background: transparent;
-  border: none;
-  color: #e0faff;
   cursor: pointer;
-  font-size: 25px;
-  font-weight: bold;
-  margin-top: 50px;
-  margin-left: 0px;
-  transition: all 0.4s ease;
-}
-.input-box .send-btn:hover {
-  color: #00e1ff;
-  transform: translateY(-50%) scale(1.1);
-}
-.upload-wrapper {
-  position: relative;
+  transition: all 0.3s ease;
 }
 
 .plus-btn:hover {
-  background: rgba(0, 0, 0, 0.05);
+  color: #00e1ff;
+  transform: scale(1.2);
 }
 
+/* Upload Dropdown */
 .upload-dropdown {
   display: none;
   position: absolute;
-  bottom: -155px;
+  bottom: -160px;
   left: 0;
-  background: var(--dropdown-bg, #fff);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  background: #fff;
+  color: #000;
   border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
   overflow: hidden;
   width: 160px;
   z-index: 10;
@@ -315,48 +311,62 @@ body.light-mode .header .btn.solid {
 .upload-dropdown ul {
   list-style: none;
   margin: 0;
-  padding: 5px 0;
+  padding: 6px 0;
 }
 
 .upload-dropdown li {
-  display: flex;
-  align-items: center;
   padding: 8px 14px;
   font-size: 15px;
   cursor: pointer;
-  color: var(--text-color, #222);
   transition: background 0.2s;
 }
 
 .upload-dropdown li:hover {
-  background: rgba(0, 0, 0, 0.05);
+  background: rgba(0, 0, 0, 0.07);
 }
 
-.upload-dropdown label,
-.upload-dropdown button {
-  width: 100%;
-  text-align: left;
-  background: none;
-  border: none;
-  font: inherit;
-  color: inherit;
-  cursor: pointer;
+/* Right Section (Voice + Send buttons) */
+.right-section {
+  display: flex;
+  align-items: center;
+  gap: 18px;
 }
-.voice-icon { 
+
+.voice-icon {
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.voice-icon:hover {
+  color: #00e1ff;
+  transform: scale(1.2);
+}
+
+.send-btn {
   background: transparent;
   border: none;
-  color: #fff;
+  color: #e0faff;
   cursor: pointer;
-  font-size: 15px;
+  font-size: 26px;
   font-weight: bold;
-  margin-top: 55px;
-  margin-right: 0px;
- transition: all 0.4s ease;
+  transition: all 0.3s ease;
 }
-.voice-simple svg { 
-color: #fff; 
-} /* change color here */
 
+.send-btn:hover {
+  color: #00e1ff;
+  transform: translateY(-2px) scale(1.1);
+}
+
+/* Glow Animation */
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(0, 200, 255, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(0, 200, 255, 0.8);
+  }
+}
 /* ================= Messages ================= */
 .message {
   max-width: 100%;
