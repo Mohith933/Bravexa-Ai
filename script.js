@@ -432,71 +432,106 @@ Focus on operational excellence.
       `;
       break;
 
-    // 2) DOCUMENTATION — Excel (copy + save)
-    case "excel":
-      response = `
-        <h2>📊 Excel / Sheet</h2>
-        <div class="code-block-container">
-          <div class="code-toolbar">
-            <span class="lang-label">📈 .xlsx</span>
-            <div class="btn-group">
-              <button class="copyBtn">📋 Copy</button>
-              <button class="saveBtn">💾 Save</button>
-            </div>
-          </div>
-          <pre class="code-content" contenteditable="true">
-| Month | Sales | Profit |
-| Jan   | 12000 | 4000   |
-| Feb   | 15000 | 5000   |
-| Mar   | 18000 | 6000   |
-          </pre>
-        </div>
-      `;
-      break;
+    // === EXCEL / SHEET ===
+case "excel":        
+  response = `        
+    <h2>📊 Excel / Sheet</h2>        
+    <div class="code-block-container">        
+      <div class="code-toolbar">        
+        <span class="lang-label">📈 .xlsx</span>        
+        <div class="btn-group">        
+          <button class="copyBtn">📋 Copy</button>        
+          <button class="saveBtn">💾 Save</button>        
+        </div>        
+      </div>        
 
-    // 2) DOCUMENTATION — PowerPoint (copy + save)
-    case "powerpoint":
-      response = `
-        <h2>🎞️ Presentation (PPT)</h2>
-        <div class="code-block-container">
-          <div class="code-toolbar">
-            <span class="lang-label">📽 .pptx</span>
-            <div class="btn-group">
-              <button class="copyBtn">📋 Copy</button>
-              <button class="saveBtn">💾 Save</button>
-            </div>
-          </div>
-          <pre class="code-content" contenteditable="true">
-Slide 1: Title & Overview
-Slide 2: Problem Statement
-Slide 3: Solution (Bravexa / Valantine)
-Slide 4: Roadmap & Ask
-          </pre>
-        </div>
-      `;
-      break;
+      <pre class="code-content" contenteditable="true">        
+📅 Month | 💰 Sales | 📈 Profit | 🧾 Expense  
+-------------------------------------------  
+January  | 12000    | 4000      | 2000  
+February | 15000    | 5000      | 2500  
+March    | 18000    | 6000      | 3000  
+April    | 21000    | 7000      | 3500  
 
-    // 2) DOCUMENTATION — Access (copy + save)
-    case "access":
-      response = `
-        <h2>💾 Access / DB Report</h2>
-        <div class="code-block-container">
-          <div class="code-toolbar">
-            <span class="lang-label">📁 .accdb</span>
-            <div class="btn-group">
-              <button class="copyBtn">📋 Copy</button>
-              <button class="saveBtn">💾 Save</button>
-            </div>
-          </div>
-          <pre class="code-content" contenteditable="true">
-Table: StudentRecords
-ID | Name | Dept | Marks
-1  | John | CS   | 87
-2  | Priya| ECE  | 91
-          </pre>
-        </div>
-      `;
-      break;
+💡 Tip: You can track growth percentage or add totals below.  
+      </pre>        
+    </div>        
+  `;        
+  break;        
+
+
+// === POWERPOINT / PRESENTATION ===
+case "powerpoint":        
+  response = `        
+    <h2>🎞️ Presentation (PPT)</h2>        
+    <div class="code-block-container">        
+      <div class="code-toolbar">        
+        <span class="lang-label">📽 .pptx</span>        
+        <div class="btn-group">        
+          <button class="copyBtn">📋 Copy</button>        
+          <button class="saveBtn">💾 Save</button>        
+        </div>        
+      </div>        
+
+      <pre class="code-content" contenteditable="true">        
+📘 Slide 1: Title  
+Introduce your topic or project clearly.  
+
+💡 Slide 2: Objective  
+State your main purpose in one or two lines.  
+
+🧩 Slide 3: Key Points  
+List your main ideas or solutions briefly.  
+
+📊 Slide 4: Results / Data  
+Show your key findings or outcomes.  
+
+🚀 Slide 5: Conclusion  
+Wrap up with summary and call to action.  
+      </pre>        
+    </div>        
+  `;        
+  break;
+
+   // === ACCESS / DATABASE ===
+case "access":        
+  response = `        
+    <h2>🗄️ Microsoft Access Database</h2>        
+    <div class="code-block-container">        
+      <div class="code-toolbar">        
+        <span class="lang-label">📚 .accdb</span>        
+        <div class="btn-group">        
+          <button class="copyBtn">📋 Copy</button>        
+          <button class="saveBtn">💾 Save</button>        
+        </div>        
+      </div>        
+
+      <pre class="code-content" contenteditable="true">        
+📋 Table Name: Employees  
+-------------------------------------------  
+| ID | Name        | Department | Salary |  
+|----|--------------|-------------|--------|  
+| 1  | John Smith   | HR          | 45000  |  
+| 2  | Priya Patel  | IT          | 60000  |  
+| 3  | Arjun Mehta  | Finance     | 55000  |  
+| 4  | Emma Brown   | Marketing   | 52000  |  
+
+📋 Table Name: Projects  
+-------------------------------------------  
+| ProjectID | ProjectName    | StartDate  | EndDate    |  
+|------------|----------------|-------------|------------|  
+| P001       | Bravexa AI     | 2025-01-01  | 2025-06-30 |  
+| P002       | Valantine AI   | 2025-02-10  | 2025-07-30 |  
+| P003       | Clarity Voice  | 2025-03-05  | 2025-08-20 |  
+
+🔗 Relationship Example:  
+Employees.ID → Projects.ProjectID (Manager Assigned)  
+
+💡 Tip: Use this format to visualize Access tables and relationships before building your database.  
+      </pre>        
+    </div>        
+  `;        
+  break;
 
     // 3) CODE GENERATOR (copy only) - support many languages
     case "code": {
