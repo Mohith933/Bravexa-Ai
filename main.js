@@ -25,6 +25,38 @@ chatbox.addEventListener("input", () => {
   window.location.href = "index.html";
   });
 
+const voiceBtn = document.querySelector('.voice-icon');
+
+// Check if browser supports speech recognition
+if ('webkitSpeechRecognition' in window) {
+  const recognition = new webkitSpeechRecognition();
+  recognition.continuous = false;
+  recognition.interimResults = false;
+  recognition.lang = 'en-US';
+
+  voiceBtn.addEventListener('click', () => {
+    recognition.start();
+    voiceBtn.style.color = '#00e1ff'; // glowing when active
+  });
+
+  recognition.onresult = (event) => {
+    const transcript = event.results[0][0].transcript;
+    chatbox.value += (chatbox.value ? ' ' : '') + transcript;
+    voiceBtn.style.color = '#fff';
+  };
+
+  recognition.onerror = (event) => {
+    console.error('Speech recognition error:', event.error);
+    voiceBtn.style.color = '#fff';
+  };
+
+  recognition.onend = () => {
+    voiceBtn.style.color = '#fff';
+  };
+} else {
+  alert('Speech Recognition not supported in this browser 😞');
+}
+
 
 
   // === MESSAGE SEND EVENTS ===
