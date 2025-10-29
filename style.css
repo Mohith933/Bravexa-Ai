@@ -280,86 +280,80 @@ body.light-mode .header .btn.solid {
   display: flex;
   align-items: center;
 }
- /* + Button */
-.plus-btn {
-  background: transparent;
-  border: none;
-  color: #e0faff;
-  font-size: 25px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  position: relative;
-  z-index: 1001;
-}
+/* + Button */
+    .plus-btn {
+      background: transparent;
+      border: none;
+      color: #e0faff;
+      font-size: 35px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      z-index: 1001;
+    }
 
-.plus-btn:hover {
-  color: #00e1ff;
-  transform: scale(1.2);
-}
+    .plus-btn:hover {
+      color: #00e1ff;
+      transform: scale(1.2);
+    }
 
-/* Upload Dropdown - Frosted Glass (macOS style) */
-.upload-dropdown {
-  display: none;
-  position: absolute;
-  bottom: -160px; /* close to + button */
-  left: -50px;
-  background: rgba(255, 255, 255, 0.15); /* semi-transparent base */
-  backdrop-filter: blur(20px) saturate(180%); /* frosted effect */
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border-radius: 14px;
-  width: 170px;
-  border: 1px solid rgba(255, 255, 255, 0.25); /* glass border */
-  box-shadow: 
-    0 4px 20px rgba(0, 0, 0, 0.35),
-    0 -2px 8px rgba(0, 225, 255, 0.3); /* soft cyan glow upward */
-  overflow: hidden;
-  z-index: 1000;
-  animation: fadeIn 0.25s ease;
-}
+    .plus-btn.active {
+      color: #00e1ff;
+      text-shadow: 0 0 10px #00e1ff;
+    }
 
-/* Dropdown list */
-.upload-dropdown ul {
-  list-style: none;
-  margin: 0;
-  padding: 6px 0;
-}
+    /* Upload Dropdown - Frosted Glass (macOS style) */
+    .upload-dropdown {
+      display: none;
+      position: absolute;
+      bottom: -160px;
+      left: -50px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-radius: 14px;
+      width: 170px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35),
+        0 -2px 8px rgba(0, 225, 255, 0.3);
+      overflow: hidden;
+      z-index: 1000;
+      animation: fadeIn 0.25s ease;
+    }
 
-/* Items */
-.upload-dropdown li {
-  padding: 9px 16px;
-  font-size: 15px;
-  color: #e0faff;
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s;
-}
+    /* Dropdown list */
+    .upload-dropdown ul {
+      list-style: none;
+      margin: 0;
+      padding: 6px 0;
+    }
 
-.upload-dropdown li:hover {
-  background: rgba(0, 225, 255, 0.1);
-  color: #00e1ff;
-}
-.upload-dropdown button {
-      color:#fff;
-}
+    /* Items */
+    .upload-dropdown li {
+      padding: 9px 16px;
+      font-size: 15px;
+      color: #e0faff;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
 
-/* Fade-in animation */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-.upload-dropdown button {
+    .upload-dropdown li:hover {
+      background: rgba(0, 225, 255, 0.1);
+      color: #00e1ff;
+    }
 
-background: transparent;
+    /* Fade-in animation */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-color:black;
-
-border:none;
-}
 
 /* Right Section (Voice + Send buttons) */
 .right-section {
@@ -805,6 +799,7 @@ body.light-mode .dropdown li a:hover {
   50% { box-shadow: 0 0 20px rgba(0, 223, 216, 0.6); }
   100% { box-shadow: 0 0 12px rgba(0, 223, 216, 0.3); }
 }
+
 
 
 
