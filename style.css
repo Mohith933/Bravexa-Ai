@@ -343,6 +343,14 @@ body.light-mode .header .btn.solid {
   color: inherit;
   cursor: pointer;
 }
+voice-icon { 
+display:inline-flex; 
+align-items:center; justify-content:center; 
+color:#fff; 
+}
+.voice-simple svg { 
+color: #fff; 
+} /* change color here */
 
 /* ================= Messages ================= */
 .message {
