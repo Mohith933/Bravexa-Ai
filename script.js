@@ -14,6 +14,14 @@ document.addEventListener("DOMContentLoaded", function () {
   const historyList = document.getElementById("historyList");
   const toggleHistoryBtn = document.getElementById("toggleHistory");
 
+const textarea = document.querySelector(".chatbox");
+
+textarea.addEventListener("input", () => {
+  textarea.style.height = "auto"; // reset height
+  textarea.style.height = textarea.scrollHeight + "px"; // set to full content height
+});
+
+
   // === LOCAL STORAGE ===
   let conversations = JSON.parse(localStorage.getItem("bravexaChats")) || [];
   let currentChatId = null;
