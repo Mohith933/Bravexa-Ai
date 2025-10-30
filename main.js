@@ -83,7 +83,7 @@ if ('webkitSpeechRecognition' in window) {
     inputArea.style.bottom = "31px";
     inputArea.style.left = "50%";
     inputArea.style.transform = "translateX(-50%)";
-uploadDropdown.style.bottom = "30px";
+uploadDropdown.style.bottom = "35px";
 chatbox.style.height = "50px";
     footer.style.marginTop = "0px";
     chatWindow.style.display = "flex";
