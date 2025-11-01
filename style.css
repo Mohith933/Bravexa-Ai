@@ -363,6 +363,7 @@ body.light-mode .header .btn.solid {
 }
 
 .voice-icon {
+  margin-top:10px;
   color: #ffffff;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -807,6 +808,7 @@ left:110px;
   50% { box-shadow: 0 0 20px rgba(0, 223, 216, 0.6); }
   100% { box-shadow: 0 0 12px rgba(0, 223, 216, 0.3); }
 }
+
 
 
 
