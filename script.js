@@ -104,6 +104,7 @@ if ('webkitSpeechRecognition' in window) {
     inputArea.style.transform = "translateX(-50%)";
     footer.style.marginTop = "0px";
     chatWindow.style.display = "flex";
+    voiceBtn.style.marginTop = "10px";
     footer.style.fontSize = "10px";
     uploadDropdown.style.bottom = "45px";
     uploadDropdown.style.left = "20px";
@@ -228,6 +229,7 @@ if ('webkitSpeechRecognition' in window) {
     footer.style.marginTop = "0px";
     chatWindow.style.display = "flex";
     footer.style.fontSize = "10px";
+    voiceBtn.style.marginTop = "10px";
     uploadDropdown.style.bottom = "45px";
     uploadDropdown.style.left = "20px";
     uploadDropdown.style.marginTop = "0px";
