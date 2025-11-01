@@ -83,8 +83,10 @@ if ('webkitSpeechRecognition' in window) {
     inputArea.style.bottom = "31px";
     inputArea.style.left = "50%";
     inputArea.style.transform = "translateX(-50%)";
-uploadDropdown.style.bottom = "40px";
-chatbox.style.height = "50px";
+    uploadDropdown.style.bottom = "40px";
+    uploadDropdown.style.left = "20px";
+    uploadDropdown.style.marginTop = "0px";
+    chatbox.style.height = "50px";
     footer.style.marginTop = "0px";
     chatWindow.style.display = "flex";
     footer.style.fontSize = "10px";
@@ -695,6 +697,7 @@ screenshotBtn.addEventListener("click", () => {
   window.addEventListener("resize", adjustLayoutForViewport);
   adjustLayoutForViewport();
 });
+
 
 
 
