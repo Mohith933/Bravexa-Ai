@@ -132,28 +132,36 @@ if ('webkitSpeechRecognition' in window) {
   }
 
   // === BRAVEXA TYPE EFFECT ===  
-function typeText(element, htmlContent, speed = 8) {
+// === BRAVEXA SMOOTH TYPE EFFECT ===
+function typeText(element, htmlContent, speed = 12) {
   let i = 0;
-  const cleanText = htmlContent.replace(/<[^>]*>/g, ''); // removes HTML tags for smoother timing
   element.innerHTML = "";
 
-  // show text quickly (faster than typing each char)
-  const interval = setInterval(() => {
-    element.innerHTML = htmlContent.substring(0, i);
-    i += 3; // jump 3 chars per tick (superfast)
-    if (i >= htmlContent.length) {
-      element.innerHTML = htmlContent; // ensure full content at end
-      clearInterval(interval);
+  let lastScroll = 0;
+
+  function type() {
+    // increase characters smoothly
+    i += 2; // balanced speed (not jumpy)
+    element.innerHTML = htmlContent.slice(0, i);
+
+    // auto-scroll only when needed
+    const now = Date.now();
+    if (now - lastScroll > 120) {
+      window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: "smooth"
+      });
+      lastScroll = now;
     }
-  }, speed);
 
-  // smooth scroll effect
-  const scrollInterval = setInterval(() => {
-    window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
-  }, 80);
+    if (i < htmlContent.length) {
+      requestAnimationFrame(type);
+    } else {
+      element.innerHTML = htmlContent; // ensure full render
+    }
+  }
 
-  // stop scroll when done
-  setTimeout(() => clearInterval(scrollInterval), (htmlContent.length / 3) * speed + 100);
+  requestAnimationFrame(type);
 }
 // === SIMPLE AI RESPONSES ===
   async function generateAIResponse(userMessage) {
