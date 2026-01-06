@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Bravexa AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+  <!-- Header / Navbar -->
+  <header class="header">
+    <div class="logo">
+      <img src="chat.png" alt="Logo">
+      <span>Bravexa AI</span>
+    </div>
+
+    <!-- Avatar Dropdown -->
+    <div class="user-menu">
+      <img src="avatar.png" alt="User Avatar" class="avatar" id="avatarIcon">
+      <div class="dropdown" id="dropdownMenu">
+        <ul>
+          <li><a href="dashboard.html">📊 Dashboard</a></li>
+          <li><a href="index.html">🚪 Logout</a></li>
+          <div class="history-section">
+            <h3 id="toggleHistory">📜 History</h3>
+            <div id="historyList" class="history-list">
+            </div>
+          </div>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <div class="hero">
+    <h1>Good morning, <span id="username">User</span>!</h1>
+  </div>
+
+  <!-- Chat Window -->
+  <div class="chat-window" style="display:none;"></div>
+
+  <!-- Input Box -->
+  <!-- Bravexa AI Chat Input -->
+<div class="input-box">
+  <textarea placeholder="Message Bravexa AI..." class="chatbox"></textarea>
+
+  <div class="bottom-row">
+    <div class="left-section">
+      <button class="plus-btn" id="plusBtn">+</button>
+      <div class="upload-dropdown" id="uploadDropdown">
+        <ul>
+          <li><label for="imageUpload">📷 Image</label><input type="file" id="imageUpload" accept="image/*" hidden></li>
+          <li><label for="videoUpload">🎥 Video</label><input type="file" id="videoUpload" accept="video/*" hidden></li>
+          <li><label for="fileUpload">📄 File</label><input type="file" id="fileUpload" hidden></li>
+          <li><button id="screenshotBtn">🖼️ Screenshot</button></li>
+        </ul>
+      </div>
+    </div>
+
+
+    <div class="right-section">
+      <i class="voice-icon" title="Voice">
+        <svg viewBox="0 0 24 24" width="26" height="26" xmlns="http://www.w3.org/2000/svg">
+          <path fill="currentColor" d="M12 14a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v5a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 14 0h-2zM11 20h2v2h-2z"/>
+        </svg>
+      </i>
+      <button class="send-btn">↑</button>
+    </div>
+  </div>
+</div>
+
+  <!-- Footer -->
+  <div class="footer">
+    Bravexa AI can make mistakes — verify critical information.
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

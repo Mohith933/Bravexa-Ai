@@ -1,0 +1,240 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bravexa AI Voice Assistant</title>
+
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #000;
+    color: #fff;
+    font-family: "Poppins", sans-serif;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .top-bar {
+    position: absolute;
+    top: 20px;
+    left: 0;
+    right: 0;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .top-btns {
+    display: flex;
+    gap: 12px;
+  }
+
+  .icon-btn {
+    background: rgba(255,255,255,0.1);
+    border: none;
+    border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    color: #fff;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .icon-btn:hover {
+    background: rgba(255,255,255,0.25);
+    transform: scale(1.1);
+  }
+
+  /* Voice Circle — Updated with Your Blue */
+  .voice-circle {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #0099d6, #007bbf);
+    box-shadow: 0 0 40px rgba(0,153,214,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: pulse 2s infinite;
+    transition: all 0.4s ease;
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(1); box-shadow: 0 0 25px rgba(0,153,214,0.6); }
+    50% { transform: scale(1.1); box-shadow: 0 0 45px rgba(0,153,214,0.9); }
+    100% { transform: scale(1); box-shadow: 0 0 25px rgba(0,153,214,0.6); }
+  }
+
+  .message {
+    margin-top: 40px;
+    font-size: 1.4rem;
+    text-align: center;
+    width: 80%;
+    opacity: 0;
+    animation: fadeIn 1s forwards 1s;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .bottom-bar {
+    position: absolute;
+    bottom: 30px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+  }
+
+  .control-btn {
+    background: rgba(255,255,255,0.08);
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    color: #fff;
+    font-size: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .control-btn:hover {
+    background: rgba(255,255,255,0.2);
+    transform: scale(1.1);
+  }
+
+  @media (max-width: 600px) {
+    .voice-circle { width: 120px; height: 120px; }
+    .message { font-size: 1.2rem; width: 90%; }
+    .control-btn { width: 50px; height: 50px; font-size: 22px; }
+  }
+</style>
+</head>
+
+<body>
+
+  <div class="top-bar">
+    <button class="icon-btn" id="closeTop">✖</button>
+    <div class="top-btns">
+      <button class="icon-btn" id="ccBtn">CC</button>
+      <button class="icon-btn" id="soundBtn">🔊</button>
+    </div>
+  </div>
+
+  <div class="voice-circle" id="voiceCircle"></div>
+  <div class="message" id="messageText">Tap the mic to start speaking with Bravexa AI</div>
+
+  <div class="bottom-bar">
+    <button class="control-btn" id="chatBtn">💬</button>
+    <button class="control-btn" id="micBtn">🎤</button>
+    <button class="control-btn" id="settingsBtn">⚙️</button>
+  </div>
+
+<script>
+const micBtn = document.getElementById("micBtn");
+const closeTop = document.getElementById("closeTop");
+const soundBtn = document.getElementById("soundBtn");
+const ccBtn = document.getElementById("ccBtn");
+const messageText = document.getElementById("messageText");
+const voiceCircle = document.getElementById("voiceCircle");
+
+let listening = false;
+let captionsOn = true;
+let soundOn = true;
+
+// 🎤 Web Speech Recognition
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+const recognition = new SpeechRecognition();
+recognition.lang = "en-US";
+recognition.interimResults = false;
+
+// 🗣️ Speech synthesis
+function speak(text) {
+  if (!soundOn) return;
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = "en-US";
+  speechSynthesis.speak(utterance);
+}
+
+// 🎙️ Mic logic
+micBtn.addEventListener("click", () => {
+  if (!listening) {
+    recognition.start();
+    listening = true;
+    messageText.innerText = "Listening...";
+    voiceCircle.style.background = "linear-gradient(145deg, #00c6ff, #0072ff)";
+  } else {
+    recognition.stop();
+    listening = false;
+    resetUI();
+  }
+});
+
+// 🎧 Voice result
+recognition.onresult = (event) => {
+  const userSpeech = event.results[0][0].transcript;
+  messageText.innerText = `You said: "${userSpeech}"`;
+  
+  let reply = "I'm listening carefully!";
+  if (userSpeech.toLowerCase().includes("hello")) reply = "Hello! How are you today?";
+  if (userSpeech.toLowerCase().includes("weather")) reply = "The weather is clear and bright — just like your energy!";
+  if (userSpeech.toLowerCase().includes("exam")) reply = "You’ll do great in your exams. Stay calm and focused.";
+  if (userSpeech.toLowerCase().includes("bye")) reply = "Goodbye! See you soon.";
+
+  setTimeout(() => {
+    messageText.innerText = reply;
+    speak(reply);
+    voiceCircle.style.background = "linear-gradient(145deg, #00c6ff, #0072ff)";
+  }, 1000);
+};
+
+recognition.onerror = (event) => {
+  messageText.innerText = "Error: " + event.error;
+  resetUI();
+};
+
+recognition.onend = () => {
+  listening = false;
+  resetUI();
+};
+
+function resetUI() {
+  voiceCircle.style.background = "linear-gradient(145deg, #0099d6, #007bbf)";
+  if (captionsOn) messageText.innerText = "Tap the mic to start speaking with Bravexa AI";
+}
+
+closeTop.addEventListener("click", () => {
+  resetUI();
+  messageText.innerText = "Voice chat closed.";
+});
+
+soundBtn.addEventListener("click", () => {
+  soundOn = !soundOn;
+  soundBtn.innerText = soundOn ? "🔊" : "🔇";
+});
+
+ccBtn.addEventListener("click", () => {
+  captionsOn = !captionsOn;
+  messageText.style.display = captionsOn ? "block" : "none";
+  ccBtn.style.background = captionsOn ? "rgba(255,255,255,0.3)" : "rgba(255,255,255,0.1)";
+});
+</script>
+
+</body>
+</html>
