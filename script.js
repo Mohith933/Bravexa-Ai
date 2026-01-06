@@ -252,22 +252,37 @@ if ('webkitSpeechRecognition' in window) {
   }
 
   // === TYPE EFFECT ===
-  function typeText(element, htmlContent, speed = 8) {
-    let i = 0;
-    element.innerHTML = "";
-    const interval = setInterval(() => {
-      element.innerHTML = htmlContent.substring(0, i);
-      i += 3;
-      if (i >= htmlContent.length) {
-        element.innerHTML = htmlContent;
-        clearInterval(interval);
-      }
-    }, speed);
-    const scrollInterval = setInterval(() => {
-      window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
-    }, 80);
-    setTimeout(() => clearInterval(scrollInterval), (htmlContent.length / 3) * speed + 100);
+  // === BRAVEXA SMOOTH TYPE EFFECT ===
+function typeText(element, htmlContent, speed = 12) {
+  let i = 0;
+  element.innerHTML = "";
+
+  let lastScroll = 0;
+
+  function type() {
+    // increase characters smoothly
+    i += 2; // balanced speed (not jumpy)
+    element.innerHTML = htmlContent.slice(0, i);
+
+    // auto-scroll only when needed
+    const now = Date.now();
+    if (now - lastScroll > 120) {
+      window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: "smooth"
+      });
+      lastScroll = now;
+    }
+
+    if (i < htmlContent.length) {
+      requestAnimationFrame(type);
+    } else {
+      element.innerHTML = htmlContent; // ensure full render
+    }
   }
+
+  requestAnimationFrame(type);
+}
 
   // === AI RESPONSE GENERATOR ===
   async function generateAIResponse(userMessage) {
