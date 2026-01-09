@@ -545,6 +545,39 @@ body.light-mode .header .btn.solid {
   margin-right: 8px;
 }
 
+.chart-container {
+  margin-top: 14px;
+  display: flex;
+  justify-content: center;
+}
+
+svg rect {
+  fill: #3b82f6;
+  rx: 6;
+}
+
+svg text {
+  fill: #e5e7eb;
+  font-size: 12px;
+}
+
+svg rect {
+  fill: #3b82f6;
+}
+
+svg text {
+  fill: #e5e7eb;
+  font-size: 12px;
+}
+
+.note {
+  font-size: 12px;
+  opacity: 0.7;
+  margin-top: 6px;
+}
+
+
+
 .attach-btn {
   background: none;
   border: none;
