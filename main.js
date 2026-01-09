@@ -132,7 +132,6 @@ if ('webkitSpeechRecognition' in window) {
   }
 
   // === BRAVEXA TYPE EFFECT ===  
-// === BRAVEXA SMOOTH TYPE EFFECT ===
 function typeText(element, htmlContent, speed = 12) {
   let i = 0;
   element.innerHTML = "";
@@ -188,7 +187,10 @@ function typeText(element, htmlContent, speed = 12) {
     news: ["news", "headlines", "updates"],
     weather: ["weather", "forecast", "temperature"],
     stock: ["stock", "market", "share", "nifty", "nasdaq"],
-    motivate: ["motivate", "inspire", "encourage", "boost"]
+    motivate: ["motivate", "inspire", "encourage", "boost"],
+    usage: ["weekly", "timing", "usage"],
+    emotion: ["emotion", "emotions", "distribution", "mood"],
+    how: ["overview", "how", "workflow", "architecture"]
   };
 
   // find intent (first matching category)
@@ -602,13 +604,107 @@ Employees.ID → Projects.ProjectID (Manager Assigned)
       `;
       break;
 
-    case "stock":
-      response = `
-        <h2>📈 Stock Snapshot</h2>
-        <p><b>Sample:</b> BRAVEXA (BRV) — Price: ₹120.50 (▲ 1.8%)</p>
-        <p>Note: live market requires an API key — frontend shows sample values.</p>
-      `;
-      break;
+  case "stock":
+  response = `
+    <h2>📈 Stock Snapshot</h2>
+
+    <p><b>BRAVEXA (BRV)</b></p>
+    <p>Price: ₹120.50 (▲ 1.8%)</p>
+    <p class="note">Demo data — frontend visualization only.</p>
+
+    <div class="chart-container">
+      <svg width="280" height="180" viewBox="0 0 280 180">
+
+        <!-- Bars -->
+        <rect x="40" y="70" width="40" height="90" />
+        <rect x="110" y="40" width="40" height="120" />
+        <rect x="180" y="90" width="40" height="70" />
+
+        <!-- Labels -->
+        <text x="60" y="165" text-anchor="middle">Mon</text>
+        <text x="130" y="165" text-anchor="middle">Tue</text>
+        <text x="200" y="165" text-anchor="middle">Wed</text>
+
+        <text x="60" y="60" text-anchor="middle">₹110</text>
+        <text x="130" y="30" text-anchor="middle">₹120</text>
+        <text x="200" y="80" text-anchor="middle">₹105</text>
+
+      </svg>
+    </div>
+  `;
+  break;
+
+  case "usage":
+  response = `
+    <h2>📊 Weekly Usage</h2>
+
+    <svg width="260" height="160">
+      <rect x="40" y="80" width="30" height="60" />
+      <rect x="90" y="60" width="30" height="80" />
+      <rect x="140" y="40" width="30" height="100" />
+      <rect x="190" y="90" width="30" height="50" />
+
+      <text x="45" y="150">Mon</text>
+      <text x="95" y="150">Tue</text>
+      <text x="145" y="150">Wed</text>
+      <text x="195" y="150">Thu</text>
+    </svg>
+
+    <p class="note">Simulated interaction count</p>
+  `;
+  break;
+
+
+  case "emotion":
+  response = `
+    <h2>💙 Emotion Distribution</h2>
+
+    <svg width="260" height="160">
+      <rect x="40" y="50" width="30" height="90" />
+      <rect x="90" y="80" width="30" height="60" />
+      <rect x="140" y="100" width="30" height="40" />
+      <rect x="190" y="60" width="30" height="80" />
+
+      <text x="35" y="150">😊</text>
+      <text x="85" y="150">😢</text>
+      <text x="135" y="150">😠</text>
+      <text x="185" y="150">❤️</text>
+    </svg>
+
+    <p class="note">Rule-based emotion analysis</p>
+  `;
+  break;
+
+
+  case "how":
+  response = `
+    <h2>🧠 How Bravexa Works</h2>
+
+    <svg width="300" height="220">
+      <rect x="90" y="10" width="120" height="30" rx="6"/>
+      <text x="150" y="30" text-anchor="middle">User Input</text>
+
+      <line x1="150" y1="40" x2="150" y2="70"/>
+
+      <rect x="70" y="70" width="160" height="30" rx="6"/>
+      <text x="150" y="90" text-anchor="middle">Rule Matcher</text>
+
+      <line x1="150" y1="100" x2="150" y2="130"/>
+
+      <rect x="50" y="130" width="200" height="30" rx="6"/>
+      <text x="150" y="150" text-anchor="middle">Response Generator</text>
+
+      <line x1="150" y1="160" x2="150" y2="190"/>
+
+      <rect x="90" y="190" width="120" height="30" rx="6"/>
+      <text x="150" y="210" text-anchor="middle">UI Render</text>
+    </svg>
+
+    <p class="note">Frontend-only architecture</p>
+  `;
+  break;
+
+
 
     // MOTIVATION
     case "motivate":
