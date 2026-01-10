@@ -167,31 +167,41 @@ function typeText(element, htmlContent, speed = 12) {
   const msg = (userMessage || "").toLowerCase().trim();
   let response = "";
 
-  // --- simple normalization + intent mapping ---
-  const intents = {
-    greeting: ["hello", "hi", "hey", "good morning", "good evening", "good night", "bye"],
-    leave: ["leave letter", "application", "holiday", "absent", "permission"],
-    email: ["email", "official", "mail", "message", "compose email"],
-    resume: ["resume", "project", "documentation", "portfolio", "cv"],
-    word: ["word", "doc", "docx", "report"],
-    excel: ["excel", "sheet", "xlsx", "csv"],
-    powerpoint: ["presentation", "slides", "ppt", "deck"],
-    access: ["access", "database", "accdb"],
-    code: ["code", "program", "script", "snippet", "c", "c++", "cpp", "python", "java", "html", "css", "js"],
-    cs: ["computer science", "cs", "algorithm", "data structure"],
-    os: ["operating system", "os", "process", "scheduling"],
-    dbms: ["dbms", "database management", "sql", "joins"],
-    software: ["software engineering", "srs", "sdlc", "software"],
-    physics: ["physics"],
-    math: ["math", "mathematics"],
-    news: ["news", "headlines", "updates"],
-    weather: ["weather", "forecast", "temperature"],
-    stock: ["stock", "market", "share", "nifty", "nasdaq"],
-    motivate: ["motivate", "inspire", "encourage", "boost"],
-    usage: ["weekly", "timing", "usage"],
-    emotion: ["emotion", "emotions", "distribution", "mood"],
-    how: ["overview", "how", "workflow", "architecture"]
-  };
+ // --- simple normalization + intent mapping ---
+ const intents = {
+  greeting: ["hello", "hi", "hey", "good morning", "good evening", "good night", "bye"],
+
+  leave: ["leave letter", "application", "holiday", "absent", "permission"],
+  email: ["email", "official", "mail", "message", "compose email"],
+
+  resume: ["resume", "cv", "curriculum vitae", "vitae", "portfolio"],
+  project: ["project", "documentation"],
+
+  word: ["word", "doc", "docx", "report"],
+  excel: ["excel", "sheet", "xlsx", "csv"],
+  powerpoint: ["presentation", "slides", "ppt", "deck"],
+  access: ["access", "database", "accdb"],
+
+  code: ["code", "program", "script", "snippet", "python", "java", "c++", "cpp", "html", "css", "javascript", "js"],
+
+  os: ["operating system", "os", "process", "scheduling"],
+  dbms: ["dbms", "database management", "sql", "joins"],
+  software: ["software engineering", "srs", "sdlc", "software"],
+  cs: ["computer science", "cs", "algorithm", "data structure"],
+
+  physics: ["physics"],
+  math: ["math", "mathematics"],
+
+  news: ["news", "headlines", "updates"],
+  weather: ["weather", "forecast", "temperature"],
+  stock: ["stock", "market", "share", "nifty", "nasdaq"],
+
+  motivate: ["motivate", "inspire", "encourage", "boost"],
+
+  usage: ["usage", "weekly usage", "daily usage", "timing", "activity"],
+  emotion: ["emotion", "emotions", "distribution", "mood"],
+  how: ["overview", "how", "workflow", "architecture"]
+};
 
   // find intent (first matching category)
   let intent = "default";
@@ -312,7 +322,7 @@ Intern – Web Developer, [Company Name]
   break;
 
 // 📃 CV TEMPLATE
-case "cv":
+case "resume":
   response = `
     <h2>📃 Curriculum Vitae</h2>
     <div class="code-block-container">
@@ -518,7 +528,7 @@ Employees.ID → Projects.ProjectID (Manager Assigned)
       let lang = "javascript";
       if (msg.includes("python")) lang = "python";
       else if (msg.includes("c++") || msg.includes("cpp")) lang = "cpp";
-      else if (msg.match(/\bc\b/) && !msg.includes("css")) lang = "c";
+      else if (msg.includes("c")) lang = "c";
       else if (msg.includes("java")) lang = "java";
       else if (msg.includes("html")) lang = "html";
       else if (msg.includes("css")) lang = "css";
@@ -578,6 +588,7 @@ Employees.ID → Projects.ProjectID (Manager Assigned)
       break;
     case "physics":
       response = `<h2>⚛️ Physics</h2><p>Newton's laws — F = m × a</p>`;
+      break;
     case "math":
       response = `<h2>📐 Mathematics</h2><p>Calculus: d/dx(x²) = 2x</p>`;
       // Note: fall-through to default handled by break below if needed
@@ -767,11 +778,11 @@ document.addEventListener("click", (e) => {
     }
   });
 
-// === LIMITED UPLOAD FUNCTIONALITY ===
+// === LIMITED SELECTED FUNCTIONALITY ===
 document.querySelectorAll("#imageUpload, #videoUpload, #audioUpload").forEach(input => {
   input.addEventListener("change", (event) => {
     const file = event.target.files[0];
-    if (file) alert(`Uploaded: ${file.name}`);
+    if (file) alert(`Selected: ${file.name}`);
   });
 });
 
