@@ -953,13 +953,13 @@ document.addEventListener("click", (e) => {
     }
   });
 
-  // === FILE UPLOAD HANDLER ===
+  // === FILE SELECTED HANDLER ===
   document.querySelectorAll("#imageUpload, #videoUpload, #fileUpload").forEach(input => {
     input.addEventListener("change", (event) => {
       const file = event.target.files[0];
       if (file) {
         const fileType = file.type.split("/")[0];
-        alert(`📁 File uploaded: ${file.name} (${fileType})`);
+        alert(`📁 File seleected: ${file.name} (${fileType})`);
       }
     });
   });
@@ -1009,3 +1009,4 @@ document.addEventListener("click", (e) => {
   adjustLayoutForViewport();
   updateHistorySidebar();
 });
+
