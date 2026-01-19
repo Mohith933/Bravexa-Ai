@@ -595,126 +595,162 @@ Employees.ID → Projects.ProjectID (Manager Assigned)
       break;
 
     // 5) NEWS / WEATHER / STOCK
-    case "news":
-      response = `
-        <h2>📰 Latest News</h2>
-        <ul>
-          <li>🌐 AI research: new small-model optimizations announced.</li>
-          <li>📈 Markets: tech stocks show mixed movement.</li>
-          <li>🚀 Space: new small launch vehicle completed tests.</li>
-        </ul>
-      `;
-      break;
+      case "news":
+  response = `
+    <h2>📰 News Snapshot</h2>
+    <p>Sample content to demonstrate intent handling and UI rendering.</p>
 
-    case "weather":
-      response = `
-        <h2>☀️ Weather</h2>
-        <p><b>Location:</b> Your City</p>
-        <p><b>Now:</b> 28°C — Partly Cloudy</p>
-        <p><b>Today:</b> High 30°C / Low 22°C</p>
-      `;
-      break;
+    <ul class="info-list">
+      <li>🌐 AI: Small-model optimization techniques gaining traction.</li>
+      <li>📈 Markets: Tech stocks show mixed short-term trends.</li>
+      <li>🚀 Space: New small launch vehicle completes test phase.</li>
+    </ul>
 
-  case "stock":
+    <p class="note">Demo content — live news requires external APIs.</p>
+  `;
+break;
+
+
+   case "weather":
+  response = `
+    <h2>☀️ Weather Overview</h2>
+    <p>Illustrative weather response (no API).</p>
+
+    <ul class="info-list">
+      <li><b>Location:</b> Sample City</li>
+      <li><b>Current:</b> 28°C — Partly Cloudy</li>
+      <li><b>Range:</b> 30°C / 22°C</li>
+    </ul>
+
+    <p class="note">Static demo — real-time data requires API integration.</p>
+  `;
+break;
+
+
+    case "stock":
   response = `
     <h2>📈 Stock Snapshot</h2>
+    <p><b>Sample:</b> BRAVEXA (BRV) — ₹120.50 (▲ 1.8%)</p>
 
-    <p><b>BRAVEXA (BRV)</b></p>
-    <p>Price: ₹120.50 (▲ 1.8%)</p>
-    <p class="note">Demo data — frontend visualization only.</p>
+    <div class="visual-card">
+      <div class="visual-toolbar">
+        <span class="label">🔁 Response Flow</span>
+      </div>
 
-    <div class="chart-container">
-      <svg width="280" height="180" viewBox="0 0 280 180">
+      <svg width="280" height="220" viewBox="0 0 280 220">
+        <rect x="60" y="10" width="160" height="35" rx="8" />
+        <rect x="60" y="65" width="160" height="35" rx="8" />
+        <rect x="60" y="120" width="160" height="35" rx="8" />
+        <rect x="60" y="175" width="160" height="35" rx="8" />
 
-        <!-- Bars -->
-        <rect x="40" y="70" width="40" height="90" />
-        <rect x="110" y="40" width="40" height="120" />
-        <rect x="180" y="90" width="40" height="70" />
+        <text x="140" y="33" text-anchor="middle">User Input</text>
+        <text x="140" y="88" text-anchor="middle">Intent Detection</text>
+        <text x="140" y="143" text-anchor="middle">Rule Logic</text>
+        <text x="140" y="198" text-anchor="middle">Mock Response</text>
 
-        <!-- Labels -->
-        <text x="60" y="165" text-anchor="middle">Mon</text>
-        <text x="130" y="165" text-anchor="middle">Tue</text>
-        <text x="200" y="165" text-anchor="middle">Wed</text>
-
-        <text x="60" y="60" text-anchor="middle">₹110</text>
-        <text x="130" y="30" text-anchor="middle">₹120</text>
-        <text x="200" y="80" text-anchor="middle">₹105</text>
-
+        <line x1="140" y1="45" x2="140" y2="65" />
+        <line x1="140" y1="100" x2="140" y2="120" />
+        <line x1="140" y1="155" x2="140" y2="175" />
       </svg>
     </div>
-  `;
-  break;
 
-  case "usage":
+    <p class="note">Demo only — live data requires API integration.</p>
+  `;
+break;
+
+
+ case "usage":
   response = `
     <h2>📊 Weekly Usage</h2>
+    <p>Simulated interaction frequency across days.</p>
 
-    <svg width="260" height="160">
-      <rect x="40" y="80" width="30" height="60" />
-      <rect x="90" y="60" width="30" height="80" />
-      <rect x="140" y="40" width="30" height="100" />
-      <rect x="190" y="90" width="30" height="50" />
+    <div class="visual-card">
+      <div class="visual-toolbar">
+        <span class="label">📈 Usage Pattern</span>
+      </div>
 
-      <text x="45" y="150">Mon</text>
-      <text x="95" y="150">Tue</text>
-      <text x="145" y="150">Wed</text>
-      <text x="195" y="150">Thu</text>
-    </svg>
+      <svg width="260" height="160">
+        <rect x="40" y="80" width="30" height="60" rx="4" />
+        <rect x="90" y="60" width="30" height="80" rx="4" />
+        <rect x="140" y="40" width="30" height="100" rx="4" />
+        <rect x="190" y="90" width="30" height="50" rx="4" />
 
-    <p class="note">Simulated interaction count</p>
+        <text x="45" y="150">Mon</text>
+        <text x="95" y="150">Tue</text>
+        <text x="145" y="150">Wed</text>
+        <text x="195" y="150">Thu</text>
+      </svg>
+    </div>
+
+    <p class="note">Frontend-rendered demo data (no analytics API).</p>
   `;
-  break;
+break;
 
 
-  case "emotion":
+
+ case "emotion":
   response = `
     <h2>💙 Emotion Distribution</h2>
+    <p>Rule-based emotional signal mapping.</p>
 
-    <svg width="260" height="160">
-      <rect x="40" y="50" width="30" height="90" />
-      <rect x="90" y="80" width="30" height="60" />
-      <rect x="140" y="100" width="30" height="40" />
-      <rect x="190" y="60" width="30" height="80" />
+    <div class="visual-card">
+      <div class="visual-toolbar">
+        <span class="label">💭 Emotion Mapping</span>
+      </div>
 
-      <text x="35" y="150">😊</text>
-      <text x="85" y="150">😢</text>
-      <text x="135" y="150">😠</text>
-      <text x="185" y="150">❤️</text>
-    </svg>
+      <svg width="260" height="160">
+        <rect x="40" y="50" width="30" height="90" rx="4" />
+        <rect x="90" y="80" width="30" height="60" rx="4" />
+        <rect x="140" y="100" width="30" height="40" rx="4" />
+        <rect x="190" y="60" width="30" height="80" rx="4" />
 
-    <p class="note">Rule-based emotion analysis</p>
+        <text x="45" y="150">😊</text>
+        <text x="95" y="150">😢</text>
+        <text x="145" y="150">😠</text>
+        <text x="195" y="150">❤️</text>
+      </svg>
+    </div>
+
+    <p class="note">Emotion classification via keyword heuristics.</p>
   `;
-  break;
+break;
 
 
-  case "how":
+
+ case "how":
   response = `
     <h2>🧠 How Bravexa Works</h2>
+    <p>High-level frontend processing flow.</p>
 
-    <svg width="300" height="220">
-      <rect x="90" y="10" width="120" height="30" rx="6"/>
-      <text x="150" y="30" text-anchor="middle">User Input</text>
+    <div class="visual-card">
+      <div class="visual-toolbar">
+        <span class="label">⚙️ System Architecture</span>
+      </div>
 
-      <line x1="150" y1="40" x2="150" y2="70"/>
+      <svg width="300" height="220">
+        <rect x="90" y="10" width="120" height="30" rx="6"/>
+        <text x="150" y="30" text-anchor="middle">User Input</text>
 
-      <rect x="70" y="70" width="160" height="30" rx="6"/>
-      <text x="150" y="90" text-anchor="middle">Rule Matcher</text>
+        <line x1="150" y1="40" x2="150" y2="70"/>
 
-      <line x1="150" y1="100" x2="150" y2="130"/>
+        <rect x="70" y="70" width="160" height="30" rx="6"/>
+        <text x="150" y="90" text-anchor="middle">Intent Matcher</text>
 
-      <rect x="50" y="130" width="200" height="30" rx="6"/>
-      <text x="150" y="150" text-anchor="middle">Response Generator</text>
+        <line x1="150" y1="100" x2="150" y2="130"/>
 
-      <line x1="150" y1="160" x2="150" y2="190"/>
+        <rect x="50" y="130" width="200" height="30" rx="6"/>
+        <text x="150" y="150" text-anchor="middle">Rule-based Response</text>
 
-      <rect x="90" y="190" width="120" height="30" rx="6"/>
-      <text x="150" y="210" text-anchor="middle">UI Render</text>
-    </svg>
+        <line x1="150" y1="160" x2="150" y2="190"/>
 
-    <p class="note">Frontend-only architecture</p>
+        <rect x="90" y="190" width="120" height="30" rx="6"/>
+        <text x="150" y="210" text-anchor="middle">UI Render</text>
+      </svg>
+    </div>
+
+    <p class="note">Entirely client-side — no server or LLM dependency.</p>
   `;
-  break;
-
+break
 
 
     // MOTIVATION
@@ -812,6 +848,7 @@ screenshotBtn.addEventListener("click", () => {
   window.addEventListener("resize", adjustLayoutForViewport);
   adjustLayoutForViewport();
 });
+
 
 
 
