@@ -723,6 +723,49 @@ body.light-mode .dropdown li a:hover {
   line-height: 1.5;
   white-space: pre-wrap;
 }
+.visual-card {
+  margin: 14px 0;
+  padding: 12px;
+  border-radius: 12px;
+  background: var(--card-bg);
+}
+
+.visual-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+
+.visual-toolbar .label {
+  font-weight: 600;
+}
+
+.note {
+  font-size: 0.8rem;
+  opacity: 0.7;
+  margin-top: 6px;
+}
+.info-list {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0 0;
+}
+
+.info-list li {
+  padding: 10px 14px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  background: rgba(148, 163, 184, 0.08); /* subtle slate */
+  font-size: 14px;
+  line-height: 1.5;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 
 /* ================= Footer ================= */
 .footer {
@@ -841,6 +884,7 @@ left:110px;
   50% { box-shadow: 0 0 20px rgba(0, 223, 216, 0.6); }
   100% { box-shadow: 0 0 12px rgba(0, 223, 216, 0.3); }
 }
+
 
 
 
