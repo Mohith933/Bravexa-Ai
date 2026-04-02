@@ -120,10 +120,10 @@ micBtn.addEventListener("click", () => {
 recognition.onresult = (event) => {
   const speech = event.results[0][0].transcript.toLowerCase();
 
-  // Save voice input
+  console.log("VOICE:", speech); // 👈 check this
+
   localStorage.setItem("voiceMessage", speech);
 
-  // Redirect to dashboard (chat)
   window.location.href = "dashboard.html";
 };
 
