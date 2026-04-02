@@ -14,6 +14,33 @@ document.addEventListener("DOMContentLoaded", function () {
   const historyList = document.getElementById("historyList");
   const toggleHistoryBtn = document.getElementById("toggleHistory");
 
+const menuToggle = document.getElementById("menuToggle");
+const sidebar = document.getElementById("sidebar");
+
+// Open sidebar
+menuToggle.addEventListener("click", () => {
+  sidebar.classList.add("active");
+
+  // Push fake state so back button works
+  history.pushState({ sidebarOpen: true }, "");
+});
+
+// Handle BACK button
+window.addEventListener("popstate", (event) => {
+  if (sidebar.classList.contains("active")) {
+    sidebar.classList.remove("active");
+  }
+});
+  document.addEventListener("click", (e) => {
+  if (
+    sidebar.classList.contains("active") &&
+    !sidebar.contains(e.target) &&
+    !menuToggle.contains(e.target)
+  ) {
+    sidebar.classList.remove("active");
+  }
+});
+
   // === AUTO RESIZE TEXTAREA ===
   chatbox.addEventListener("input", () => {
     chatbox.style.height = "auto";
