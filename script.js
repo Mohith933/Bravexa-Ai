@@ -1050,7 +1050,7 @@ window.addEventListener("DOMContentLoaded", () => {
     sendMessage(voiceText);
     localStorage.removeItem("voiceInput");
   }
-});;
+});
 
 
 
