@@ -189,28 +189,30 @@ function handleImageUpload(file) {
 }
 
   // === SEND MESSAGE ===
-  function sendMessage() {
+ async function sendMessage() {
     const userMessage = chatbox.value.trim();
     if (!userMessage) return;
 
     if (!currentChatId) startNewConversation(userMessage);
 
     if (selectedFile) {
-  const base64 = fileToBase64(selectedFile);
+
+  const base64 = await fileToBase64(selectedFile); // ✅ FIX
 
   displayFileMessage(selectedFile);
 
   saveMessage(
     currentChatId,
     "user",
-    "",
-    base64, // ✅ correct
+    selectedFile.name,
+    base64, // ✅ correct now
     selectedFile.type.startsWith("image") ? "image" :
     selectedFile.type.startsWith("video") ? "video" :
     "file"
   );
 
   previewContainer.innerHTML = "";
+  selectedFile = null;
 }
 
     addMessageToChat(userMessage, false);
@@ -276,9 +278,7 @@ function handleImageUpload(file) {
   }
 
   chatWindow.appendChild(messageDiv);
-  makeMessageVisible(messageDiv);
-
-  saveMessage(currentChatId, "user", file.name);
+  makeMessageVisible(messageDiv);
 }
 
   // === START NEW CONVERSATION ===
@@ -394,32 +394,36 @@ function handleImageUpload(file) {
     footer.innerHTML = "⚡ Bravexa AI Verify important details.";
 
     chat.messages.forEach(msg => {
+
+  const messageDiv = document.createElement("div");
+  messageDiv.classList.add("message", msg.sender === "ai" ? "ai-message" : "user-message");
+
   if (msg.type === "image") {
     const img = document.createElement("img");
     img.src = msg.content;
-        img.style.maxWidth = "200px";
+    img.style.maxWidth = "200px";
     img.style.borderRadius = "10px";
-    img.classList.add("chat-image");
-    chatWindow.appendChild(img);
+    messageDiv.appendChild(img);
 
   } else if (msg.type === "video") {
     const video = document.createElement("video");
     video.src = msg.content;
-
     video.controls = true;
-    video.classList.add("chat-video");
-    chatWindow.appendChild(video);
+    video.style.maxWidth = "200px";
+    messageDiv.appendChild(video);
 
   } else if (msg.type === "file") {
     const link = document.createElement("a");
     link.href = msg.content;
-    link.download = "file";
+    link.download = msg.text || "file";
     link.innerText = "📄 Download File";
-    chatWindow.appendChild(link);
+    messageDiv.appendChild(link);
 
   } else {
-    addMessageToChat(msg.text, msg.sender === "ai");
+    messageDiv.innerHTML = msg.text;
   }
+
+  chatWindow.appendChild(messageDiv);
 });
   }
 
