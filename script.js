@@ -1056,7 +1056,7 @@ window.addEventListener("DOMContentLoaded", () => {
     localStorage.removeItem("voiceInput");
   }
 });
-
+});
 
 
 
