@@ -1046,29 +1046,29 @@ document.addEventListener("click", (e) => {
   updateHistorySidebar();
 });
 
-document.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("load", () => {
   const message = localStorage.getItem("voiceMessage");
 
   if (message) {
     const chatWindow = document.querySelector(".chat-window");
-    const hero = document.querySelector(".hero");
 
-    hero.style.display = "none";
-    chatWindow.style.display = "flex";
+    // Show chat window
+    chatWindow.style.display = "block";
 
-    // USER MESSAGE
+    // User message
     const userMsg = document.createElement("div");
-    userMsg.className = "message user";
+    userMsg.className = "chat user";
     userMsg.textContent = message;
-    chatWindow.appendChild(userMsg);
 
-    // BOT REPLY
+    // Bot reply
     const botMsg = document.createElement("div");
-    botMsg.className = "message bot";
+    botMsg.className = "chat bot";
     botMsg.textContent = getReply(message);
+
+    chatWindow.appendChild(userMsg);
     chatWindow.appendChild(botMsg);
 
-    // CLEAR STORAGE
+    // Clear storage
     localStorage.removeItem("voiceMessage");
   }
 });
