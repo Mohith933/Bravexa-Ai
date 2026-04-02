@@ -849,10 +849,49 @@ screenshotBtn.addEventListener("click", () => {
   adjustLayoutForViewport();
 });
 
+window.addEventListener("load", () => {
+  const message = localStorage.getItem("voiceMessage");
 
+  if (message) {
+    const chatWindow = document.querySelector(".chat-window");
 
+    // Show chat window
+    chatWindow.style.display = "block";
 
+    // User message
+    const userMsg = document.createElement("div");
+    userMsg.className = "chat user";
+    userMsg.textContent = message;
 
+    // Bot reply
+    const botMsg = document.createElement("div");
+    botMsg.className = "chat bot";
+    botMsg.textContent = getReply(message);
+
+    chatWindow.appendChild(userMsg);
+    chatWindow.appendChild(botMsg);
+
+    // Clear storage
+    localStorage.removeItem("voiceMessage");
+  }
+});
+
+
+function getReply(text) {
+  if (text.includes("hello") || text.includes("hi"))
+    return "Hello. I’m Bravexa. How can I help you?";
+
+  if (text.includes("sad") || text.includes("tired"))
+    return "I’m here with you. Take a slow breath.";
+
+  if (text.includes("exam") || text.includes("study"))
+    return "Stay calm. You are doing better than you think.";
+
+  if (text.includes("bye"))
+    return "Goodbye. Take care.";
+
+  return "I’m listening. Go on.";
+}
 
 
 
