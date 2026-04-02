@@ -171,23 +171,41 @@ document.querySelectorAll("#imageUpload, #videoUpload, #fileUpload").forEach(inp
   });
 }
 
-function handleImageUpload(file) {
+function handleFileUpload(file, type) {
   const reader = new FileReader();
 
   reader.onload = function (e) {
     const base64 = e.target.result;
 
-    saveMessage(currentChatId, "user", {
-      type: "image",
+    const messageData = {
+      sender: "user",
+      type: type,
       content: base64
-    });
+    };
 
-    displayImage(base64);
+    // show in UI
+    displayFileMessage(messageData);
+
+    // save correctly
+    saveMessage(currentChatId, "user", messageData);
   };
 
-  reader.readAsDataURL(file); // ✅ MUST
+  reader.readAsDataURL(file); // 🔥 important
 }
+imageUpload.addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  if (file) handleFileUpload(file, "image");
+});
 
+videoUpload.addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  if (file) handleFileUpload(file, "video");
+});
+
+fileUpload.addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  if (file) handleFileUpload(file, "file");
+});
   // === SEND MESSAGE ===
   function sendMessage() {
     const userMessage = chatbox.value.trim();
@@ -303,16 +321,11 @@ function handleImageUpload(file) {
   }
 
   // === SAVE MESSAGE ===
-  function saveMessage(chatId, sender, text, fileData = null, fileType = "text") {
+  function saveMessage(chatId, sender, messageData) {
   const chat = conversations.find(c => c.id === chatId);
   if (!chat) return;
 
-  chat.messages.push({
-    sender,
-    type: fileType,
-    content: fileData,
-    text: text
-  });
+  chat.messages.push(messageData);
 
   saveToLocal();
 }
@@ -394,18 +407,16 @@ function handleImageUpload(file) {
     footer.innerHTML = "⚡ Bravexa AI Verify important details.";
 
     chat.messages.forEach(msg => {
+
   if (msg.type === "image") {
     const img = document.createElement("img");
     img.src = msg.content;
-        img.style.maxWidth = "200px";
-    img.style.borderRadius = "10px";
     img.classList.add("chat-image");
     chatWindow.appendChild(img);
 
   } else if (msg.type === "video") {
     const video = document.createElement("video");
     video.src = msg.content;
-
     video.controls = true;
     video.classList.add("chat-video");
     chatWindow.appendChild(video);
@@ -420,6 +431,7 @@ function handleImageUpload(file) {
   } else {
     addMessageToChat(msg.text, msg.sender === "ai");
   }
+
 });
   }
 
