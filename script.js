@@ -52,7 +52,7 @@ if ('webkitSpeechRecognition' in window) {
 }
 
   // === LOCAL STORAGE ===
-  let conversations = JSON.parse(localStorage.getItem("bravexaChats")) || [];
+ let conversations = JSON.parse(localStorage.getItem("bravexaChats")) || [];
   let currentChatId = null;
 
   // === GREETING & USERNAME ===
@@ -1044,14 +1044,17 @@ document.addEventListener("click", (e) => {
 window.addEventListener("DOMContentLoaded", () => {
   const voiceText = localStorage.getItem("voiceInput");
 
-  console.log("VOICE FROM STORAGE:", voiceText); // 👈 ADD THIS
+  // ✅ restore previous chats
+  if (conversations.length > 0) {
+    currentChatId = conversations[0].id;
+    loadConversation(currentChatId);
+  }
 
+  // ✅ handle voice input
   if (voiceText) {
     sendMessage(voiceText);
     localStorage.removeItem("voiceInput");
   }
-});
-
 });
 
 
