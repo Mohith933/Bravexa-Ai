@@ -83,16 +83,17 @@ if ('webkitSpeechRecognition' in window) {
     }
   });
 
-  // === SEND MESSAGE ===
-  function sendMessage() {
-    const userMessage = chatbox.value.trim();
-    if (!userMessage) return;
+  // === SEND MESSAGE =
+  function sendMessage(voiceInput = null) {
+  const userMessage = voiceInput || chatbox.value.trim();
+  if (!userMessage) return;
 
-    if (!currentChatId) startNewConversation(userMessage);
+  if (!currentChatId) startNewConversation(userMessage);
 
-    addMessageToChat(userMessage, false);
-    saveMessage(currentChatId, "user", userMessage);
-    chatbox.value = "";
+  addMessageToChat(userMessage, false);
+  saveMessage(currentChatId, "user", userMessage);
+
+   chatbox.value = "";
     chatbox.style.height = "auto"; // ✅ reset natural height smoothly
 
     // UI layout setup
@@ -111,23 +112,22 @@ if ('webkitSpeechRecognition' in window) {
     uploadDropdown.style.marginTop = "0px";
     footer.innerHTML = "⚡ Bravexa AI Verify important details.";
 
-    // AI typing placeholder
-    const aiMessage = document.createElement("div");
-    aiMessage.classList.add("message", "ai-message");
-    aiMessage.innerHTML = `
-      <div class="typing-hearts">
-        <span><img src="chat.png"></span><p>Processing...</p>
-      </div>`;
-    chatWindow.appendChild(aiMessage);
-    makeMessageVisible(aiMessage);
+  const aiMessage = document.createElement("div");
+  aiMessage.classList.add("message", "ai-message");
+  aiMessage.innerHTML = `
+    <div class="typing-hearts">
+      <span><img src="chat.png"></span><p>Processing...</p>
+    </div>`;
+  chatWindow.appendChild(aiMessage);
+  makeMessageVisible(aiMessage);
 
-    setTimeout(async () => {
-      const response = await generateAIResponse(userMessage);
-      aiMessage.innerHTML = "";
-      typeText(aiMessage, response);
-      saveMessage(currentChatId, "ai", response);
-    }, 1000);
-  }
+  setTimeout(async () => {
+    const response = await generateAIResponse(userMessage);
+    aiMessage.innerHTML = "";
+    typeText(aiMessage, response);
+    saveMessage(currentChatId, "ai", response);
+  }, 1000);
+}
 
   // === START NEW CONVERSATION ===
   function startNewConversation(firstMessage) {
@@ -1046,26 +1046,12 @@ document.addEventListener("click", (e) => {
   updateHistorySidebar();
 });
 
-window.addEventListener("load", () => {
-  const message = localStorage.getItem("voiceMessage");
+window.addEventListener("DOMContentLoaded", () => {
+  const voiceText = localStorage.getItem("voiceInput");
 
-  console.log("FROM STORAGE:", message); // 👈 check this
-
-  if (message) {
-    const chatWindow = document.querySelector(".chat-window");
-
-    chatWindow.style.display = "block";
-
-    const userMsg = document.createElement("div");
-    userMsg.textContent = message;
-
-    const botMsg = document.createElement("div");
-    botMsg.textContent = "Reply: " + message;
-
-    chatWindow.appendChild(userMsg);
-    chatWindow.appendChild(botMsg);
-
-    localStorage.removeItem("voiceMessage");
+  if (voiceText) {
+    sendMessage(voiceText); // ✅ USE SAME PIPELINE
+    localStorage.removeItem("voiceInput");
   }
 });
 
