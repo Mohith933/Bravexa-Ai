@@ -52,7 +52,7 @@ if ('webkitSpeechRecognition' in window) {
 }
 
   // === LOCAL STORAGE ===
- let conversations = JSON.parse(localStorage.getItem("bravexaChats")) || [];
+  let conversations = JSON.parse(localStorage.getItem("bravexaChats")) || [];
   let currentChatId = null;
 
   // === GREETING & USERNAME ===
@@ -1040,23 +1040,8 @@ document.addEventListener("click", (e) => {
       inputArea.style.width = "50%";
     }
   }
+});;
 
-window.addEventListener("DOMContentLoaded", () => {
-  const voiceText = localStorage.getItem("voiceInput");
-
-  // ✅ restore previous chats
-  if (conversations.length > 0) {
-    currentChatId = conversations[0].id;
-    loadConversation(currentChatId);
-  }
-
-  // ✅ handle voice input
-  if (voiceText) {
-    sendMessage(voiceText);
-    localStorage.removeItem("voiceInput");
-  }
-});
-});
 
 
 
