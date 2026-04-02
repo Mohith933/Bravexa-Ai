@@ -127,12 +127,6 @@ recognition.onresult = (event) => {
   window.location.href = "dashboard.html";
 };
 
-// End
-recognition.onend = () => {
-  if (localStorage.getItem("voiceMessage")) {
-    window.location.href = "dashboard.html";
-  }
-};
 
 // Error
 recognition.onerror = () => {
