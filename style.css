@@ -27,6 +27,39 @@ body {
 
 /* ================= Navbar ================= */
 /* ===== HEADER (Fixed Navbar) ===== */
+
+.sidebar {
+  position: fixed;
+  left: -260px;
+  top: 0;
+  width: 200px;
+  height: 100%;
+  background: #0d1b2a;
+      box-shadow:1px 1px 1px 1px rgba(0,0,0,0.1);
+      backdrop-fiter:blur(10px);
+  color: white;
+  padding: 15px;
+  transition: 0.3s;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.sidebar.active {
+  left: 0;
+}
+.sidebar h3{
+      text-align : left;
+      padding:10px;
+}
+
+.menu-btn {
+  font-size: 20px;
+  margin-right: 10px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: white;
+}
 .header {
   position: fixed;
   top: 0;
