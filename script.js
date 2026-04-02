@@ -1049,26 +1049,22 @@ document.addEventListener("click", (e) => {
 window.addEventListener("load", () => {
   const message = localStorage.getItem("voiceMessage");
 
+  console.log("FROM STORAGE:", message); // 👈 check this
+
   if (message) {
     const chatWindow = document.querySelector(".chat-window");
 
-    // Show chat window
     chatWindow.style.display = "block";
 
-    // User message
     const userMsg = document.createElement("div");
-    userMsg.className = "chat user";
     userMsg.textContent = message;
 
-    // Bot reply
     const botMsg = document.createElement("div");
-    botMsg.className = "chat bot";
-    botMsg.textContent = getReply(message);
+    botMsg.textContent = "Reply: " + message;
 
     chatWindow.appendChild(userMsg);
     chatWindow.appendChild(botMsg);
 
-    // Clear storage
     localStorage.removeItem("voiceMessage");
   }
 });
