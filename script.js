@@ -1046,4 +1046,54 @@ document.addEventListener("click", (e) => {
   updateHistorySidebar();
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+  const message = localStorage.getItem("voiceMessage");
+
+  if (message) {
+    const chatWindow = document.querySelector(".chat-window");
+    const hero = document.querySelector(".hero");
+
+    hero.style.display = "none";
+    chatWindow.style.display = "flex";
+
+    // USER MESSAGE
+    const userMsg = document.createElement("div");
+    userMsg.className = "message user";
+    userMsg.textContent = message;
+    chatWindow.appendChild(userMsg);
+
+    // BOT REPLY
+    const botMsg = document.createElement("div");
+    botMsg.className = "message bot";
+    botMsg.textContent = getReply(message);
+    chatWindow.appendChild(botMsg);
+
+    // CLEAR STORAGE
+    localStorage.removeItem("voiceMessage");
+  }
+});
+
+
+function getReply(text) {
+  if (text.includes("hello") || text.includes("hi"))
+    return "Hello. I’m Bravexa. How can I help you?";
+
+  if (text.includes("sad") || text.includes("tired"))
+    return "I’m here with you. Take a slow breath.";
+
+  if (text.includes("exam") || text.includes("study"))
+    return "Stay calm. You are doing better than you think.";
+
+  if (text.includes("bye"))
+    return "Goodbye. Take care.";
+
+  return "I’m listening. Go on.";
+}
+
+
+
+
+
+
+
 
