@@ -35,8 +35,8 @@ body {
   width: 200px;
   height: 100%;
   background: #0d1b2a;
-      box-shadow:1px 1px 1px 1px rgba(0,0,0,0.1);
-      backdrop-fiter:blur(10px);
+  box-shadow:1px 1px 1px 1px rgba(0,0,0,0.1);
+  backdrop-filter: blur(10px);
   color: white;
   padding: 15px;
   transition: 0.3s;
@@ -265,6 +265,52 @@ body.light-mode .header .btn.solid {
   display: flex;
   flex-direction: column;
   background-color: transparent;
+}
+.preview-container {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.preview-container img,
+.preview-container video {
+  max-width: 80px;
+  border-radius: 8px;
+}
+
+.preview-container .file-preview {
+  background: #1e293b;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.preview-item {
+  position: relative;
+  display: inline-block;
+}
+
+.remove-btn {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.remove-btn:hover {
+  background: #dc2626;
+}
+
+.preview-item img,
+.preview-item video {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 
 /* ================= Input Box ================= */
