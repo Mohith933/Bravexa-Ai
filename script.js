@@ -1180,7 +1180,7 @@ Employees.ID → Projects.ProjectID (Manager Assigned)
   });
 
   // === FILE SELECTED HANDLER ===
-  document.querySelectorAll("#imageUpload, #videoUpload, #fileUpload").forEach(input => {
+  document.querySelectorAll("#imageUpload,#fileUpload").forEach(input => {
     input.addEventListener("change", (event) => {
       const file = event.target.files[0];
       if (file) {
@@ -1246,3 +1246,13 @@ screenshotBtn.addEventListener("click", async () => {
     });
   }
 });
+
+
+
+
+
+
+
+
+
+
