@@ -122,7 +122,7 @@ recognition.onresult = (event) => {
 
   console.log("VOICE:", speech); // 👈 check this
 
-  localStorage.setItem("voiceMessage", speech);
+  localStorage.setItem("voiceInput", speech);
 
   window.location.href = "dashboard.html";
 };
