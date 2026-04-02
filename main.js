@@ -849,33 +849,20 @@ screenshotBtn.addEventListener("click", () => {
   adjustLayoutForViewport();
 });
 
-window.addEventListener("load", () => {
+document.addEventListener("DOMContentLoaded", function () {
+
+  // ✅ ADD THIS AT END
   const message = localStorage.getItem("voiceMessage");
 
   if (message) {
-    const chatWindow = document.querySelector(".chat-window");
+    hero.style.display = "none";
+    chatWindow.style.display = "flex";
 
-    // Show chat window
-    chatWindow.style.display = "block";
+    addMessageToChat(message);
 
-    // User message
-    const userMsg = document.createElement("div");
-    userMsg.className = "chat user";
-    userMsg.textContent = message;
-
-    // Bot reply
-    const botMsg = document.createElement("div");
-    botMsg.className = "chat bot";
-    botMsg.textContent = getReply(message);
-
-    chatWindow.appendChild(userMsg);
-    chatWindow.appendChild(botMsg);
-
-    // Clear storage
     localStorage.removeItem("voiceMessage");
   }
 });
-
 
 function getReply(text) {
   if (text.includes("hello") || text.includes("hi"))
