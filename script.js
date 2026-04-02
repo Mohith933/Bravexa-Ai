@@ -171,22 +171,6 @@ document.querySelectorAll("#imageUpload, #videoUpload, #fileUpload").forEach(inp
   });
 }
 
-function handleImageUpload(file) {
-  const reader = new FileReader();
-
-  reader.onload = function (e) {
-    const base64 = e.target.result;
-
-    saveMessage(currentChatId, "user", {
-      type: "image",
-      content: base64
-    });
-
-    displayImage(base64);
-  };
-
-  reader.readAsDataURL(file); // ✅ MUST
-}
 
   // === SEND MESSAGE ===
  async function sendMessage() {
@@ -197,23 +181,29 @@ function handleImageUpload(file) {
 
     if (selectedFile) {
 
-  const base64 = await fileToBase64(selectedFile); // ✅ FIX
+    const base64 = await fileToBase64(selectedFile);
 
-  displayFileMessage(selectedFile);
+    displayFileMessage(selectedFile);
 
-  saveMessage(
-    currentChatId,
-    "user",
-    selectedFile.name,
-    base64, // ✅ correct now
-    selectedFile.type.startsWith("image") ? "image" :
-    selectedFile.type.startsWith("video") ? "video" :
-    "file"
-  );
+    saveMessage(
+      currentChatId,
+      "user",
+      "", // ❗ no text here
+      base64,
+      selectedFile.type.startsWith("image") ? "image" :
+      selectedFile.type.startsWith("video") ? "video" :
+      "file"
+    );
 
-  previewContainer.innerHTML = "";
-  selectedFile = null;
-}
+    selectedFile = null;
+    previewContainer.innerHTML = "";
+  }
+
+  // ✅ TEXT ONLY if exists
+  if (userMessage) {
+    addMessageToChat(userMessage, false);
+    saveMessage(currentChatId, "user", userMessage, null, "text");
+  }
 
     addMessageToChat(userMessage, false);
     saveMessage(currentChatId, "user", userMessage);
@@ -303,15 +293,15 @@ function handleImageUpload(file) {
   }
 
   // === SAVE MESSAGE ===
-  function saveMessage(chatId, sender, text, fileData = null, fileType = "text") {
+  function saveMessage(chatId, sender, text = "", fileData = null, fileType = "text") {
   const chat = conversations.find(c => c.id === chatId);
   if (!chat) return;
 
   chat.messages.push({
     sender,
     type: fileType,
-    content: fileData,
-    text: text
+    content: fileData || null,
+    text: text || ""
   });
 
   saveToLocal();
@@ -398,21 +388,21 @@ function handleImageUpload(file) {
   const messageDiv = document.createElement("div");
   messageDiv.classList.add("message", msg.sender === "ai" ? "ai-message" : "user-message");
 
-  if (msg.type === "image") {
+  if (msg.type === "image" && msg.content) {
     const img = document.createElement("img");
     img.src = msg.content;
     img.style.maxWidth = "200px";
     img.style.borderRadius = "10px";
     messageDiv.appendChild(img);
 
-  } else if (msg.type === "video") {
+  } else if (msg.type === "video" && msg.content) {
     const video = document.createElement("video");
     video.src = msg.content;
     video.controls = true;
     video.style.maxWidth = "200px";
     messageDiv.appendChild(video);
 
-  } else if (msg.type === "file") {
+  } else if (msg.type === "file" && msg.content) {
     const link = document.createElement("a");
     link.href = msg.content;
     link.download = msg.text || "file";
@@ -1222,7 +1212,11 @@ Employees.ID → Projects.ProjectID (Manager Assigned)
       img.alt = "Screenshot";
       img.style.maxWidth = "200px";
       img.style.borderRadius = "8px";
-      chatWindow.appendChild(img);
+ const base64 = await fileToBase64(blob);
+
+displayFileMessage({ type: "image/png", name: "screenshot.png" });
+
+saveMessage(currentChatId, "user", "", base64, "image");
 
       alert("📸 Screenshot captured successfully!");
     } catch {
