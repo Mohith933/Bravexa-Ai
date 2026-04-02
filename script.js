@@ -14,71 +14,73 @@ document.addEventListener("DOMContentLoaded", function () {
   const historyList = document.getElementById("historyList");
   const toggleHistoryBtn = document.getElementById("toggleHistory");
   const menuToggle = document.getElementById("menuToggle");
-const sidebar = document.getElementById("sidebar");
+  const sidebar = document.getElementById("sidebar");
 
-// Open sidebar
-menuToggle.addEventListener("click", () => {
-  sidebar.classList.add("active");
+  // Open sidebar
+  menuToggle.addEventListener("click", () => {
+    sidebar.classList.add("active");
 
-  // Push fake state so back button works
-  history.pushState({ sidebarOpen: true }, "");
-});
+    // Push fake state so back button works
+    history.pushState({ sidebarOpen: true }, "");
+  });
 
-// Handle BACK button
-window.addEventListener("popstate", (event) => {
-  if (sidebar.classList.contains("active")) {
-    sidebar.classList.remove("active");
-  }
-});
+  // Handle BACK button
+  window.addEventListener("popstate", (event) => {
+    if (sidebar.classList.contains("active")) {
+      sidebar.classList.remove("active");
+    }
+  });
 
-document.addEventListener("click", (e) => {
-  if (
-    sidebar.classList.contains("active") &&
-    !sidebar.contains(e.target) &&
-    !menuToggle.contains(e.target)
-  ) {
-    sidebar.classList.remove("active");
-  }
-});
+  document.addEventListener("click", (e) => {
+    if (
+      sidebar.classList.contains("active") &&
+      !sidebar.contains(e.target) &&
+      !menuToggle.contains(e.target)
+    ) {
+      sidebar.classList.remove("active");
+    }
+  });
+
+
 
   // === AUTO RESIZE TEXTAREA ===
   chatbox.addEventListener("input", () => {
     chatbox.style.height = "auto";
     chatbox.style.height = chatbox.scrollHeight + "px";
   });
-const voiceBtn = document.querySelector('.voice-icon');
+  const voiceBtn = document.querySelector('.voice-icon');
 
-// Check if browser supports speech recognition
-if ('webkitSpeechRecognition' in window) {
-  const recognition = new webkitSpeechRecognition();
-  recognition.continuous = false;
-  recognition.interimResults = false;
-  recognition.lang = 'en-US';
+  // Check if browser supports speech recognition
+  if ('webkitSpeechRecognition' in window) {
+    const recognition = new webkitSpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.lang = 'en-US';
 
-  voiceBtn.addEventListener('click', () => {
-    recognition.start();
-    voiceBtn.style.color = '#00e1ff'; // glowing when active
-  });
+    voiceBtn.addEventListener('click', () => {
+      recognition.start();
+      voiceBtn.style.color = '#00e1ff'; // glowing when active
+    });
 
-  recognition.onresult = (event) => {
-    const transcript = event.results[0][0].transcript;
-    chatbox.value += (chatbox.value ? ' ' : '') + transcript;
-    voiceBtn.style.color = '#fff';
-  };
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      chatbox.value += (chatbox.value ? ' ' : '') + transcript;
+      voiceBtn.style.color = '#fff';
+    };
 
-  recognition.onerror = (event) => {
-    console.error('Speech recognition error:', event.error);
-    voiceBtn.style.color = '#fff';
-  };
+    recognition.onerror = (event) => {
+      console.error('Speech recognition error:', event.error);
+      voiceBtn.style.color = '#fff';
+    };
 
-  recognition.onend = () => {
-    voiceBtn.style.color = '#fff';
-  };
-} else {
-  alert('Speech Recognition not supported in this browser 😞');
-}
+    recognition.onend = () => {
+      voiceBtn.style.color = '#fff';
+    };
+  } else {
+    alert('Speech Recognition not supported in this browser 😞');
+  }
 
-  // === LOCAL STORAGE ===
+ // === LOCAL STORAGE ===
   let conversations = JSON.parse(localStorage.getItem("bravexaChats")) || [];
   let currentChatId = null;
 
@@ -110,6 +112,82 @@ if ('webkitSpeechRecognition' in window) {
     }
   });
 
+
+
+  let selectedFile = null;
+
+const previewContainer = document.getElementById("previewContainer");
+
+document.querySelectorAll("#imageUpload, #videoUpload, #fileUpload").forEach(input => {
+  input.addEventListener("change", (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    selectedFile = file;
+    previewContainer.innerHTML = "";
+
+    const wrapper = document.createElement("div");
+    wrapper.className = "preview-item";
+
+    const type = file.type.split("/")[0];
+
+    let element;
+
+    if (type === "image") {
+      element = document.createElement("img");
+      element.src = URL.createObjectURL(file);
+    } else if (type === "video") {
+      element = document.createElement("video");
+      element.src = URL.createObjectURL(file);
+      element.controls = true;
+    } else {
+      element = document.createElement("div");
+      element.className = "file-preview";
+      element.textContent = "📄 " + file.name;
+    }
+
+    // ❌ REMOVE BUTTON
+    const removeBtn = document.createElement("button");
+    removeBtn.textContent = "✖";
+    removeBtn.className = "remove-btn";
+
+    removeBtn.onclick = () => {
+      selectedFile = null;
+      previewContainer.innerHTML = "";
+      input.value = ""; // reset input
+    };
+
+    wrapper.appendChild(element);
+    wrapper.appendChild(removeBtn);
+    previewContainer.appendChild(wrapper);
+  });
+});
+
+  function fileToBase64(file) {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.readAsDataURL(file);
+  });
+}
+
+function handleImageUpload(file) {
+  const reader = new FileReader();
+
+  reader.onload = function (e) {
+    const base64 = e.target.result;
+
+    saveMessage(currentChatId, "user", {
+      type: "image",
+      content: base64
+    });
+
+    displayImage(base64);
+  };
+
+  reader.readAsDataURL(file); // ✅ MUST
+}
+
   // === SEND MESSAGE ===
   function sendMessage() {
     const userMessage = chatbox.value.trim();
@@ -117,12 +195,28 @@ if ('webkitSpeechRecognition' in window) {
 
     if (!currentChatId) startNewConversation(userMessage);
 
+    if (selectedFile) {
+  const base64 = fileToBase64(selectedFile);
+
+  displayFileMessage(selectedFile);
+
+  saveMessage(
+    currentChatId,
+    "user",
+    "",
+    base64, // ✅ correct
+    selectedFile.type.startsWith("image") ? "image" :
+    selectedFile.type.startsWith("video") ? "video" :
+    "file"
+  );
+
+  previewContainer.innerHTML = "";
+}
+
     addMessageToChat(userMessage, false);
     saveMessage(currentChatId, "user", userMessage);
     chatbox.value = "";
     chatbox.style.height = "auto"; // ✅ reset natural height smoothly
-
-    // UI layout setup
     hero.style.display = "none";
     inputArea.style.position = "fixed";
     chatWindow.style.marginTop = "80px";
@@ -156,6 +250,37 @@ if ('webkitSpeechRecognition' in window) {
     }, 1000);
   }
 
+
+  function displayFileMessage(file) {
+  const type = file.type.split("/")[0];
+
+  const messageDiv = document.createElement("div");
+  messageDiv.classList.add("message", "user-message");
+
+  if (type === "image") {
+    const img = document.createElement("img");
+    img.src = URL.createObjectURL(file);
+    img.style.maxWidth = "200px";
+    img.style.borderRadius = "10px";
+    messageDiv.appendChild(img);
+
+  } else if (type === "video") {
+    const video = document.createElement("video");
+    video.src = URL.createObjectURL(file);
+    video.controls = true;
+    video.style.maxWidth = "200px";
+    messageDiv.appendChild(video);
+
+  } else {
+    messageDiv.textContent = "📄 " + file.name;
+  }
+
+  chatWindow.appendChild(messageDiv);
+  makeMessageVisible(messageDiv);
+
+  saveMessage(currentChatId, "user", file.name);
+}
+
   // === START NEW CONVERSATION ===
   function startNewConversation(firstMessage) {
     chatWindow.innerHTML = "";
@@ -178,13 +303,19 @@ if ('webkitSpeechRecognition' in window) {
   }
 
   // === SAVE MESSAGE ===
-  function saveMessage(chatId, sender, text) {
-    const chat = conversations.find(c => c.id === chatId);
-    if (!chat) return;
-    chat.messages.push({ sender, text });
-    saveToLocal();
-  }
+  function saveMessage(chatId, sender, text, fileData = null, fileType = "text") {
+  const chat = conversations.find(c => c.id === chatId);
+  if (!chat) return;
 
+  chat.messages.push({
+    sender,
+    type: fileType,
+    content: fileData,
+    text: text
+  });
+
+  saveToLocal();
+}
   // === TOGGLE HISTORY SIDEBAR ===
   if (toggleHistoryBtn && historyList) {
     toggleHistoryBtn.addEventListener("click", () => {
@@ -262,7 +393,34 @@ if ('webkitSpeechRecognition' in window) {
     uploadDropdown.style.marginTop = "0px";
     footer.innerHTML = "⚡ Bravexa AI Verify important details.";
 
-    chat.messages.forEach(msg => addMessageToChat(msg.text, msg.sender === "ai"));
+    chat.messages.forEach(msg => {
+  if (msg.type === "image") {
+    const img = document.createElement("img");
+    img.src = msg.content;
+        img.style.maxWidth = "200px";
+    img.style.borderRadius = "10px";
+    img.classList.add("chat-image");
+    chatWindow.appendChild(img);
+
+  } else if (msg.type === "video") {
+    const video = document.createElement("video");
+    video.src = msg.content;
+
+    video.controls = true;
+    video.classList.add("chat-video");
+    chatWindow.appendChild(video);
+
+  } else if (msg.type === "file") {
+    const link = document.createElement("a");
+    link.href = msg.content;
+    link.download = "file";
+    link.innerText = "📄 Download File";
+    chatWindow.appendChild(link);
+
+  } else {
+    addMessageToChat(msg.text, msg.sender === "ai");
+  }
+});
   }
 
   // === SAVE TO LOCAL STORAGE ===
@@ -278,105 +436,123 @@ if ('webkitSpeechRecognition' in window) {
     }, 10);
   }
 
+
   // === TYPE EFFECT ===
-// === BRAVEXA SMOOTH TYPE EFFECT ===
-function typeText(element, htmlContent, speed = 12) {
-  let i = 0;
-  element.innerHTML = "";
+  // === BRAVEXA SMOOTH TYPE EFFECT ===
+  function typeText(element, htmlContent, speed = 12) {
+    let i = 0;
+    element.innerHTML = "";
 
-  let lastScroll = 0;
+    let lastScroll = 0;
 
-  function type() {
-    // increase characters smoothly
-    i += 2; // balanced speed (not jumpy)
-    element.innerHTML = htmlContent.slice(0, i);
+    function type() {
+      // increase characters smoothly
+      i += 2; // balanced speed (not jumpy)
+      element.innerHTML = htmlContent.slice(0, i);
 
-    // auto-scroll only when needed
-    const now = Date.now();
-    if (now - lastScroll > 120) {
-      window.scrollTo({
-        top: document.body.scrollHeight,
-        behavior: "smooth"
-      });
-      lastScroll = now;
+      // auto-scroll only when needed
+      const now = Date.now();
+      if (now - lastScroll > 120) {
+        window.scrollTo({
+          top: document.body.scrollHeight,
+          behavior: "smooth"
+        });
+        lastScroll = now;
+      }
+
+      if (i < htmlContent.length) {
+        requestAnimationFrame(type);
+      } else {
+        element.innerHTML = htmlContent; // ensure full render
+      }
     }
 
-    if (i < htmlContent.length) {
-      requestAnimationFrame(type);
-    } else {
-      element.innerHTML = htmlContent; // ensure full render
-    }
+    requestAnimationFrame(type);
   }
-
-  requestAnimationFrame(type);
-}
 
   // === AI RESPONSE GENERATOR ===
   async function generateAIResponse(userMessage) {
-  const msg = (userMessage || "").toLowerCase().trim();
-  let response = "";
+    const msg = (userMessage || "").toLowerCase().trim();
+    let response = "";
 
-  // --- simple normalization + intent mapping ---
- const intents = {
-  greeting: ["hello", "hi", "hey", "good morning", "good evening", "good night", "bye"],
+    if (selectedFile) {
+      const type = selectedFile.type.split("/")[0];
 
-  leave: ["leave letter", "application", "holiday", "absent", "permission"],
-  email: ["email", "official", "mail", "message", "compose email"],
+      if (type === "image") {
+        return `<h2>🖼️ Image Received</h2>
+    <p>This looks like an image. I can describe or analyze it if backend is added.</p>`;
+      }
 
-  resume: ["resume", "cv", "curriculum vitae", "vitae", "portfolio"],
-  project: ["project", "documentation"],
+      if (type === "video") {
+        return `<h2>🎥 Video Received</h2>
+    <p>I got your video. Playback works, analysis requires backend.</p>`;
+      }
 
-  word: ["word", "doc", "docx", "report"],
-  excel: ["excel", "sheet", "xlsx", "csv"],
-  powerpoint: ["presentation", "slides", "ppt", "deck"],
-  access: ["access", "database", "accdb"],
-
-  code: ["code", "program", "script", "snippet", "python", "java", "c++", "cpp", "html", "css", "javascript", "js"],
-
-  os: ["operating system", "os", "process", "scheduling"],
-  dbms: ["dbms", "database management", "sql", "joins"],
-  software: ["software engineering", "srs", "sdlc", "software"],
-  cs: ["computer science", "cs", "algorithm", "data structure"],
-
-  physics: ["physics"],
-  math: ["math", "mathematics"],
-
-  news: ["news", "headlines", "updates"],
-  weather: ["weather", "forecast", "temperature"],
-  stock: ["stock", "market", "share", "nifty", "nasdaq"],
-
-  motivate: ["motivate", "inspire", "encourage", "boost"],
-
-  usage: ["usage", "weekly usage", "daily usage", "timing", "activity"],
-  emotion: ["emotion", "emotions", "distribution", "mood"],
-  how: ["overview", "how", "workflow", "architecture"]
-};
-
-
-  // find intent (first matching category)
-  let intent = "default";
-  for (const [key, words] of Object.entries(intents)) {
-    if (words.some(w => msg.includes(w))) {
-      intent = key;
-      break;
+      return `<h2>📄 File Received</h2>
+  <p>File uploaded successfully: ${selectedFile.name}</p>`;
     }
-  }
 
-  // --- RULE-BASED RESPONSES (Ordered as you asked) ---
-  switch (intent) {
+    // --- simple normalization + intent mapping ---
+    const intents = {
+      greeting: ["hello", "hi", "hey", "good morning", "good evening", "good night", "bye"],
 
-    // 1) GREETINGS & ROUTINES (no buttons)
-    case "greeting":
-      response = `
+      leave: ["leave letter", "application", "holiday", "absent", "permission"],
+      email: ["email", "official", "mail", "message", "compose email"],
+
+      resume: ["resume", "cv", "curriculum vitae", "vitae", "portfolio"],
+      project: ["project", "documentation"],
+
+      word: ["word", "doc", "docx", "report"],
+      excel: ["excel", "sheet", "xlsx", "csv"],
+      powerpoint: ["presentation", "slides", "ppt", "deck"],
+      access: ["access", "database", "accdb"],
+
+      code: ["code", "program", "script", "snippet", "python", "java", "c++", "cpp", "html", "css", "javascript", "js"],
+
+      os: ["operating system", "os", "process", "scheduling"],
+      dbms: ["dbms", "database management", "sql", "joins"],
+      software: ["software engineering", "srs", "sdlc", "software"],
+      cs: ["computer science", "cs", "algorithm", "data structure"],
+
+      physics: ["physics"],
+      math: ["math", "mathematics"],
+
+      news: ["news", "headlines", "updates"],
+      weather: ["weather", "forecast", "temperature"],
+      stock: ["stock", "market", "share", "nifty", "nasdaq"],
+
+      motivate: ["motivate", "inspire", "encourage", "boost"],
+
+      usage: ["usage", "weekly usage", "daily usage", "timing", "activity"],
+      emotion: ["emotion", "emotions", "distribution", "mood"],
+      how: ["overview", "how", "workflow", "architecture"]
+    };
+
+
+    // find intent (first matching category)
+    let intent = "default";
+    for (const [key, words] of Object.entries(intents)) {
+      if (words.some(w => msg.includes(w))) {
+        intent = key;
+        break;
+      }
+    }
+
+    // --- RULE-BASED RESPONSES (Ordered as you asked) ---
+    switch (intent) {
+
+      // 1) GREETINGS & ROUTINES (no buttons)
+      case "greeting":
+        response = `
         <h2>👋 Hello — Bravexa AI</h2>
         <p>I'm Bravexa — your workspace assistant. Try: "Generate leave letter", "Compose email", "Make a resume".</p>
         <p class="muted">Routines: daily summary, reminders, quick greetings.</p>
       `;
-      break;
+        break;
 
-    // 2) DOCUMENTATION — LEAVE (copy + send)
-    case "leave":
-      response = `
+      // 2) DOCUMENTATION — LEAVE (copy + send)
+      case "leave":
+        response = `
         <h2>📄 Leave Letter</h2>
         <div class="code-block-container">
           <div class="code-toolbar">
@@ -404,11 +580,11 @@ Yours faithfully,
           </pre>
         </div>
       `;
-      break;
+        break;
 
-    // 2) DOCUMENTATION — EMAIL (copy + send)
-    case "email":
-      response = `
+      // 2) DOCUMENTATION — EMAIL (copy + send)
+      case "email":
+        response = `
         <h2>📧 Official Email</h2>
         <div class="code-block-container">
           <div class="code-toolbar">
@@ -433,12 +609,12 @@ Best regards,
           </pre>
         </div>
       `;
-      break;
+        break;
 
-    // 2) DOCUMENTATION — RESUME / PROJECT (copy + save)
-    // 🧾 RESUME
-case "resume":
-  response = `
+      // 2) DOCUMENTATION — RESUME / PROJECT (copy + save)
+      // 🧾 RESUME
+      case "resume":
+        response = `
     <h2>🧾 Resume Template</h2>
     <div class="code-block-container">
       <div class="code-toolbar">
@@ -469,11 +645,11 @@ Intern – Web Developer, [Company Name]
       </pre>
     </div>
   `;
-  break;
+        break;
 
-// 📃 CV TEMPLATE
-case "resume":
-  response = `
+      // 📃 CV TEMPLATE
+      case "resume":
+        response = `
     <h2>📃 Curriculum Vitae</h2>
     <div class="code-block-container">
       <div class="code-toolbar">
@@ -504,11 +680,11 @@ I hereby declare that the above information is true to the best of my knowledge.
       </pre>
     </div>
   `;
-  break;
+        break;
 
-// 📘 PROJECT REPORT
-case "project":
-  response = `
+      // 📘 PROJECT REPORT
+      case "project":
+        response = `
     <h2>📘 Project Report</h2>
     <div class="code-block-container">
       <div class="code-toolbar">
@@ -538,10 +714,10 @@ The chatbot automates daily communication and document creation efficiently.
       </pre>
     </div>
   `;
-  break;
-    // 2) DOCUMENTATION — Word (copy + save)
-    case "word":
-      response = `
+        break;
+      // 2) DOCUMENTATION — Word (copy + save)
+      case "word":
+        response = `
         <h2>📝 Microsoft Word / Report</h2>
         <div class="code-block-container">
           <div class="code-toolbar">
@@ -566,11 +742,11 @@ Focus on operational excellence.
           </pre>
         </div>
       `;
-      break;
+        break;
 
-    // === EXCEL / SHEET ===
-case "excel":        
-  response = `        
+      // === EXCEL / SHEET ===
+      case "excel":
+        response = `        
     <h2>📊 Excel / Sheet</h2>        
     <div class="code-block-container">        
       <div class="code-toolbar">        
@@ -592,13 +768,13 @@ April    | 21000    | 7000      | 3500
 💡 Tip: You can track growth percentage or add totals below.  
       </pre>        
     </div>        
-  `;        
-  break;        
+  `;
+        break;
 
 
-// === POWERPOINT / PRESENTATION ===
-case "powerpoint":        
-  response = `        
+      // === POWERPOINT / PRESENTATION ===
+      case "powerpoint":
+        response = `        
     <h2>🎞️ Presentation (PPT)</h2>        
     <div class="code-block-container">        
       <div class="code-toolbar">        
@@ -626,12 +802,12 @@ Show your key findings or outcomes.
 Wrap up with summary and call to action.  
       </pre>        
     </div>        
-  `;        
-  break;
+  `;
+        break;
 
-   // === ACCESS / DATABASE ===
-case "access":        
-  response = `        
+      // === ACCESS / DATABASE ===
+      case "access":
+        response = `        
     <h2>🗄️ Microsoft Access Database</h2>        
     <div class="code-block-container">        
       <div class="code-toolbar">        
@@ -666,34 +842,34 @@ Employees.ID → Projects.ProjectID (Manager Assigned)
 💡 Tip: Use this format to visualize Access tables and relationships before building your database.  
       </pre>        
     </div>        
-  `;        
-  break;
+  `;
+        break;
 
-    // 3) CODE GENERATOR (copy only) - support many languages
-    case "code": {
-      // detect language
-      let lang = "javascript";
-      if (msg.includes("python")) lang = "python";
-      else if (msg.includes("c++") || msg.includes("cpp")) lang = "cpp";
-      else if (msg.includes("c")) lang = "c";
-      else if (msg.includes("java")) lang = "java";
-      else if (msg.includes("html")) lang = "html";
-      else if (msg.includes("css")) lang = "css";
-      else if (msg.includes("js") || msg.includes("javascript")) lang = "javascript";
+      // 3) CODE GENERATOR (copy only) - support many languages
+      case "code": {
+        // detect language
+        let lang = "javascript";
+        if (msg.includes("python")) lang = "python";
+        else if (msg.includes("c++") || msg.includes("cpp")) lang = "cpp";
+        else if (msg.includes("c")) lang = "c";
+        else if (msg.includes("java")) lang = "java";
+        else if (msg.includes("html")) lang = "html";
+        else if (msg.includes("css")) lang = "css";
+        else if (msg.includes("js") || msg.includes("javascript")) lang = "javascript";
 
-      const templates = {
-        c: `#include <stdio.h>\nint main(){ printf("Hello C\\n"); return 0; }`,
-        cpp: `#include <iostream>\nusing namespace std;\nint main(){ cout << "Hello C++\\n"; return 0; }`,
-        python: `def greet(name):\n    print(f"Hello, {name}")\n\ngreet("Bravexa User")`,
-        java: `public class Main { public static void main(String[] args){ System.out.println("Hello Java"); } }`,
-        html: `<!doctype html>\n<html>\n  <body>\n    <h1>Hello Bravexa</h1>\n  </body>\n</html>`,
-        css: `body { font-family: Arial; background: #fff; color: #333; }`,
-        javascript: `function greet(name) {\n  console.log("Hello, " + name + "!");\n}\ngreet("Bravexa User");`
-      };
+        const templates = {
+          c: `#include <stdio.h>\nint main(){ printf("Hello C\\n"); return 0; }`,
+          cpp: `#include <iostream>\nusing namespace std;\nint main(){ cout << "Hello C++\\n"; return 0; }`,
+          python: `def greet(name):\n    print(f"Hello, {name}")\n\ngreet("Bravexa User")`,
+          java: `public class Main { public static void main(String[] args){ System.out.println("Hello Java"); } }`,
+          html: `<!doctype html>\n<html>\n  <body>\n    <h1>Hello Bravexa</h1>\n  </body>\n</html>`,
+          css: `body { font-family: Arial; background: #fff; color: #333; }`,
+          javascript: `function greet(name) {\n  console.log("Hello, " + name + "!");\n}\ngreet("Bravexa User");`
+        };
 
-      const snippet = templates[lang] || templates.javascript;
+        const snippet = templates[lang] || templates.javascript;
 
-      response = `
+        response = `
         <h2>💻 ${lang.toUpperCase()} Code</h2>
         <div class="code-block-container">
           <div class="code-toolbar">
@@ -705,45 +881,45 @@ Employees.ID → Projects.ProjectID (Manager Assigned)
           <pre class="code-content"><code>${snippet}</code></pre>
         </div>
       `;
-      break;
-    }
+        break;
+      }
 
-    // 4) SUBJECTS & ACADEMICS (no buttons)
-    case "cs":
-      response = `
+      // 4) SUBJECTS & ACADEMICS (no buttons)
+      case "cs":
+        response = `
         <h2>💻 Computer Science</h2>
         <p><b>Topic:</b> Time Complexity — Binary Search → O(log n)</p>
       `;
-      break;
-    case "os":
-      response = `
+        break;
+      case "os":
+        response = `
         <h2>🖥️ Operating Systems</h2>
         <p><b>Concept:</b> Process scheduling — Round Robin, FCFS, SJF, Priority</p>
       `;
-      break;
-    case "dbms":
-      response = `
+        break;
+      case "dbms":
+        response = `
         <h2>🗄️ DBMS / SQL</h2>
         <p><b>Note:</b> JOIN types — INNER, LEFT, RIGHT, FULL. Normalize to 3NF for schema design.</p>
       `;
-      break;
-    case "software":
-      response = `
+        break;
+      case "software":
+        response = `
         <h2>📐 Software Engineering</h2>
         <p><b>Topic:</b> SDLC phases — Requirements → Design → Implementation → Testing → Deployment</p>
       `;
-      break;
-    case "physics":
-      response = `<h2>⚛️ Physics</h2><p>Newton's laws — F = m × a</p>`;
-      break;
-    case "math":
-      response = `<h2>📐 Mathematics</h2><p>Calculus: d/dx(x²) = 2x</p>`;
-      // Note: fall-through to default handled by break below if needed
-      break;
+        break;
+      case "physics":
+        response = `<h2>⚛️ Physics</h2><p>Newton's laws — F = m × a</p>`;
+        break;
+      case "math":
+        response = `<h2>📐 Mathematics</h2><p>Calculus: d/dx(x²) = 2x</p>`;
+        // Note: fall-through to default handled by break below if needed
+        break;
 
-    // 5) NEWS / WEATHER / STOCK
-   case "news":
-  response = `
+      // 5) NEWS / WEATHER / STOCK
+      case "news":
+        response = `
     <h2>📰 News Snapshot</h2>
     <p>Sample content to demonstrate intent handling and UI rendering.</p>
 
@@ -755,11 +931,11 @@ Employees.ID → Projects.ProjectID (Manager Assigned)
 
     <p class="note">Demo content — live news requires external APIs.</p>
   `;
-break;
+        break;
 
 
-   case "weather":
-  response = `
+      case "weather":
+        response = `
     <h2>☀️ Weather Overview</h2>
     <p>Illustrative weather response (no API).</p>
 
@@ -771,11 +947,11 @@ break;
 
     <p class="note">Static demo — real-time data requires API integration.</p>
   `;
-break;
+        break;
 
 
-    case "stock":
-  response = `
+      case "stock":
+        response = `
     <h2>📈 Stock Snapshot</h2>
     <p><b>Sample:</b> BRAVEXA (BRV) — ₹120.50 (▲ 1.8%)</p>
 
@@ -803,11 +979,11 @@ break;
 
     <p class="note">Demo only — live data requires API integration.</p>
   `;
-break;
+        break;
 
 
- case "usage":
-  response = `
+      case "usage":
+        response = `
     <h2>📊 Weekly Usage</h2>
     <p>Simulated interaction frequency across days.</p>
 
@@ -831,12 +1007,12 @@ break;
 
     <p class="note">Frontend-rendered demo data (no analytics API).</p>
   `;
-break;
+        break;
 
 
 
- case "emotion":
-  response = `
+      case "emotion":
+        response = `
     <h2>💙 Emotion Distribution</h2>
     <p>Rule-based emotional signal mapping.</p>
 
@@ -860,12 +1036,12 @@ break;
 
     <p class="note">Emotion classification via keyword heuristics.</p>
   `;
-break;
+        break;
 
 
 
- case "how":
-  response = `
+      case "how":
+        response = `
     <h2>🧠 How Bravexa Works</h2>
     <p>High-level frontend processing flow.</p>
 
@@ -897,18 +1073,18 @@ break;
 
     <p class="note">Entirely client-side — no server or LLM dependency.</p>
   `;
-break;
+        break;
 
 
 
-    // MOTIVATION
-    case "motivate":
-      response = `<h2>🚀 Motivation</h2><p>Take small daily steps — consistent improvement beats fast perfection.</p>`;
-      break;
+      // MOTIVATION
+      case "motivate":
+        response = `<h2>🚀 Motivation</h2><p>Take small daily steps — consistent improvement beats fast perfection.</p>`;
+        break;
 
-    // DEFAULT (examples)
-    default:
-      response = `
+      // DEFAULT (examples)
+      default:
+        response = `
         <h2>✨ Bravexa AI — Ready</h2>
         <p>I can create docs, code snippets, notes, and quick reports. Try one of these:</p>
         <ul>
@@ -919,66 +1095,66 @@ break;
           <li>Show weather or news</li>
         </ul>
       `;
-  } // end switch
+    } // end switch
 
-  return response;
-}
-
-
-// === ENABLE EDIT + REAL ACTIONS ===
-document.addEventListener("click", (e) => {
-  const block = e.target.closest(".code-block-container");
-  if (!block) return;
-  const textElement = block.querySelector(".code-content");
-  textElement.setAttribute("contenteditable", "true");
-
-  // --- COPY ---
-  if (e.target.classList.contains("copyBtn")) {
-    const text = textElement.textContent.trim();
-    navigator.clipboard.writeText(text);
-    alert("✅ Copied to clipboard!");
+    return response;
   }
 
-  // --- SEND EMAIL ---
-  if (e.target.classList.contains("sendBtn")) {
-    const body = encodeURIComponent(textElement.textContent.trim());
-    const mailto = `mailto:?subject=Bravexa Document&body=${body}`;
-    window.location.href = mailto;
-  }
 
-  // --- SAVE TXT / DOCX / XLSX / PPTX ---
-  if (e.target.classList.contains("saveBtn")) {
-    const text = textElement.textContent.trim();
+  // === ENABLE EDIT + REAL ACTIONS ===
+  document.addEventListener("click", (e) => {
+    const block = e.target.closest(".code-block-container");
+    if (!block) return;
+    const textElement = block.querySelector(".code-content");
+    textElement.setAttribute("contenteditable", "true");
 
-    // detect file type
-    const fileType = block.getAttribute("data-type") || "txt";
-
-    let blob, filename;
-    switch (fileType) {
-      case "word":
-        filename = "document.docx";
-        blob = new Blob([text], { type: "application/msword" });
-        break;
-      case "excel":
-        filename = "sheet.xlsx";
-        blob = new Blob([text], { type: "application/vnd.ms-excel" });
-        break;
-      case "ppt":
-        filename = "presentation.pptx";
-        blob = new Blob([text], { type: "application/vnd.ms-powerpoint" });
-        break;
-      default:
-        filename = "document.txt";
-        blob = new Blob([text], { type: "text/plain" });
+    // --- COPY ---
+    if (e.target.classList.contains("copyBtn")) {
+      const text = textElement.textContent.trim();
+      navigator.clipboard.writeText(text);
+      alert("✅ Copied to clipboard!");
     }
 
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = filename;
-    link.click();
-    URL.revokeObjectURL(link.href);
-  }
-});
+    // --- SEND EMAIL ---
+    if (e.target.classList.contains("sendBtn")) {
+      const body = encodeURIComponent(textElement.textContent.trim());
+      const mailto = `mailto:?subject=Bravexa Document&body=${body}`;
+      window.location.href = mailto;
+    }
+
+    // --- SAVE TXT / DOCX / XLSX / PPTX ---
+    if (e.target.classList.contains("saveBtn")) {
+      const text = textElement.textContent.trim();
+
+      // detect file type
+      const fileType = block.getAttribute("data-type") || "txt";
+
+      let blob, filename;
+      switch (fileType) {
+        case "word":
+          filename = "document.docx";
+          blob = new Blob([text], { type: "application/msword" });
+          break;
+        case "excel":
+          filename = "sheet.xlsx";
+          blob = new Blob([text], { type: "application/vnd.ms-excel" });
+          break;
+        case "ppt":
+          filename = "presentation.pptx";
+          blob = new Blob([text], { type: "application/vnd.ms-powerpoint" });
+          break;
+        default:
+          filename = "document.txt";
+          blob = new Blob([text], { type: "text/plain" });
+      }
+
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = filename;
+      link.click();
+      URL.revokeObjectURL(link.href);
+    }
+  });
 
   // === VOICE BUTTON ===
   document.addEventListener("click", function (e) {
@@ -1072,13 +1248,13 @@ document.addEventListener("click", (e) => {
   adjustLayoutForViewport();
   updateHistorySidebar();
   if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker
-      .register("service-worker.js")
-      .then(() => console.log("Service Worker Registered"))
-      .catch((err) => console.log("SW Error:", err));
-  });
-}
+    window.addEventListener("load", () => {
+      navigator.serviceWorker
+        .register("service-worker.js")
+        .then(() => console.log("Service Worker Registered"))
+        .catch((err) => console.log("SW Error:", err));
+    });
+  }
 });
 
 
