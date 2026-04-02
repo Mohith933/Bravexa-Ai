@@ -388,7 +388,7 @@ const img = document.createElement("img");
 img.src = msg.content;
 img.style.maxWidth = "200px";
 img.style.borderRadius = "10px";
-
+makeMessageVisible(messageDiv);
 messageDiv.appendChild(img);
 chatWindow.appendChild(messageDiv);
 
@@ -398,11 +398,9 @@ chatWindow.appendChild(messageDiv);
 messageDiv.classList.add("message", msg.sender === "ai" ? "ai-message" : "user-message");
     const link = document.createElement("a");
     link.href = msg.content;
-    link.style.maxWidth = "200px"
-link.style.borderRadius = "10px;"
-messageDiv.appendChild(link);
+     makeMessageVisible(messageDiv);
+    messageDiv.appendChild(link);
     chatWindow.appendChild(messageDiv);
-
 
   } else {
     addMessageToChat(msg.text, msg.sender === "ai");
