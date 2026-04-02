@@ -171,41 +171,23 @@ document.querySelectorAll("#imageUpload, #videoUpload, #fileUpload").forEach(inp
   });
 }
 
-function handleFileUpload(file, type) {
+function handleImageUpload(file) {
   const reader = new FileReader();
 
   reader.onload = function (e) {
     const base64 = e.target.result;
 
-    const messageData = {
-      sender: "user",
-      type: type,
+    saveMessage(currentChatId, "user", {
+      type: "image",
       content: base64
-    };
+    });
 
-    // show in UI
-    displayFileMessage(messageData);
-
-    // save correctly
-    saveMessage(currentChatId, "user", messageData);
+    displayImage(base64);
   };
 
-  reader.readAsDataURL(file); // 🔥 important
+  reader.readAsDataURL(file); // ✅ MUST
 }
-imageUpload.addEventListener("change", (e) => {
-  const file = e.target.files[0];
-  if (file) handleFileUpload(file, "image");
-});
 
-videoUpload.addEventListener("change", (e) => {
-  const file = e.target.files[0];
-  if (file) handleFileUpload(file, "video");
-});
-
-fileUpload.addEventListener("change", (e) => {
-  const file = e.target.files[0];
-  if (file) handleFileUpload(file, "file");
-});
   // === SEND MESSAGE ===
   function sendMessage() {
     const userMessage = chatbox.value.trim();
@@ -321,11 +303,16 @@ fileUpload.addEventListener("change", (e) => {
   }
 
   // === SAVE MESSAGE ===
-  function saveMessage(chatId, sender, messageData) {
+  function saveMessage(chatId, sender, text, fileData = null, fileType = "text") {
   const chat = conversations.find(c => c.id === chatId);
   if (!chat) return;
 
-  chat.messages.push(messageData);
+  chat.messages.push({
+    sender,
+    type: fileType,
+    content: fileData,
+    text: text
+  });
 
   saveToLocal();
 }
@@ -407,16 +394,18 @@ fileUpload.addEventListener("change", (e) => {
     footer.innerHTML = "⚡ Bravexa AI Verify important details.";
 
     chat.messages.forEach(msg => {
-
   if (msg.type === "image") {
     const img = document.createElement("img");
     img.src = msg.content;
+        img.style.maxWidth = "200px";
+    img.style.borderRadius = "10px";
     img.classList.add("chat-image");
     chatWindow.appendChild(img);
 
   } else if (msg.type === "video") {
     const video = document.createElement("video");
     video.src = msg.content;
+
     video.controls = true;
     video.classList.add("chat-video");
     chatWindow.appendChild(video);
@@ -431,7 +420,6 @@ fileUpload.addEventListener("change", (e) => {
   } else {
     addMessageToChat(msg.text, msg.sender === "ai");
   }
-
 });
   }
 
@@ -1267,14 +1255,4 @@ Employees.ID → Projects.ProjectID (Manager Assigned)
         .catch((err) => console.log("SW Error:", err));
     });
   }
-});
-
-
-
-
-
-
-
-
-
-
+});
