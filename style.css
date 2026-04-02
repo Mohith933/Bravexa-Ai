@@ -356,9 +356,9 @@ body.light-mode .header .btn.solid {
 
 /* Left Section (+ button) */
 .left-section {
-  display: flex;
-  align-items: center;
+    position: relative;
 }
+
 /* + Button */
     .plus-btn {
       background: transparent;
@@ -368,7 +368,7 @@ body.light-mode .header .btn.solid {
       cursor: pointer;
       transition: all 0.3s ease;
       position: relative;
-      z-index: 1;
+      z-index: 1001;
     }
 
     .plus-btn:hover {
@@ -382,23 +382,34 @@ body.light-mode .header .btn.solid {
     }
 
     /* Upload Dropdown - Frosted Glass (macOS style) */
-    .upload-dropdown {
-      display: none;
-      position: absolute;
-      margin-top:200px;
-      left: 240px;  
-      background:#fff;
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      border-radius: 14px;
-      width: 170px;
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35),
-        0 -2px 8px rgba(0, 225, 255, 0.3);
-      overflow: hidden;
-      z-index: 1000;
-      animation: fadeIn 0.25s ease;
-    }
+  .upload-dropdown {
+  display: none;
+  position: absolute;
+
+  bottom: 30px;   /* appears above button */
+  left: 0;        /* aligned with + */
+
+  background:linear-gradient(90deg, #0077b6, #00b4d8);
+  border-radius: 14px;
+  width: 170px;
+
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+
+  border: 1px solid rgba(255, 255, 255, 0.25);
+
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35),
+              0 -2px 8px rgba(0, 225, 255, 0.3);
+
+  overflow: hidden;
+  z-index: 1000;
+
+  animation: fadeIn 0.25s ease;
+}
+.upload-dropdown {
+  left: 0;
+  transform: translateX(-20%);
+}
 
     /* Dropdown list */
     .upload-dropdown ul {
@@ -411,7 +422,7 @@ body.light-mode .header .btn.solid {
     .upload-dropdown li {
       padding: 9px 16px;
       font-size: 15px;
-      color: #000;
+      color: #fff;
       cursor: pointer;
       transition: background 0.2s, color 0.2s;
     }
