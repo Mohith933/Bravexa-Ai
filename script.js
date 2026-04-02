@@ -1041,36 +1041,18 @@ document.addEventListener("click", (e) => {
     }
   }
 
-  window.addEventListener("resize", adjustLayoutForViewport);
-  adjustLayoutForViewport();
-  updateHistorySidebar();
-});
-
 window.addEventListener("DOMContentLoaded", () => {
   const voiceText = localStorage.getItem("voiceInput");
 
+  console.log("VOICE FROM STORAGE:", voiceText); // 👈 ADD THIS
+
   if (voiceText) {
-    sendMessage(voiceText); // ✅ USE SAME PIPELINE
+    sendMessage(voiceText);
     localStorage.removeItem("voiceInput");
   }
-});
+});;
 
 
-function getReply(text) {
-  if (text.includes("hello") || text.includes("hi"))
-    return "Hello. I’m Bravexa. How can I help you?";
-
-  if (text.includes("sad") || text.includes("tired"))
-    return "I’m here with you. Take a slow breath.";
-
-  if (text.includes("exam") || text.includes("study"))
-    return "Stay calm. You are doing better than you think.";
-
-  if (text.includes("bye"))
-    return "Goodbye. Take care.";
-
-  return "I’m listening. Go on.";
-}
 
 
 
