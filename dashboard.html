@@ -4,8 +4,6 @@
 <head>
   <meta charset="UTF-8">
    <link rel="icon" type="image/png" href="chat.png">
-  <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#0f172a">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard - Bravexa AI</title>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -46,6 +44,7 @@
   <!-- Input Box -->
   <!-- Bravexa AI Chat Input -->
 <div class="input-box">
+  <div id="previewContainer" class="preview-container"></div>
   <textarea placeholder="Message Bravexa AI..." class="chatbox"></textarea>
 
   <div class="bottom-row">
@@ -54,7 +53,6 @@
       <div class="upload-dropdown" id="uploadDropdown">
         <ul>
           <li><label for="imageUpload">📷 Image</label><input type="file" id="imageUpload" accept="image/*" hidden></li>
-          <li><label for="videoUpload">🎥 Video</label><input type="file" id="videoUpload" accept="video/*" hidden></li>
           <li><label for="fileUpload">📄 File</label><input type="file" id="fileUpload" hidden></li>
           <li><button id="screenshotBtn">🖼️ Screenshot</button></li>
         </ul>
