@@ -10,13 +10,17 @@
   <link href="style.css" rel="stylesheet">
 </head>
 <body>
+  <div class="sidebar" id="sidebar">
+  <h3>📜 History</h3>
+  <div id="historyList" class="history-list"></div>
+</div>
   <!-- Header / Navbar -->
   <header class="header">
     <div class="logo">
+      <button id="menuToggle" class="menu-btn">☰</button>
       <img src="chat.png" alt="Logo">
       <span>Bravexa AI</span>
     </div>
-
     <!-- Avatar Dropdown -->
     <div class="user-menu">
       <img src="avatar.png" alt="User Avatar" class="avatar" id="avatarIcon">
@@ -24,12 +28,6 @@
         <ul>
           <li><a href="dashboard.html">📊 Dashboard</a></li>
           <li><a href="index.html">🚪 Logout</a></li>
-          <li><a href="livevoice.html">🎙 Live Voice</a></li>
-          <div class="history-section">
-            <h3 id="toggleHistory">📜 History</h3>
-            <div id="historyList" class="history-list">
-            </div>
-          </div>
         </ul>
       </div>
     </div>
