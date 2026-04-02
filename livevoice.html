@@ -119,18 +119,18 @@ micBtn.addEventListener("click", () => {
 // Result
 recognition.onresult = (event) => {
   const speech = event.results[0][0].transcript.toLowerCase();
-  let reply = getReply(speech);
 
-  messageText.textContent = reply;
-  speak(reply);
+  // Save voice input
+  localStorage.setItem("voiceMessage", speech);
+
+  // Redirect to dashboard (chat)
+  window.location.href = "dashboard.html";
 };
 
 // End
 recognition.onend = () => {
-  listening = false;
-  voiceCircle.classList.remove("listening");
-  if (!speechSynthesis.speaking) {
-    messageText.textContent = "Tap the mic and speak to Bravexa AI";
+  if (localStorage.getItem("voiceMessage")) {
+    window.location.href = "dashboard.html";
   }
 };
 
