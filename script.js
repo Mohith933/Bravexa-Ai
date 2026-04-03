@@ -190,26 +190,25 @@ function handleImageUpload(file) {
     if (!userMessage && !selectedFile) return;
 
     if (!currentChatId) {
-  startNewConversation(userMessage || "File message");
+  startNewConversation(userMessage);
 }
 
      const FileForAi = selectedFile;
 
-    if (selectedFile || userMessage) {
-  const base64 = selectedFile ? await fileToBase64(selectedFile) : null;
-
-  displayCombinedMessage(userMessage, selectedFile);
+    if (selectedFile) {
+   const base64 = await fileToBase64(selectedFile);
+  displayFileMessage(selectedFile);
 
   saveMessage(
     currentChatId,
     "user",
-    userMessage,
-    base64,
-    selectedFile ? (selectedFile.type.startsWith("image") ? "image" : "file") : "text",
-    selectedFile ? selectedFile.name : ""
+    "",
+    base64, // ✅ correct
+    selectedFile.type.startsWith("image") ? "image" :
+    "file",
+    selectedFile.name
   );
-
-  selectedFile = null;
+selectedFile = null;
   previewContainer.innerHTML = "";
 }
 
@@ -395,17 +394,19 @@ messageDiv.classList.add("message", msg.sender === "ai" ? "ai-message" : "user-m
 const img = document.createElement("img");
 img.src = msg.content;
 img.style.maxWidth = "200px";
-img.style.borderRadius = "10px";
+img.style.borderRadius = "10px";
 messageDiv.appendChild(img);
 chatWindow.appendChild(messageDiv);
-makeMessageVisible(messageDiv);
+makeMessageVisible(messageDiv);
+
   }
    else if (msg.type === "file") {
          const messageDiv = document.createElement("div");
 messageDiv.classList.add("message", msg.sender === "ai" ? "ai-message" : "user-message");
 messageDiv.textContent = "📄 " + msg.name;
     chatWindow.appendChild(messageDiv);
-    makeMessageVisible(messageDiv);
+    makeMessageVisible(messageDiv);
+
   } else {
     addMessageToChat(msg.text, msg.sender === "ai");
   }
@@ -458,28 +459,95 @@ messageDiv.textContent = "📄 " + msg.name;
 
     requestAnimationFrame(type);
   }
-
   // === AI RESPONSE GENERATOR ===
   async function generateAIResponse(userMessage,selectedFile) {
     const msg = (userMessage || "").toLowerCase().trim();
     let response = "";
 
-    if (selectedFile) {
-  const type = selectedFile.type.split("/")[0];
+      const hasText = msg !== "";
+  const hasFile = selectedFile !== null;
 
-  if (type === "image") {
-    return `<h2>🖼️ Image Received</h2>
-    <p>You sent an image${userMessage ? " with message: <b>" + userMessage + "</b>" : ""}.</p>`;
+   function imageWithTextInsight() {
+    const hints = [
+      "I can connect your message with the visual context.",
+      "Your note adds meaning to this image.",
+      "There’s a clear intent behind this combination.",
+      "This looks like a meaningful share with context."
+    ];
+    return hints[Math.floor(Math.random() * hints.length)];
   }
 
-  return `<h2>📄 File Received</h2>
-  <p>${selectedFile.name}${userMessage ? " + message: <b>" + userMessage + "</b>" : ""}</p>`;
-}
+  function imageOnlyInsight() {
+    const hints = [
+      "Looks like a visual moment worth sharing.",
+      "This image feels expressive.",
+      "There might be interesting details here.",
+      "I sense something important in this image."
+    ];
+    return hints[Math.floor(Math.random() * hints.length)];
+  }
+
+  function fileWithTextInsight() {
+    const hints = [
+      "Your message helps me understand the purpose of this file.",
+      "This looks like something you want processed with context.",
+      "I can align your intent with this file.",
+      "This file + message combination looks purposeful."
+    ];
+    return hints[Math.floor(Math.random() * hints.length)];
+  }
+
+  function fileOnlyInsight() {
+    const hints = [
+      "Seems like structured content.",
+      "This file might contain useful information.",
+      "Looks like something meaningful to process.",
+      "I can tell this file has purpose."
+    ];
+    return hints[Math.floor(Math.random() * hints.length)];
+  }
+
+  // ==============================
+  // 📁 CASE 1: FILE ONLY
+  // ==============================
+  if (hasFile && !hasText) {
+    const type = selectedFile.type.split("/")[0];
+
+    if (type === "image") {
+      return `
+      <h2>🖼️ Image Received</h2>
+      <p>${imageOnlyInsight()}.</p>
+      `;
+    }
+
+    return `
+    <h2>📄 File Received</h2>
+    <p>${fileOnlyInsight()}</p>
+    `;
+  }
+
+  // ==============================
+  // 🧠 CASE 2: FILE + TEXT
+  // ==============================
+  if (hasFile && hasText) {
+    const type = selectedFile.type.split("/")[0];
+
+    if (type === "image") {
+      return `
+      <h2>🖼️ Image Insight</h2>
+      <p>${imageWithTextInsight()}</p>
+      `;
+    }
+
+    return `
+    <h2>📄 File With Text</h2>
+    <p>${fileWithTextInsight()}</p>
+    `;
+  }
 
     // --- simple normalization + intent mapping ---
     const intents = {
       greeting: ["hello", "hi", "hey", "good morning", "good evening", "good night", "bye"],
-
       leave: ["leave letter", "application", "holiday", "absent", "permission"],
       email: ["email", "official", "mail", "message", "compose email"],
 
@@ -1238,7 +1306,6 @@ screenshotBtn.addEventListener("click", async () => {
     });
   }
 });
-
 
 
 
