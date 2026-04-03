@@ -187,9 +187,11 @@ function handleImageUpload(file) {
   // === SEND MESSAGE ===
   async function sendMessage() {
     const userMessage = chatbox.value.trim();
-    if (!userMessage) return;
+    if (!userMessage && !selectedFile) return;
 
-    if (!currentChatId) startNewConversation(userMessage);
+    if (!currentChatId) {
+  startNewConversation(userMessage || "File message");
+}
 
      const FileForAi = selectedFile;
 
@@ -210,7 +212,10 @@ selectedFile = null;
   previewContainer.innerHTML = "";
 }
 
-    addMessageToChat(userMessage, false);
+    if (userMessage) {
+  addMessageToChat(userMessage, false);
+  saveMessage(currentChatId, "user", userMessage);
+}
     saveMessage(currentChatId, "user", userMessage);
     chatbox.value = "";
     chatbox.style.height = "auto"; // ✅ reset natural height smoothly
@@ -461,7 +466,7 @@ messageDiv.textContent = "📄 " + msg.name;
     const msg = (userMessage || "").toLowerCase().trim();
     let response = "";
 
-    if (selectedFile) {
+    if (selectedFile && !userMessage) {
       const type = selectedFile.type.split("/")[0];
 
       if (type === "image") {
