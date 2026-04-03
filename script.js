@@ -190,7 +190,7 @@ function handleImageUpload(file) {
     if (!userMessage && !selectedFile) return;
 
     if (!currentChatId) {
-  startNewConversation(userMessage);
+  startNewConversation(userMessage || "No Content");
 }
 
      const FileForAi = selectedFile;
@@ -254,25 +254,38 @@ selectedFile = null;
 
   function displayFileMessage(file) {
   const type = file.type.split("/")[0];
-
-  const messageDiv = document.createElement("div");
-  messageDiv.classList.add("message", "user-message");
-
   if (type === "image") {
+      const messageDiv = document.createElement("div");
+  messageDiv.classList.add("message", "user-image");
     const img = document.createElement("img");
     img.src = URL.createObjectURL(file);
     img.style.maxWidth = "200px";
     img.style.borderRadius = "10px";
     messageDiv.appendChild(img);
-
+  chatWindow.appendChild(messageDiv);
+  makeMessageVisible(messageDiv);
   } 
-  else {
-    messageDiv.textContent = "📄 " + file.name;
-  }
+else{
+  const messageDiv = document.createElement("div");
+  messageDiv.classList.add("message", "user-message");
+
+  // Create download link
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(file);
+  link.download = file.name;
+  link.textContent = "📄 " + file.name;
+
+  // Optional styling (so it looks like message, not blue link)
+  link.style.color = "inherit";
+  link.style.textDecoration = "none";
+  link.style.cursor = "pointer";
+
+  messageDiv.appendChild(link);
 
   chatWindow.appendChild(messageDiv);
   makeMessageVisible(messageDiv);
-}
+  }
+  }
 
   // === START NEW CONVERSATION ===
   function startNewConversation(firstMessage) {
@@ -390,11 +403,13 @@ selectedFile = null;
     chat.messages.forEach(msg => {
   if (msg.type === "image") {
  const messageDiv = document.createElement("div");
-messageDiv.classList.add("message", msg.sender === "ai" ? "ai-message" : "user-message");
+messageDiv.classList.add("message", msg.sender === "ai" ? "ai-message" : "user-image");
 const img = document.createElement("img");
 img.src = msg.content;
 img.style.maxWidth = "200px";
 img.style.borderRadius = "10px";
+img.style.background = "transparent";
+img.style.boxShadow = "none";
 messageDiv.appendChild(img);
 chatWindow.appendChild(messageDiv);
 makeMessageVisible(messageDiv);
@@ -403,7 +418,17 @@ makeMessageVisible(messageDiv);
    else if (msg.type === "file") {
          const messageDiv = document.createElement("div");
 messageDiv.classList.add("message", msg.sender === "ai" ? "ai-message" : "user-message");
-messageDiv.textContent = "📄 " + msg.name;
+ const link = document.createElement("a");
+  link.href = msg.content;
+  link.download = msg.name;
+  link.textContent = "📄 " + msg.name;
+
+  // Optional styling (so it looks like message, not blue link)
+  link.style.color = "inherit";
+  link.style.textDecoration = "none";
+  link.style.cursor = "pointer";
+
+  messageDiv.appendChild(link);
     chatWindow.appendChild(messageDiv);
     makeMessageVisible(messageDiv);
 
@@ -1284,7 +1309,7 @@ screenshotBtn.addEventListener("click", async () => {
 
     if (viewportWidth <= 420) {
       sendBtn.style.right = isLandscape ? "50px" : "20px";
-      inputArea.style.width = "90%";
+      inputArea.style.width = "95%";
     } else if (viewportWidth <= 1024) {
       sendBtn.style.right = isLandscape ? "60px" : "30px";
       inputArea.style.width = "80%";
