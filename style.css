@@ -34,7 +34,7 @@ body {
   top: 0;
   width: 200px;
   height: 100%;
-  background: #0d1b2a;
+  background: black;
   box-shadow:1px 1px 1px 1px rgba(0,0,0,0.1);
   backdrop-filter: blur(10px);
   color: white;
@@ -50,6 +50,7 @@ body {
 .sidebar h3{
       text-align : left;
       padding:10px;
+margin-bottom:10px;
 }
 
 .menu-btn {
@@ -368,7 +369,6 @@ body.light-mode .header .btn.solid {
       cursor: pointer;
       transition: all 0.3s ease;
       position: relative;
-      z-index: 1001;
     }
 
     .plus-btn:hover {
