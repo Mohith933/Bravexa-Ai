@@ -356,6 +356,38 @@ function handleImageUpload(file) {
      window.location.href = "dashboard.html";
     }
   }
+function renderMessage(msg) {
+  const messageDiv = document.createElement("div");
+  messageDiv.classList.add("message", msg.sender === "ai" ? "ai-message" : "user-message");
+
+  // IMAGE
+  if (msg.type === "image") {
+    const img = document.createElement("img");
+    img.src = msg.content;
+    img.style.maxWidth = "200px";
+    img.style.borderRadius = "10px";
+    messageDiv.appendChild(img);
+  }
+
+  // FILE
+  else if (msg.type === "file") {
+    const link = document.createElement("a");
+    link.href = msg.content;
+    link.innerText = `📄 ${msg.text || "Download File"}`;
+    link.download = msg.text || "file";
+    messageDiv.appendChild(link);
+  }
+
+  // TEXT
+  else {
+    messageDiv.innerText = msg.text;
+  }
+
+  chatWindow.appendChild(messageDiv);
+
+  // ✅ AFTER append
+  makeMessageVisible(messageDiv);
+}
 
   // === LOAD CONVERSATION ===
   function loadConversation(chatId) {
@@ -381,31 +413,8 @@ function handleImageUpload(file) {
     footer.innerHTML = "⚡ Bravexa AI Verify important details.";
 
     chat.messages.forEach(msg => {
-  if (msg.type === "image") {
- const messageDiv = document.createElement("div");
-messageDiv.classList.add("message", msg.sender === "ai" ? "ai-message" : "user-message");
-const img = document.createElement("img");
-img.src = msg.content;
-img.style.maxWidth = "200px";
-img.style.borderRadius = "10px";
-makeMessageVisible(messageDiv);
-messageDiv.appendChild(img);
-chatWindow.appendChild(messageDiv);
-
-  }
-   else if (msg.type === "file") {
-         const messageDiv = document.createElement("div");
-messageDiv.classList.add("message", msg.sender === "ai" ? "ai-message" : "user-message");
-    const link = document.createElement("a");
-    link.href = msg.content;
-     makeMessageVisible(messageDiv);
-    messageDiv.appendChild(link);
-    chatWindow.appendChild(messageDiv);
-
-  } else {
-    addMessageToChat(msg.text, msg.sender === "ai");
-  }
-});
+renderMessage(msg);
+  });
   }
 
   // === SAVE TO LOCAL STORAGE ===
