@@ -191,9 +191,10 @@ function handleImageUpload(file) {
 
     if (!currentChatId) startNewConversation(userMessage);
 
+     const FileForAi = selectedFile;
+
     if (selectedFile) {
    const base64 = await fileToBase64(selectedFile);
-
   displayFileMessage(selectedFile);
 
   saveMessage(
@@ -202,9 +203,10 @@ function handleImageUpload(file) {
     "",
     base64, // ✅ correct
     selectedFile.type.startsWith("image") ? "image" :
-    "file"
+    "file",
+    selectedFile.name
   );
-
+selectedFile = null;
   previewContainer.innerHTML = "";
 }
 
@@ -238,7 +240,7 @@ function handleImageUpload(file) {
     makeMessageVisible(aiMessage);
 
     setTimeout(async () => {
-      const response = await generateAIResponse(userMessage);
+      const response = await generateAIResponse(userMessage,FileForAi);
       aiMessage.innerHTML = "";
       typeText(aiMessage, response);
       saveMessage(currentChatId, "ai", response);
@@ -290,7 +292,7 @@ function handleImageUpload(file) {
   }
 
   // === SAVE MESSAGE ===
-  function saveMessage(chatId, sender, text, fileData = null, fileType = "text") {
+ function saveMessage(chatId, sender, text, fileData = null, fileType = "text", fileName = "") {
   const chat = conversations.find(c => c.id === chatId);
   if (!chat) return;
 
@@ -298,6 +300,7 @@ function handleImageUpload(file) {
     sender,
     type: fileType,
     content: fileData,
+    name: fileName,   // ✅ STORE NAME HERE
     text: text
   });
 
@@ -356,38 +359,6 @@ function handleImageUpload(file) {
      window.location.href = "dashboard.html";
     }
   }
-function renderMessage(msg) {
-  const messageDiv = document.createElement("div");
-  messageDiv.classList.add("message", msg.sender === "ai" ? "ai-message" : "user-message");
-
-  // IMAGE
-  if (msg.type === "image") {
-    const img = document.createElement("img");
-    img.src = msg.content;
-    img.style.maxWidth = "200px";
-    img.style.borderRadius = "10px";
-    messageDiv.appendChild(img);
-  }
-
-  // FILE
-  else if (msg.type === "file") {
-    const link = document.createElement("a");
-    link.href = msg.content;
-    link.innerText = `📄 ${msg.text || "Download File"}`;
-    link.download = msg.text || "file";
-    messageDiv.appendChild(link);
-  }
-
-  // TEXT
-  else {
-    messageDiv.innerText = msg.text;
-  }
-
-  chatWindow.appendChild(messageDiv);
-
-  // ✅ AFTER append
-  makeMessageVisible(messageDiv);
-}
 
   // === LOAD CONVERSATION ===
   function loadConversation(chatId) {
@@ -413,8 +384,29 @@ function renderMessage(msg) {
     footer.innerHTML = "⚡ Bravexa AI Verify important details.";
 
     chat.messages.forEach(msg => {
-renderMessage(msg);
-  });
+  if (msg.type === "image") {
+ const messageDiv = document.createElement("div");
+messageDiv.classList.add("message", msg.sender === "ai" ? "ai-message" : "user-message");
+const img = document.createElement("img");
+img.src = msg.content;
+img.style.maxWidth = "200px";
+img.style.borderRadius = "10px";
+makeMessageVisible(messageDiv);
+messageDiv.appendChild(img);
+chatWindow.appendChild(messageDiv);
+
+  }
+   else if (msg.type === "file") {
+         const messageDiv = document.createElement("div");
+messageDiv.classList.add("message", msg.sender === "ai" ? "ai-message" : "user-message");
+messageDiv.textContent = "📄 " + msg.name;
+    chatWindow.appendChild(messageDiv);
+    makeMessageVisible(messageDiv);
+
+  } else {
+    addMessageToChat(msg.text, msg.sender === "ai");
+  }
+});
   }
 
   // === SAVE TO LOCAL STORAGE ===
@@ -465,7 +457,7 @@ renderMessage(msg);
   }
 
   // === AI RESPONSE GENERATOR ===
-  async function generateAIResponse(userMessage) {
+  async function generateAIResponse(userMessage,selectedFile) {
     const msg = (userMessage || "").toLowerCase().trim();
     let response = "";
 
@@ -1185,18 +1177,6 @@ Employees.ID → Projects.ProjectID (Manager Assigned)
       uploadDropdown.style.display = "none";
     }
   });
-
-  // === FILE SELECTED HANDLER ===
-  document.querySelectorAll("#imageUpload,#fileUpload").forEach(input => {
-    input.addEventListener("change", (event) => {
-      const file = event.target.files[0];
-      if (file) {
-        const fileType = file.type.split("/")[0];
-        alert(`📁 File seleected: ${file.name} (${fileType})`);
-      }
-    });
-  });
-
   // === SCREENSHOT CAPTURE ===
 screenshotBtn.addEventListener("click", async () => {
   try {
@@ -1213,7 +1193,14 @@ screenshotBtn.addEventListener("click", async () => {
 
       displayImage(base64);
 
-      saveMessage(currentChatId, "user", "", base64, "image");
+      saveMessage(
+  currentChatId,
+  "user",
+  "",
+  base64,
+  "image",
+  "screenshot.png"   // ✅ give default name
+);
     };
 
     reader.readAsDataURL(blob);
