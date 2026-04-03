@@ -34,7 +34,7 @@ body {
   top: 0;
   width: 200px;
   height: 100%;
-  background: black;
+  background: #0d1b2a;
   box-shadow:1px 1px 1px 1px rgba(0,0,0,0.1);
   backdrop-filter: blur(10px);
   color: white;
@@ -50,7 +50,6 @@ body {
 .sidebar h3{
       text-align : left;
       padding:10px;
-margin-bottom:10px;
 }
 
 .menu-btn {
@@ -264,6 +263,7 @@ body.light-mode .header .btn.solid {
   width: 100%;
   max-width: 51%;
   display: flex;
+   padding-bottom: 50px; 
   flex-direction: column;
   background-color: transparent;
 }
@@ -273,8 +273,7 @@ body.light-mode .header .btn.solid {
   flex-wrap: wrap;
 }
 
-.preview-container img,
-.preview-container video {
+.preview-container img{
   max-width: 80px;
   border-radius: 8px;
 }
@@ -309,9 +308,8 @@ body.light-mode .header .btn.solid {
   background: #dc2626;
 }
 
-.preview-item img,
-.preview-item video {
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+.preview-item img{
+  box-shadow: none;
 }
 
 /* ================= Input Box ================= */
@@ -369,6 +367,7 @@ body.light-mode .header .btn.solid {
       cursor: pointer;
       transition: all 0.3s ease;
       position: relative;
+      z-index: 1001;
     }
 
     .plus-btn:hover {
@@ -491,7 +490,6 @@ body.light-mode .header .btn.solid {
 /* ================= Messages ================= */
 .message {
   max-width: 100%;
-  padding: 10px 14px;
   margin: 8px;
   border-radius: 18px;
   font-size: 15px;
@@ -514,6 +512,7 @@ body.light-mode .header .btn.solid {
   margin-left: auto;
   border-bottom-right-radius: 5px;
   text-align: right;
+overflow: visible;
   box-shadow: 0 3px 6px rgba(0, 180, 216, 0.3);
   padding: 10px 14px;
   border-radius: 12px;
@@ -522,7 +521,16 @@ body.light-mode .header .btn.solid {
   word-break: break-word;
   white-space: pre-wrap;
 }
-
+.user-image{
+  background:transparent;
+  color: #fff;
+  max-width:80%;
+  margin-left: auto;
+  border-bottom-right-radius: 5px;
+  text-align: right;
+  overflow: visible;
+  border-radius: 12px;
+}
 /* AI message (left) */
 .ai-message {
   background: transparent;
@@ -923,11 +931,9 @@ body.light-mode .dropdown li a:hover {
     font-size: 1.2rem;
   }
 
- .upload-dropdown { 
-margin-top:180px;
-left:50px;      
- }
-
+  .menu-btn{
+    margin-left:10px;
+  }
   .hero {
     flex-direction: column;
     text-align: center;
