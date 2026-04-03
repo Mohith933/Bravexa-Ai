@@ -195,20 +195,21 @@ function handleImageUpload(file) {
 
      const FileForAi = selectedFile;
 
-    if (selectedFile) {
-   const base64 = await fileToBase64(selectedFile);
-  displayFileMessage(selectedFile);
+    if (selectedFile || userMessage) {
+  const base64 = selectedFile ? await fileToBase64(selectedFile) : null;
+
+  displayCombinedMessage(userMessage, selectedFile);
 
   saveMessage(
     currentChatId,
     "user",
-    "",
-    base64, // ✅ correct
-    selectedFile.type.startsWith("image") ? "image" :
-    "file",
-    selectedFile.name
+    userMessage,
+    base64,
+    selectedFile ? (selectedFile.type.startsWith("image") ? "image" : "file") : "text",
+    selectedFile ? selectedFile.name : ""
   );
-selectedFile = null;
+
+  selectedFile = null;
   previewContainer.innerHTML = "";
 }
 
@@ -216,7 +217,6 @@ selectedFile = null;
   addMessageToChat(userMessage, false);
   saveMessage(currentChatId, "user", userMessage);
 }
-    saveMessage(currentChatId, "user", userMessage);
     chatbox.value = "";
     chatbox.style.height = "auto"; // ✅ reset natural height smoothly
     hero.style.display = "none";
@@ -395,19 +395,17 @@ messageDiv.classList.add("message", msg.sender === "ai" ? "ai-message" : "user-m
 const img = document.createElement("img");
 img.src = msg.content;
 img.style.maxWidth = "200px";
-img.style.borderRadius = "10px";
-makeMessageVisible(messageDiv);
+img.style.borderRadius = "10px";
 messageDiv.appendChild(img);
 chatWindow.appendChild(messageDiv);
-
+makeMessageVisible(messageDiv);
   }
    else if (msg.type === "file") {
          const messageDiv = document.createElement("div");
 messageDiv.classList.add("message", msg.sender === "ai" ? "ai-message" : "user-message");
 messageDiv.textContent = "📄 " + msg.name;
     chatWindow.appendChild(messageDiv);
-    makeMessageVisible(messageDiv);
-
+    makeMessageVisible(messageDiv);
   } else {
     addMessageToChat(msg.text, msg.sender === "ai");
   }
@@ -466,22 +464,17 @@ messageDiv.textContent = "📄 " + msg.name;
     const msg = (userMessage || "").toLowerCase().trim();
     let response = "";
 
-    if (selectedFile && !userMessage) {
-      const type = selectedFile.type.split("/")[0];
+    if (selectedFile) {
+  const type = selectedFile.type.split("/")[0];
 
-      if (type === "image") {
-        return `<h2>🖼️ Image Received</h2>
-    <p>This looks like an image. I can describe or analyze it if backend is added.</p>`;
-      }
+  if (type === "image") {
+    return `<h2>🖼️ Image Received</h2>
+    <p>You sent an image${userMessage ? " with message: <b>" + userMessage + "</b>" : ""}.</p>`;
+  }
 
-      if (type === "video") {
-        return `<h2>🎥 Video Received</h2>
-    <p>I got your video. Playback works, analysis requires backend.</p>`;
-      }
-
-      return `<h2>📄 File Received</h2>
-  <p>File uploaded successfully: ${selectedFile.name}</p>`;
-    }
+  return `<h2>📄 File Received</h2>
+  <p>${selectedFile.name}${userMessage ? " + message: <b>" + userMessage + "</b>" : ""}</p>`;
+}
 
     // --- simple normalization + intent mapping ---
     const intents = {
