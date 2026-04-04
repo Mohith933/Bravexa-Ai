@@ -57,76 +57,6 @@ if ('webkitSpeechRecognition' in window) {
   alert('Speech Recognition not supported in this browser 😞');
 }
 
- let selectedFile = null;
-
-const previewContainer = document.getElementById("previewContainer");
-
-document.querySelectorAll("#imageUpload,#fileUpload").forEach(input => {
-  input.addEventListener("change", (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
-
-    selectedFile = file;
-    previewContainer.innerHTML = "";
-
-    const wrapper = document.createElement("div");
-    wrapper.className = "preview-item";
-
-    const type = file.type.split("/")[0];
-
-    let element;
-
-    if (type === "image") {
-      element = document.createElement("img");
-      element.src = URL.createObjectURL(file);
-    } else {
-      element = document.createElement("div");
-      element.className = "file-preview";
-      element.textContent = "📄 " + file.name;
-    }
-
-    // ❌ REMOVE BUTTON
-    const removeBtn = document.createElement("button");
-    removeBtn.textContent = "✖";
-    removeBtn.className = "remove-btn";
-
-    removeBtn.onclick = () => {
-      selectedFile = null;
-      previewContainer.innerHTML = "";
-      input.value = ""; // reset input
-    };
-
-    wrapper.appendChild(element);
-    wrapper.appendChild(removeBtn);
-    previewContainer.appendChild(wrapper);
-  });
-});
-
-  function fileToBase64(file) {
-  return new Promise((resolve) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.readAsDataURL(file);
-  });
-}
-
-function handleImageUpload(file) {
-  const reader = new FileReader();
-
-  reader.onload = function (e) {
-    const base64 = e.target.result;
-
-    saveMessage(currentChatId, "user", {
-      type: "image",
-      content: base64
-    });
-
-    displayImage(base64);
-  };
-
-  reader.readAsDataURL(file); // ✅ MUST
-}
-
 
 
   // === MESSAGE SEND EVENTS ===
@@ -141,15 +71,11 @@ function handleImageUpload(file) {
   // === SEND MESSAGE ===
   function sendMessage() {
     const userMessage = chatbox.value.trim();
-    if (!userMessage && !selectedFile) return;
-    
     if (userMessage) {
       addMessageToChat(userMessage);
       chatbox.value = "";
     }
 
-    selectedFile = null;
-    previewContainer.innerHTML = "";
     // Hide hero and set layout
     hero.style.display = "none";
     inputArea.style.position = "fixed";
@@ -165,30 +91,8 @@ function handleImageUpload(file) {
     chatWindow.style.display = "flex";
     footer.style.fontSize = "10px";
     footer.innerHTML = "⚡ Bravexa AI Verify important details.";
-  }
-
   
-  function displayFileMessage(file) {
-  const type = file.type.split("/")[0];
-
-  const messageDiv = document.createElement("div");
-  messageDiv.classList.add("message", "user-message");
-
-  if (type === "image") {
-    const img = document.createElement("img");
-    img.src = URL.createObjectURL(file);
-    img.style.maxWidth = "200px";
-    img.style.borderRadius = "10px";
-    messageDiv.appendChild(img);
-
-  } 
-  else {
-    messageDiv.textContent = "📄 " + file.name;
   }
-
-  chatWindow.appendChild(messageDiv);
-  makeMessageVisible(messageDiv);
-}
 
    // Show messages inside chat window
   function addMessageToChat(message) {
@@ -198,8 +102,6 @@ function handleImageUpload(file) {
     newMessage.textContent = message;
     chatWindow.appendChild(newMessage);
     makeMessageVisible(newMessage);
-
-
 
     // AI typing hearts animation
     const aiMessage = document.createElement("div");
@@ -911,42 +813,18 @@ document.addEventListener("click", (e) => {
       uploadDropdown.style.display = "none";
     }
   });
-  const authMessages = [
-  "🔐 Please login to continue.",
-  "🚀 Sign up to unlock this feature.",
-  "👤 Authentication required.",
-  "⚡ Login needed for full access."
-];
-
-function getAuthMessage() {
-  return authMessages[Math.floor(Math.random() * authMessages.length)];
-}
 
 // === LIMITED SELECTED FUNCTIONALITY ===
-document.querySelectorAll("#imageUpload, #videoUpload, #audioUpload").forEach(input => {
+document.querySelectorAll("#imageUpload,#fileUpload").forEach(input => {
   input.addEventListener("change", (event) => {
     const file = event.target.files[0];
-
-    if (file) {
-      alert(`${getAuthMessage()}
-
-You're trying to upload:
-📁 ${file.name}
-
-To continue:
-👉 Please Sign Up or Login to Bravexa AI
-
-(This feature will be enabled after authentication)`);
-    }
+    if (file) alert(`Selected: ${file.name}`);
   });
 });
 
+// === SCREENSHOT DEMO ===
 screenshotBtn.addEventListener("click", () => {
-  alert(`🚫 Feature Locked
-
-📸 Screenshot is available only for logged-in users.
-
-👉 Please Login / Sign Up to access Bravexa Dashboard.`);
+  alert("📸 Screenshot feature available only in Bravexa Dashboard.");
 });
 
   // === RESPONSIVE LAYOUT ===
@@ -969,13 +847,4 @@ screenshotBtn.addEventListener("click", () => {
 
   window.addEventListener("resize", adjustLayoutForViewport);
   adjustLayoutForViewport();
-  if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker
-      .register("service-worker.js")
-      .then(() => console.log("Service Worker Registered"))
-      .catch((err) => console.log("SW Error:", err));
-  });
-}
 });
-
