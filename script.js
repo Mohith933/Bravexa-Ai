@@ -24,6 +24,10 @@ document.addEventListener("DOMContentLoaded", function () {
     history.pushState({ sidebarOpen: true }, "");
   });
 
+    document.getElementById("editLogoBtn").addEventListener("click", () => {
+  window.location.href = "dashboard.html";
+  });
+
   // Handle BACK button
   window.addEventListener("popstate", (event) => {
     if (sidebar.classList.contains("active")) {
