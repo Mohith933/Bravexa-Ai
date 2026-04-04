@@ -11,19 +11,19 @@
 </head>
 <body>
   <div class="sidebar" id="sidebar">
-  <h3>📜 History</h3>
-  <div id="historyList" class="history-list"></div>
-</div>
-  <!-- Header / Navbar -->
-  <header class="header">
-    <div class="logo">
-      <button id="menuToggle" class="menu-btn">☰</button>
+      <div class="logo">
       <img src="chat.png" alt="Logo">
       <span>Bravexa AI</span>
     </div>
-    <!-- Avatar Dropdown -->
-    <div class="user-menu">
+    <button class="new-chat"><a href="dashboard.html">+ New Chat</a></button>
+  <p>Recents</p>
+  <div id="historyList" class="history-list"></div>
+   <div class="user-menu">
       <img src="avatar.png" alt="User Avatar" class="avatar" id="avatarIcon">
+      <ul class="left">
+       <h1 class="chat"><span id="username">User</span>!</h1>
+       <h1 class="chatid"><span id="email">Free</span></h1>
+       </ul>
       <div class="dropdown" id="dropdownMenu">
         <ul>
           <li><a href="dashboard.html">📊 Dashboard</a></li>
@@ -31,6 +31,10 @@
         </ul>
       </div>
     </div>
+</div>
+  <!-- Header / Navbar -->
+  <header class="header">
+      <button id="menuToggle" class="menu-btn">☰</button>
   </header>
 
   <!-- Hero Section -->
