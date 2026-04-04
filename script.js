@@ -24,6 +24,10 @@ document.addEventListener("DOMContentLoaded", function () {
     history.pushState({ sidebarOpen: true }, "");
   });
 
+    document.getElementById("editLogoBtn").addEventListener("click", () => {
+  window.location.href = "dashboard.html";
+  });
+
   // Handle BACK button
   window.addEventListener("popstate", (event) => {
     if (sidebar.classList.contains("active")) {
@@ -510,39 +514,35 @@ messageDiv.classList.add("message", msg.sender === "ai" ? "ai-message" : "user-m
 
   // === TYPE EFFECT ===
   // === BRAVEXA SMOOTH TYPE EFFECT ===
-function typeText(element, htmlContent, speed = 16) {
+function typeText(element, htmlContent, speed = 12) {
   let i = 0;
-  let isTag = false;
-  let output = "";
-
   element.innerHTML = "";
 
+  let lastScroll = 0;
+
   function type() {
-    const char = htmlContent[i];
+    // increase characters smoothly
+    i += 2; // balanced speed (not jumpy)
+    element.innerHTML = htmlContent.slice(0, i);
 
-    // 👉 detect tag start/end
-    if (char === "<") isTag = true;
-    if (char === ">") isTag = false;
-
-    output += char;
-
-    // 👉 instantly render full tag (no typing effect inside tags)
-    if (isTag) {
-      i++;
-      element.innerHTML = output;
-      type();
-      return;
+    // auto-scroll only when needed
+    const now = Date.now();
+    if (now - lastScroll > 120) {
+      window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: "smooth"
+      });
+      lastScroll = now;
     }
 
-    element.innerHTML = output;
-    i++;
-
     if (i < htmlContent.length) {
-      setTimeout(type, speed);
+      requestAnimationFrame(type);
+    } else {
+      element.innerHTML = htmlContent; // ensure full render
     }
   }
 
-  type();
+  requestAnimationFrame(type);
 }
   // === AI RESPONSE GENERATOR ===
   async function generateAIResponse(userMessage,selectedFile) {
