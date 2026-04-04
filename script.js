@@ -234,58 +234,114 @@ selectedFile = null;
     footer.innerHTML = "⚡ Bravexa AI Verify important details.";
 
     // AI typing placeholder
-    const aiMessage = document.createElement("div");
-    aiMessage.classList.add("message", "ai-message");
-    aiMessage.innerHTML = `
-      <div class="typing-hearts">
-        <span><img src="chat.png"></span><p>Processing...</p>
-      </div>`;
-    chatWindow.appendChild(aiMessage);
-    makeMessageVisible(aiMessage);
+  // AI typing placeholder
+const aiMessage = document.createElement("div");
+aiMessage.classList.add("message", "ai-message");
 
-    setTimeout(async () => {
-      const response = await generateAIResponse(userMessage,FileForAi);
-      aiMessage.innerHTML = "";
-      typeText(aiMessage, response);
-      saveMessage(currentChatId, "ai", response);
-    }, 1000);
+// Dynamic texts
+const thinkingTexts = [
+  "⚡ Thinking",
+  "🧠 Analyzing",
+  "🔍 Looking deeper",
+  "✨ Generating response"
+];
+
+// Pick random text
+const randomText =
+  thinkingTexts[Math.floor(Math.random() * thinkingTexts.length)];
+
+aiMessage.innerHTML = `
+  <div class="ai-thinking">
+    <span class="ai-icon"></span>
+    <span class="ai-text">${randomText}</span>
+    <span class="dots"></span>
+  </div>
+`;
+
+chatWindow.appendChild(aiMessage);
+makeMessageVisible(aiMessage);
+
+  setTimeout(async () => {
+  const response = await generateAIResponse(userMessage, FileForAi);
+
+  // Clear thinking UI smoothly
+  aiMessage.innerHTML = "";
+
+  // Type effect (your function)
+  typeText(aiMessage, response);
+
+  saveMessage(currentChatId, "ai", response);
+}, 1000);
   }
 
 
-  function displayFileMessage(file) {
+function displayFileMessage(file) {
   const type = file.type.split("/")[0];
+
   if (type === "image") {
-      const messageDiv = document.createElement("div");
-  messageDiv.classList.add("message", "user-image");
+    const messageDiv = document.createElement("div");
+    messageDiv.classList.add("message", "user-image");
+
     const img = document.createElement("img");
-    img.src = URL.createObjectURL(file);
+    const imgURL = URL.createObjectURL(file);
+
+    img.src = imgURL;
     img.style.maxWidth = "200px";
     img.style.borderRadius = "10px";
+    img.style.cursor = "pointer"; // 👈 important
+
+    // 👉 CLICK EVENT (OPEN FULL IMAGE)
+    img.onclick = () => openImageViewer(imgURL);
+
     messageDiv.appendChild(img);
-  chatWindow.appendChild(messageDiv);
-  makeMessageVisible(messageDiv);
-  } 
-else{
-  const messageDiv = document.createElement("div");
-  messageDiv.classList.add("message", "user-message");
+    chatWindow.appendChild(messageDiv);
+    makeMessageVisible(messageDiv);
+  } else {
+    const messageDiv = document.createElement("div");
+    messageDiv.classList.add("message", "user-message");
 
-  // Create download link
-  const link = document.createElement("a");
-  link.href = URL.createObjectURL(file);
-  link.download = file.name;
-  link.textContent = "📄 " + file.name;
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(file);
+    link.download = file.name;
+    link.textContent = "📄 " + file.name;
 
-  // Optional styling (so it looks like message, not blue link)
-  link.style.color = "inherit";
-  link.style.textDecoration = "none";
-  link.style.cursor = "pointer";
+    link.style.color = "inherit";
+    link.style.textDecoration = "none";
+    link.style.cursor = "pointer";
 
-  messageDiv.appendChild(link);
-
-  chatWindow.appendChild(messageDiv);
-  makeMessageVisible(messageDiv);
+    messageDiv.appendChild(link);
+    chatWindow.appendChild(messageDiv);
+    makeMessageVisible(messageDiv);
   }
+}
+
+  function openImageViewer(src) {
+  let viewer = document.createElement("div");
+  viewer.classList.add("image-viewer");
+
+  viewer.innerHTML = `
+    <span class="close-btn">✖</span>
+    <img src="${src}" class="full-image"/>
+  `;
+
+  document.body.appendChild(viewer);
+
+  // Close on click ❌
+  viewer.querySelector(".close-btn").onclick = () => {
+    viewer.remove();
+  };
+
+  // Close on background click
+  viewer.onclick = (e) => {
+    if (e.target === viewer) viewer.remove();
+  };
+
+  document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    document.querySelector(".image-viewer")?.remove();
   }
+});
+}
 
   // === START NEW CONVERSATION ===
   function startNewConversation(firstMessage) {
@@ -408,8 +464,8 @@ const img = document.createElement("img");
 img.src = msg.content;
 img.style.maxWidth = "200px";
 img.style.borderRadius = "10px";
-img.style.background = "transparent";
-img.style.boxShadow = "none";
+ img.style.cursor = "pointer";
+ img.onclick = () => openImageViewer(msg.content);
 messageDiv.appendChild(img);
 chatWindow.appendChild(messageDiv);
 makeMessageVisible(messageDiv);
@@ -454,36 +510,40 @@ messageDiv.classList.add("message", msg.sender === "ai" ? "ai-message" : "user-m
 
   // === TYPE EFFECT ===
   // === BRAVEXA SMOOTH TYPE EFFECT ===
-  function typeText(element, htmlContent, speed = 12) {
-    let i = 0;
-    element.innerHTML = "";
+function typeText(element, htmlContent, speed = 16) {
+  let i = 0;
+  let isTag = false;
+  let output = "";
 
-    let lastScroll = 0;
+  element.innerHTML = "";
 
-    function type() {
-      // increase characters smoothly
-      i += 2; // balanced speed (not jumpy)
-      element.innerHTML = htmlContent.slice(0, i);
+  function type() {
+    const char = htmlContent[i];
 
-      // auto-scroll only when needed
-      const now = Date.now();
-      if (now - lastScroll > 120) {
-        window.scrollTo({
-          top: document.body.scrollHeight,
-          behavior: "smooth"
-        });
-        lastScroll = now;
-      }
+    // 👉 detect tag start/end
+    if (char === "<") isTag = true;
+    if (char === ">") isTag = false;
 
-      if (i < htmlContent.length) {
-        requestAnimationFrame(type);
-      } else {
-        element.innerHTML = htmlContent; // ensure full render
-      }
+    output += char;
+
+    // 👉 instantly render full tag (no typing effect inside tags)
+    if (isTag) {
+      i++;
+      element.innerHTML = output;
+      type();
+      return;
     }
 
-    requestAnimationFrame(type);
+    element.innerHTML = output;
+    i++;
+
+    if (i < htmlContent.length) {
+      setTimeout(type, speed);
+    }
   }
+
+  type();
+}
   // === AI RESPONSE GENERATOR ===
   async function generateAIResponse(userMessage,selectedFile) {
     const msg = (userMessage || "").toLowerCase().trim();
