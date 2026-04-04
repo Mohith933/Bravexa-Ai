@@ -76,6 +76,15 @@ body {
   border: none;
   color: white;
 }
+.edit-btn{
+
+    font-size: 15px;
+  margin-right: 10px;
+  cursor: pointer;
+  background: none;
+  border: none;
+
+}
 .header {
   position: fixed;
   top: 0;
@@ -575,6 +584,8 @@ overflow: visible;
   color: #caf0f8;
 }
 
+
+
 .new-chat {
   width: 100%;
   padding: 10px;
@@ -628,7 +639,7 @@ overflow: visible;
   display: none;
   position: absolute;
   bottom: 60px;
-  right: 10;
+  right: 10px;
   background: rgba(30, 30, 30, 0.7);
   backdrop-filter: blur(12px);
   border-radius: 14px;
