@@ -366,8 +366,7 @@ body.light-mode .header .btn.solid {
       font-size: 35px;
       cursor: pointer;
       transition: all 0.3s ease;
-      position: relative;
-      z-index: 1001;
+      position: relative;
     }
 
     .plus-btn:hover {
