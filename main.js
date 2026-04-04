@@ -928,7 +928,7 @@ document.querySelectorAll("#imageUpload, #videoUpload, #audioUpload").forEach(in
     const file = event.target.files[0];
 
     if (file) {
-      alert(`${getAuthMessage}
+      alert(`${getAuthMessage()}
 
 You're trying to upload:
 📁 ${file.name}
