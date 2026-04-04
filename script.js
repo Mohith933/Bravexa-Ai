@@ -416,9 +416,6 @@ function displayFileMessage(file) {
       item.appendChild(deleteBtn);
       historyList.appendChild(item);
     });
-
-    historyList.style.overflowY = "auto";
-    historyList.style.maxHeight = "250px";
   }
 
   // === DELETE CONVERSATION ===
