@@ -7,6 +7,7 @@ const urlsToCache = [
   "/dashboard.html",
   "/style.css",
   "/script.js",
+  "/main.js",
   "/chat.png",
   "/avatar.png"
 ];
