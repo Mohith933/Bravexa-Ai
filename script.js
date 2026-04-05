@@ -129,6 +129,7 @@ document.querySelectorAll("#imageUpload,#fileUpload").forEach(input => {
 
     selectedFile = file;
     previewContainer.innerHTML = "";
+    previewContainer.style.display = "flex";
 
     const wrapper = document.createElement("div");
     wrapper.className = "preview-item";
@@ -214,6 +215,7 @@ function handleImageUpload(file) {
   );
 selectedFile = null;
   previewContainer.innerHTML = "";
+  previewContainer.style.display = "flex";
 }
 
     if (userMessage) {
@@ -226,6 +228,7 @@ selectedFile = null;
     inputArea.style.position = "fixed";
     chatWindow.style.marginTop = "80px";
     inputArea.style.bottom = "30px";
+    previewContainer.style.display = "none";
     inputArea.style.left = "50%";
     inputArea.style.transform = "translateX(-50%)";
     footer.style.marginTop = "0px";
@@ -416,6 +419,9 @@ function displayFileMessage(file) {
       item.appendChild(deleteBtn);
       historyList.appendChild(item);
     });
+
+    historyList.style.overflowY = "auto";
+    historyList.style.maxHeight = "250px";
   }
 
   // === DELETE CONVERSATION ===
