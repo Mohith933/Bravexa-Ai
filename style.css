@@ -638,7 +638,7 @@ overflow: visible;
   display: none;
   position: absolute;
   bottom: 60px;
-  right: 10px;
+  right: 0;
   background: rgba(30, 30, 30, 0.7);
   backdrop-filter: blur(12px);
   border-radius: 14px;
