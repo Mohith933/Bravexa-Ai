@@ -191,50 +191,136 @@ function typeText(element, htmlContent, speed = 12) {
   const msg = (userMessage || "").toLowerCase().trim();
   let response = "";
 
- // --- simple normalization + intent mapping ---
- const intents = {
-  greeting: ["hello", "hi", "hey", "good morning", "good evening", "good night", "bye"],
+  function detectIntent(message) {
+  const msg = message.toLowerCase();
 
-  leave: ["leave letter", "application", "holiday", "absent", "permission"],
-  email: ["email", "official", "mail", "message", "compose email"],
+  let bestMatch = "default";
+  let maxScore = 0;
 
-  resume: ["resume", "cv", "curriculum vitae", "vitae", "portfolio"],
-  project: ["project", "documentation"],
+  for (const [intent, keywords] of Object.entries(intents)) {
+    let score = 0;
 
-  word: ["word", "doc", "docx", "report"],
-  excel: ["excel", "sheet", "xlsx", "csv"],
-  powerpoint: ["presentation", "slides", "ppt", "deck"],
-  access: ["access", "database", "accdb"],
+    for (const keyword of keywords) {
+      if (msg.includes(keyword)) {
+        score += keyword.length; // longer match = stronger intent
+      }
+    }
 
-  code: ["code", "program", "script", "snippet", "python", "java", "c++", "cpp", "html", "css", "javascript", "js"],
-
-  os: ["operating system", "os", "process", "scheduling"],
-  dbms: ["dbms", "database management", "sql", "joins"],
-  software: ["software engineering", "srs", "sdlc", "software"],
-  cs: ["computer science", "cs", "algorithm", "data structure"],
-
-  physics: ["physics"],
-  math: ["math", "mathematics"],
-
-  news: ["news", "headlines", "updates"],
-  weather: ["weather", "forecast", "temperature"],
-  stock: ["stock", "market", "share", "nifty", "nasdaq"],
-
-  motivate: ["motivate", "inspire", "encourage", "boost"],
-
-  usage: ["usage", "weekly usage", "daily usage", "timing", "activity"],
-  emotion: ["emotion", "emotions", "distribution", "mood"],
-  how: ["overview", "how", "workflow", "architecture"]
-};
-
-  // find intent (first matching category)
-  let intent = "default";
-  for (const [key, words] of Object.entries(intents)) {
-    if (words.some(w => msg.includes(w))) {
-      intent = key;
-      break;
+    if (score > maxScore) {
+      maxScore = score;
+      bestMatch = intent;
     }
   }
+
+  return bestMatch;
+}
+
+ // --- simple normalization + intent mapping ---
+  // --- simple normalization + intent mapping ---
+    const intents = {
+  greeting: [
+    "hello", "hi", "hey", "good morning", "good evening", "bye",
+    "how are you", "what's up"
+  ],
+
+  leave: [
+    "leave", "leave letter", "apply leave", "need leave",
+    "absent", "permission", "holiday request"
+  ],
+
+  email: [
+    "email", "mail", "write mail", "compose mail",
+    "send message", "official message"
+  ],
+
+  resume: [
+    "resume", "cv", "curriculum vitae", "portfolio",
+    "my profile", "job resume"
+  ],
+
+  project: [
+    "project", "project report", "documentation",
+    "project file", "final year project"
+  ],
+
+  word: [
+    "word", "document", "doc", "docx", "report",
+    "write report"
+  ],
+
+  excel: [
+    "excel", "sheet", "spreadsheet", "csv",
+    "data table"
+  ],
+
+  powerpoint: [
+    "presentation", "slides", "ppt", "pptx",
+    "make slides"
+  ],
+
+  access: [
+    "access", "database", "db", "accdb",
+    "tables"
+  ],
+
+  code: [
+    "code", "program", "coding", "script",
+    "build program", "write code",
+    "python", "java", "c++", "cpp", "c",
+    "html", "css", "javascript", "js"
+  ],
+
+  os: [
+    "operating system", "os", "process",
+    "cpu scheduling", "threads"
+  ],
+
+  dbms: [
+    "dbms", "database", "sql", "joins",
+    "normalization"
+  ],
+
+  software: [
+    "software engineering", "sdlc", "srs",
+    "software process"
+  ],
+
+  cs: [
+    "computer science", "algorithm",
+    "data structure", "dsa"
+  ],
+
+  physics: ["physics", "force", "motion"],
+  math: ["math", "mathematics", "calculation"],
+
+  news: ["news", "latest news", "updates"],
+  weather: ["weather", "temperature", "forecast"],
+  stock: ["stock", "market", "share"],
+
+  motivate: [
+    "motivate", "inspire", "encourage",
+    "feeling low", "need motivation"
+  ],
+
+  usage: [
+    "usage", "activity", "daily usage",
+    "how much used"
+  ],
+
+  emotion: [
+    "emotion", "mood", "feeling",
+    "sentiment"
+  ],
+
+  how: [
+    "how it works", "workflow",
+    "architecture", "explain system"
+  ]
+};
+
+
+  // find intent (first matching category)
+ const intent = detectIntent(msg);
 
   // --- RULE-BASED RESPONSES (Ordered as you asked) ---
   switch (intent) {
