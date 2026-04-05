@@ -57,8 +57,6 @@ if ('webkitSpeechRecognition' in window) {
   alert('Speech Recognition not supported in this browser 😞');
 }
 
-
-
   // === MESSAGE SEND EVENTS ===
   sendBtn.addEventListener('click', sendMessage);
   chatbox.addEventListener('keydown', function (event) {
@@ -71,11 +69,12 @@ if ('webkitSpeechRecognition' in window) {
   // === SEND MESSAGE ===
   function sendMessage() {
     const userMessage = chatbox.value.trim();
+    if (!userMessage && !selectedFile) return;
+    
     if (userMessage) {
       addMessageToChat(userMessage);
       chatbox.value = "";
     }
-
     // Hide hero and set layout
     hero.style.display = "none";
     inputArea.style.position = "fixed";
@@ -91,8 +90,9 @@ if ('webkitSpeechRecognition' in window) {
     chatWindow.style.display = "flex";
     footer.style.fontSize = "10px";
     footer.innerHTML = "⚡ Bravexa AI Verify important details.";
-  
   }
+
+
 
    // Show messages inside chat window
   function addMessageToChat(message) {
@@ -103,23 +103,47 @@ if ('webkitSpeechRecognition' in window) {
     chatWindow.appendChild(newMessage);
     makeMessageVisible(newMessage);
 
+
+
     // AI typing hearts animation
-    const aiMessage = document.createElement("div");
-    aiMessage.classList.add("message", "ai-message");
-    aiMessage.innerHTML = `
-     <div class="typing-hearts">
-        <span><img src="chat.png"></span><p>Processing...</p>
-      </div>
-    `;
-    chatWindow.appendChild(aiMessage);
-    makeMessageVisible(aiMessage);
-    
-    // Replace with AI response
-    setTimeout(async () => {
-      const response = await generateAIResponse(message);
-      aiMessage.innerHTML = "";
-      typeText(aiMessage, response);
-    }, 1500);
+ // AI typing placeholder
+const aiMessage = document.createElement("div");
+aiMessage.classList.add("message", "ai-message");
+
+// Dynamic texts
+const thinkingTexts = [
+  "⚡ Thinking",
+  "🧠 Analyzing",
+  "🔍 Looking deeper",
+  "✨ Generating response"
+];
+
+// Pick random text
+const randomText =
+  thinkingTexts[Math.floor(Math.random() * thinkingTexts.length)];
+
+aiMessage.innerHTML = `
+  <div class="ai-thinking">
+    <span class="ai-icon"></span>
+    <span class="ai-text">${randomText}</span>
+    <span class="dots"></span>
+  </div>
+`;
+
+chatWindow.appendChild(aiMessage);
+makeMessageVisible(aiMessage);
+
+  setTimeout(async () => {
+  const response = await generateAIResponse(message);
+
+  // Clear thinking UI smoothly
+  aiMessage.innerHTML = "";
+
+  // Type effect (your function)
+  typeText(aiMessage, response);
+
+  saveMessage(currentChatId, "ai", response);
+}, 1000);
     
   }
 
@@ -813,18 +837,42 @@ document.addEventListener("click", (e) => {
       uploadDropdown.style.display = "none";
     }
   });
+  const authMessages = [
+  "🔐 Please login to continue.",
+  "🚀 Sign up to unlock this feature.",
+  "👤 Authentication required.",
+  "⚡ Login needed for full access."
+];
+
+function getAuthMessage() {
+  return authMessages[Math.floor(Math.random() * authMessages.length)];
+}
 
 // === LIMITED SELECTED FUNCTIONALITY ===
-document.querySelectorAll("#imageUpload,#fileUpload").forEach(input => {
+document.querySelectorAll("#imageUpload, #videoUpload, #audioUpload").forEach(input => {
   input.addEventListener("change", (event) => {
     const file = event.target.files[0];
-    if (file) alert(`Selected: ${file.name}`);
+
+    if (file) {
+      alert(`${getAuthMessage}
+
+You're trying to upload:
+📁 ${file.name}
+
+To continue:
+👉 Please Sign Up or Login to Bravexa AI
+
+(This feature will be enabled after authentication)`);
+    }
   });
 });
 
-// === SCREENSHOT DEMO ===
 screenshotBtn.addEventListener("click", () => {
-  alert("📸 Screenshot feature available only in Bravexa Dashboard.");
+  alert(`🚫 Feature Locked
+
+📸 Screenshot is available only for logged-in users.
+
+👉 Please Login / Sign Up to access Bravexa Dashboard.`);
 });
 
   // === RESPONSIVE LAYOUT ===
@@ -847,4 +895,13 @@ screenshotBtn.addEventListener("click", () => {
 
   window.addEventListener("resize", adjustLayoutForViewport);
   adjustLayoutForViewport();
+  if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("service-worker.js")
+      .then(() => console.log("Service Worker Registered"))
+      .catch((err) => console.log("SW Error:", err));
+  });
+}
 });
+
