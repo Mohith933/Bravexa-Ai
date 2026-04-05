@@ -293,8 +293,7 @@ body.light-mode .header .btn.solid {
   background-color: transparent;
 }
 .preview-container {
-  display: flex;
-  gap: 10px;
+  display:none;
   flex-wrap: wrap;
 }
 
