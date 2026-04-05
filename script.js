@@ -544,6 +544,8 @@ function typeText(element, htmlContent, speed = 12) {
 
   requestAnimationFrame(type);
 }
+
+
   // === AI RESPONSE GENERATOR ===
   async function generateAIResponse(userMessage,selectedFile) {
     const msg = (userMessage || "").toLowerCase().trim();
@@ -552,45 +554,45 @@ function typeText(element, htmlContent, speed = 12) {
       const hasText = msg !== "";
   const hasFile = selectedFile !== null;
 
-   function imageWithTextInsight() {
-    const hints = [
-      "I can connect your message with the visual context.",
-      "Your note adds meaning to this image.",
-      "There’s a clear intent behind this combination.",
-      "This looks like a meaningful share with context."
-    ];
-    return hints[Math.floor(Math.random() * hints.length)];
-  }
+  function imageWithTextInsight() {
+  const hints = [
+    "I understand both your message and the image—want me to analyze or describe it?",
+    "Your message gives context. I can help break down what's happening in the image.",
+    "Nice, this image + text combo helps me assist you better. What would you like to explore?",
+    "Got it—your note adds meaning. I can analyze, explain, or enhance this."
+  ];
+  return hints[Math.floor(Math.random() * hints.length)];
+}
 
   function imageOnlyInsight() {
-    const hints = [
-      "Looks like a visual moment worth sharing.",
-      "This image feels expressive.",
-      "There might be interesting details here.",
-      "I sense something important in this image."
-    ];
-    return hints[Math.floor(Math.random() * hints.length)];
-  }
+  const hints = [
+    "I received your image. Want me to analyze, describe, or extract details?",
+    "Nice image—tell me what you'd like to do with it.",
+    "Got the image. I can help identify, summarize, or enhance it.",
+    "Image received. What would you like me to focus on?"
+  ];
+  return hints[Math.floor(Math.random() * hints.length)];
+}
 
-  function fileWithTextInsight() {
-    const hints = [
-      "Your message helps me understand the purpose of this file.",
-      "This looks like something you want processed with context.",
-      "I can align your intent with this file.",
-      "This file + message combination looks purposeful."
-    ];
-    return hints[Math.floor(Math.random() * hints.length)];
-  }
+ function fileWithTextInsight() {
+  const hints = [
+    "Your message helps—should I analyze, summarize, or convert this file?",
+    "Got both file and context. Tell me what action you want.",
+    "Perfect, I understand your intent. I can process this file accordingly.",
+    "This helps a lot—what would you like me to do with the file?"
+  ];
+  return hints[Math.floor(Math.random() * hints.length)];
+}
 
-  function fileOnlyInsight() {
-    const hints = [
-      "Seems like structured content.",
-      "This file might contain useful information.",
-      "Looks like something meaningful to process.",
-      "I can tell this file has purpose."
-    ];
-    return hints[Math.floor(Math.random() * hints.length)];
-  }
+ function fileOnlyInsight() {
+  const hints = [
+    "File received. I can summarize, extract, or convert it—just tell me.",
+    "Got your file. What would you like to do with it?",
+    "I can process this file for you—analysis, summary, or transformation.",
+    "File ready. Tell me how you'd like to use it."
+  ];
+  return hints[Math.floor(Math.random() * hints.length)];
+}
 
   // ==============================
   // 📁 CASE 1: FILE ONLY
@@ -629,51 +631,136 @@ function typeText(element, htmlContent, speed = 12) {
     <p>${fileWithTextInsight()}</p>
     `;
   }
+function detectIntent(message) {
+  const msg = message.toLowerCase();
+
+  let bestMatch = "default";
+  let maxScore = 0;
+
+  for (const [intent, keywords] of Object.entries(intents)) {
+    let score = 0;
+
+    for (const keyword of keywords) {
+      if (msg.includes(keyword)) {
+        score += keyword.length; // longer match = stronger intent
+      }
+    }
+
+    if (score > maxScore) {
+      maxScore = score;
+      bestMatch = intent;
+    }
+  }
+
+  return bestMatch;
+}
+
 
     // --- simple normalization + intent mapping ---
     const intents = {
-      greeting: ["hello", "hi", "hey", "good morning", "good evening", "good night", "bye"],
-      leave: ["leave letter", "application", "holiday", "absent", "permission"],
-      email: ["email", "official", "mail", "message", "compose email"],
+  greeting: [
+    "hello", "hi", "hey", "good morning", "good evening", "bye",
+    "how are you", "what's up"
+  ],
 
-      resume: ["resume", "cv", "curriculum vitae", "vitae", "portfolio"],
-      project: ["project", "documentation"],
+  leave: [
+    "leave", "leave letter", "apply leave", "need leave",
+    "absent", "permission", "holiday request"
+  ],
 
-      word: ["word", "doc", "docx", "report"],
-      excel: ["excel", "sheet", "xlsx", "csv"],
-      powerpoint: ["presentation", "slides", "ppt", "deck"],
-      access: ["access", "database", "accdb"],
+  email: [
+    "email", "mail", "write mail", "compose mail",
+    "send message", "official message"
+  ],
 
-      code: ["code", "program", "script", "snippet", "python", "java", "c++", "cpp", "html", "css", "javascript", "js"],
+  resume: [
+    "resume", "cv", "curriculum vitae", "portfolio",
+    "my profile", "job resume"
+  ],
 
-      os: ["operating system", "os", "process", "scheduling"],
-      dbms: ["dbms", "database management", "sql", "joins"],
-      software: ["software engineering", "srs", "sdlc", "software"],
-      cs: ["computer science", "cs", "algorithm", "data structure"],
+  project: [
+    "project", "project report", "documentation",
+    "project file", "final year project"
+  ],
 
-      physics: ["physics"],
-      math: ["math", "mathematics"],
+  word: [
+    "word", "document", "doc", "docx", "report",
+    "write report"
+  ],
 
-      news: ["news", "headlines", "updates"],
-      weather: ["weather", "forecast", "temperature"],
-      stock: ["stock", "market", "share", "nifty", "nasdaq"],
+  excel: [
+    "excel", "sheet", "spreadsheet", "csv",
+    "data table"
+  ],
 
-      motivate: ["motivate", "inspire", "encourage", "boost"],
+  powerpoint: [
+    "presentation", "slides", "ppt", "pptx",
+    "make slides"
+  ],
 
-      usage: ["usage", "weekly usage", "daily usage", "timing", "activity"],
-      emotion: ["emotion", "emotions", "distribution", "mood"],
-      how: ["overview", "how", "workflow", "architecture"]
-    };
+  access: [
+    "access", "database", "db", "accdb",
+    "tables"
+  ],
+
+  code: [
+    "code", "program", "coding", "script",
+    "build program", "write code",
+    "python", "java", "c++", "cpp", "c",
+    "html", "css", "javascript", "js"
+  ],
+
+  os: [
+    "operating system", "os", "process",
+    "cpu scheduling", "threads"
+  ],
+
+  dbms: [
+    "dbms", "database", "sql", "joins",
+    "normalization"
+  ],
+
+  software: [
+    "software engineering", "sdlc", "srs",
+    "software process"
+  ],
+
+  cs: [
+    "computer science", "algorithm",
+    "data structure", "dsa"
+  ],
+
+  physics: ["physics", "force", "motion"],
+  math: ["math", "mathematics", "calculation"],
+
+  news: ["news", "latest news", "updates"],
+  weather: ["weather", "temperature", "forecast"],
+  stock: ["stock", "market", "share"],
+
+  motivate: [
+    "motivate", "inspire", "encourage",
+    "feeling low", "need motivation"
+  ],
+
+  usage: [
+    "usage", "activity", "daily usage",
+    "how much used"
+  ],
+
+  emotion: [
+    "emotion", "mood", "feeling",
+    "sentiment"
+  ],
+
+  how: [
+    "how it works", "workflow",
+    "architecture", "explain system"
+  ]
+};
 
 
     // find intent (first matching category)
-    let intent = "default";
-    for (const [key, words] of Object.entries(intents)) {
-      if (words.some(w => msg.includes(w))) {
-        intent = key;
-        break;
-      }
-    }
+     const intent = detectIntent(msg);
 
     // --- RULE-BASED RESPONSES (Ordered as you asked) ---
     switch (intent) {
@@ -682,8 +769,9 @@ function typeText(element, htmlContent, speed = 12) {
       case "greeting":
         response = `
         <h2>👋 Hello — Bravexa AI</h2>
-        <p>I'm Bravexa — your workspace assistant. Try: "Generate leave letter", "Compose email", "Make a resume".</p>
-        <p class="muted">Routines: daily summary, reminders, quick greetings.</p>
+       <p>I can help you create documents, write code, or organize ideas.</p>
+<p class="muted">Just tell me what you want to do.</p>
+<p class="hint">Try: "Summarize this", "Convert to PDF", "Explain this image"</p>
       `;
         break;
 
@@ -1391,12 +1479,5 @@ screenshotBtn.addEventListener("click", async () => {
     });
   }
 });
-
-
-
-
-
-
-
 
 
